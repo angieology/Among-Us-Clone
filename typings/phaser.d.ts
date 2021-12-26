@@ -59404,4 +59404,12453 @@ declare namespace Phaser {
                 /**
                  * An array of functions to invoke if the WebGL context is lost.
                  */
-                lostCon
+                lostContextCallbacks: WebGLContextCallback[];
+
+                /**
+                 * An array of functions to invoke if the WebGL context is restored.
+                 */
+                restoredContextCallbacks: WebGLContextCallback[];
+
+                /**
+                 * An array of blend modes supported by the WebGL Renderer.
+                 *
+                 * This array includes the default blend modes as well as any custom blend modes added through {@link #addBlendMode}.
+                 */
+                blendModes: any[];
+
+                /**
+                 * Keeps track of any WebGLTexture created with the current WebGLRenderingContext
+                 */
+                nativeTextures: any[];
+
+                /**
+                 * Set to `true` if the WebGL context of the renderer is lost.
+                 */
+                contextLost: boolean;
+
+                /**
+                 * This object will store all pipelines created through addPipeline
+                 */
+                pipelines: object;
+
+                /**
+                 * Details about the currently scheduled snapshot.
+                 *
+                 * If a non-null `callback` is set in this object, a snapshot of the canvas will be taken after the current frame is fully rendered.
+                 */
+                snapshotState: SnapshotState;
+
+                /**
+                 * Cached value for the last texture unit that was used
+                 */
+                currentActiveTextureUnit: integer;
+
+                /**
+                 * An array of the last texture handles that were bound to the WebGLRenderingContext
+                 */
+                currentTextures: any[];
+
+                /**
+                 * Current framebuffer in use
+                 */
+                currentFramebuffer: WebGLFramebuffer;
+
+                /**
+                 * Current WebGLPipeline in use
+                 */
+                currentPipeline: Phaser.Renderer.WebGL.WebGLPipeline;
+
+                /**
+                 * Current WebGLProgram in use
+                 */
+                currentProgram: WebGLProgram;
+
+                /**
+                 * Current WebGLBuffer (Vertex buffer) in use
+                 */
+                currentVertexBuffer: WebGLBuffer;
+
+                /**
+                 * Current WebGLBuffer (Index buffer) in use
+                 */
+                currentIndexBuffer: WebGLBuffer;
+
+                /**
+                 * Current blend mode in use
+                 */
+                currentBlendMode: integer;
+
+                /**
+                 * Indicates if the the scissor state is enabled in WebGLRenderingContext
+                 */
+                currentScissorEnabled: boolean;
+
+                /**
+                 * Stores the current scissor data
+                 */
+                currentScissor: Uint32Array;
+
+                /**
+                 * Stack of scissor data
+                 */
+                scissorStack: Uint32Array;
+
+                /**
+                 * The underlying WebGL context of the renderer.
+                 */
+                gl: WebGLRenderingContext;
+
+                /**
+                 * Array of strings that indicate which WebGL extensions are supported by the browser
+                 */
+                supportedExtensions: object;
+
+                /**
+                 * Extensions loaded into the current context
+                 */
+                extensions: object;
+
+                /**
+                 * Stores the current WebGL component formats for further use
+                 */
+                glFormats: any[];
+
+                /**
+                 * Stores the supported WebGL texture compression formats.
+                 */
+                compression: any[];
+
+                /**
+                 * Cached drawing buffer height to reduce gl calls.
+                 */
+                readonly drawingBufferHeight: number;
+
+                /**
+                 * A blank 32x32 transparent texture, as used by the Graphics system where needed.
+                 * This is set in the `boot` method.
+                 */
+                readonly blankTexture: WebGLTexture;
+
+                /**
+                 * Creates a new WebGLRenderingContext and initializes all internal
+                 * state.
+                 * @param config The configuration object for the renderer.
+                 */
+                init(config: object): this;
+
+                /**
+                 * Resizes the drawing buffer.
+                 * @param width The width of the renderer.
+                 * @param height The height of the renderer.
+                 */
+                resize(width: number, height: number): this;
+
+                /**
+                 * Adds a callback to be invoked when the WebGL context has been restored by the browser.
+                 * @param callback The callback to be invoked on context restoration.
+                 * @param target The context of the callback.
+                 */
+                onContextRestored(callback: WebGLContextCallback, target: object): this;
+
+                /**
+                 * Adds a callback to be invoked when the WebGL context has been lost by the browser.
+                 * @param callback The callback to be invoked on context loss.
+                 * @param target The context of the callback.
+                 */
+                onContextLost(callback: WebGLContextCallback, target: object): this;
+
+                /**
+                 * Checks if a WebGL extension is supported
+                 * @param extensionName Name of the WebGL extension
+                 */
+                hasExtension(extensionName: string): boolean;
+
+                /**
+                 * Loads a WebGL extension
+                 * @param extensionName The name of the extension to load.
+                 */
+                getExtension(extensionName: string): object;
+
+                /**
+                 * Flushes the current pipeline if the pipeline is bound
+                 */
+                flush(): void;
+
+                /**
+                 * Checks if a pipeline is present in the current WebGLRenderer
+                 * @param pipelineName The name of the pipeline.
+                 */
+                hasPipeline(pipelineName: string): boolean;
+
+                /**
+                 * Returns the pipeline by name if the pipeline exists
+                 * @param pipelineName The name of the pipeline.
+                 */
+                getPipeline(pipelineName: string): Phaser.Renderer.WebGL.WebGLPipeline;
+
+                /**
+                 * Removes a pipeline by name.
+                 * @param pipelineName The name of the pipeline to be removed.
+                 */
+                removePipeline(pipelineName: string): this;
+
+                /**
+                 * Adds a pipeline instance into the collection of pipelines
+                 * @param pipelineName A unique string-based key for the pipeline.
+                 * @param pipelineInstance A pipeline instance which must extend WebGLPipeline.
+                 */
+                addPipeline(pipelineName: string, pipelineInstance: Phaser.Renderer.WebGL.WebGLPipeline): Phaser.Renderer.WebGL.WebGLPipeline;
+
+                /**
+                 * Pushes a new scissor state. This is used to set nested scissor states.
+                 * @param x The x position of the scissor.
+                 * @param y The y position of the scissor.
+                 * @param width The width of the scissor.
+                 * @param height The height of the scissor.
+                 */
+                pushScissor(x: integer, y: integer, width: integer, height: integer): integer[];
+
+                /**
+                 * Sets the current scissor state.
+                 * @param x The x position of the scissor.
+                 * @param y The y position of the scissor.
+                 * @param width The width of the scissor.
+                 * @param height The height of the scissor.
+                 */
+                setScissor(x: integer, y: integer, width: integer, height: integer): void;
+
+                /**
+                 * Pops the last scissor state and sets it.
+                 */
+                popScissor(): void;
+
+                /**
+                 * Binds a WebGLPipeline and sets it as the current pipeline to be used.
+                 * @param pipelineInstance The pipeline instance to be activated.
+                 * @param gameObject The Game Object that invoked this pipeline, if any.
+                 */
+                setPipeline(pipelineInstance: Phaser.Renderer.WebGL.WebGLPipeline, gameObject?: Phaser.GameObjects.GameObject): Phaser.Renderer.WebGL.WebGLPipeline;
+
+                /**
+                 * Sets the blend mode to the value given.
+                 *
+                 * If the current blend mode is different from the one given, the pipeline is flushed and the new
+                 * blend mode is enabled.
+                 * @param blendModeId The blend mode to be set. Can be a `BlendModes` const or an integer value.
+                 */
+                setBlendMode(blendModeId: integer): boolean;
+
+                /**
+                 * Creates a new custom blend mode for the renderer.
+                 * @param func An array containing the WebGL functions to use for the source and the destination blending factors, respectively. See the possible constants for {@link WebGLRenderingContext#blendFunc()}.
+                 * @param equation The equation to use for combining the RGB and alpha components of a new pixel with a rendered one. See the possible constants for {@link WebGLRenderingContext#blendEquation()}.
+                 */
+                addBlendMode(func: Function, equation: Function): integer;
+
+                /**
+                 * Updates the function bound to a given custom blend mode.
+                 * @param index The index of the custom blend mode.
+                 * @param func The function to use for the blend mode.
+                 * @param equation The equation to use for the blend mode.
+                 */
+                updateBlendMode(index: integer, func: Function, equation: Function): this;
+
+                /**
+                 * Removes a custom blend mode from the renderer.
+                 * Any Game Objects still using this blend mode will error, so be sure to clear them first.
+                 * @param index The index of the custom blend mode to be removed.
+                 */
+                removeBlendMode(index: integer): this;
+
+                /**
+                 * Binds a texture at a texture unit. If a texture is already
+                 * bound to that unit it will force a flush on the current pipeline.
+                 * @param texture The WebGL texture that needs to be bound.
+                 * @param textureUnit The texture unit to which the texture will be bound.
+                 */
+                setTexture2D(texture: WebGLTexture, textureUnit: integer): this;
+
+                /**
+                 * Binds a framebuffer. If there was another framebuffer already bound it will force a pipeline flush.
+                 * @param framebuffer The framebuffer that needs to be bound.
+                 */
+                setFramebuffer(framebuffer: WebGLFramebuffer): this;
+
+                /**
+                 * Binds a program. If there was another program already bound it will force a pipeline flush.
+                 * @param program The program that needs to be bound.
+                 */
+                setProgram(program: WebGLProgram): this;
+
+                /**
+                 * Bounds a vertex buffer. If there is a vertex buffer already bound it'll force a pipeline flush.
+                 * @param vertexBuffer The buffer that needs to be bound.
+                 */
+                setVertexBuffer(vertexBuffer: WebGLBuffer): this;
+
+                /**
+                 * Bounds a index buffer. If there is a index buffer already bound it'll force a pipeline flush.
+                 * @param indexBuffer The buffer the needs to be bound.
+                 */
+                setIndexBuffer(indexBuffer: WebGLBuffer): this;
+
+                /**
+                 * Creates a texture from an image source. If the source is not valid it creates an empty texture.
+                 * @param source The source of the texture.
+                 * @param width The width of the texture.
+                 * @param height The height of the texture.
+                 * @param scaleMode The scale mode to be used by the texture.
+                 */
+                createTextureFromSource(source: object, width: integer, height: integer, scaleMode: integer): WebGLTexture;
+
+                /**
+                 * A wrapper for creating a WebGLTexture. If no pixel data is passed it will create an empty texture.
+                 * @param mipLevel Mip level of the texture.
+                 * @param minFilter Filtering of the texture.
+                 * @param magFilter Filtering of the texture.
+                 * @param wrapT Wrapping mode of the texture.
+                 * @param wrapS Wrapping mode of the texture.
+                 * @param format Which format does the texture use.
+                 * @param pixels pixel data.
+                 * @param width Width of the texture in pixels.
+                 * @param height Height of the texture in pixels.
+                 * @param pma Does the texture have premultiplied alpha?
+                 */
+                createTexture2D(mipLevel: integer, minFilter: integer, magFilter: integer, wrapT: integer, wrapS: integer, format: integer, pixels: object, width: integer, height: integer, pma: boolean): WebGLTexture;
+
+                /**
+                 * Wrapper for creating WebGLFramebuffer.
+                 * @param width Width in pixels of the framebuffer
+                 * @param height Height in pixels of the framebuffer
+                 * @param renderTexture The color texture to where the color pixels are written
+                 * @param addDepthStencilBuffer Indicates if the current framebuffer support depth and stencil buffers
+                 */
+                createFramebuffer(width: integer, height: integer, renderTexture: WebGLTexture, addDepthStencilBuffer: boolean): WebGLFramebuffer;
+
+                /**
+                 * Wrapper for creating a WebGLProgram
+                 * @param vertexShader Source to the vertex shader
+                 * @param fragmentShader Source to the fragment shader
+                 */
+                createProgram(vertexShader: string, fragmentShader: string): WebGLProgram;
+
+                /**
+                 * Wrapper for creating a vertex buffer.
+                 * @param initialDataOrSize It's either ArrayBuffer or an integer indicating the size of the vbo
+                 * @param bufferUsage How the buffer is used. gl.DYNAMIC_DRAW, gl.STATIC_DRAW or gl.STREAM_DRAW
+                 */
+                createVertexBuffer(initialDataOrSize: ArrayBuffer, bufferUsage: integer): WebGLBuffer;
+
+                /**
+                 * Wrapper for creating a vertex buffer.
+                 * @param initialDataOrSize Either ArrayBuffer or an integer indicating the size of the vbo.
+                 * @param bufferUsage How the buffer is used. gl.DYNAMIC_DRAW, gl.STATIC_DRAW or gl.STREAM_DRAW.
+                 */
+                createIndexBuffer(initialDataOrSize: ArrayBuffer, bufferUsage: integer): WebGLBuffer;
+
+                /**
+                 * Removes the given texture from the nativeTextures array and then deletes it from the GPU.
+                 * @param texture The WebGL Texture to be deleted.
+                 */
+                deleteTexture(texture: WebGLTexture): this;
+
+                /**
+                 * Deletes a WebGLFramebuffer from the GL instance.
+                 * @param framebuffer The Framebuffer to be deleted.
+                 */
+                deleteFramebuffer(framebuffer: WebGLFramebuffer): this;
+
+                /**
+                 * Deletes a WebGLProgram from the GL instance.
+                 * @param program The shader program to be deleted.
+                 */
+                deleteProgram(program: WebGLProgram): this;
+
+                /**
+                 * Deletes a WebGLBuffer from the GL instance.
+                 * @param vertexBuffer The WebGLBuffer to be deleted.
+                 */
+                deleteBuffer(vertexBuffer: WebGLBuffer): this;
+
+                /**
+                 * Controls the pre-render operations for the given camera.
+                 * Handles any clipping needed by the camera and renders the background color if a color is visible.
+                 * @param camera The Camera to pre-render.
+                 */
+                preRenderCamera(camera: Phaser.Cameras.Scene2D.Camera): void;
+
+                /**
+                 * Controls the post-render operations for the given camera.
+                 * Renders the foreground camera effects like flash and fading. It resets the current scissor state.
+                 * @param camera The Camera to post-render.
+                 */
+                postRenderCamera(camera: Phaser.Cameras.Scene2D.Camera): void;
+
+                /**
+                 * Clears the current vertex buffer and updates pipelines.
+                 */
+                preRender(): void;
+
+                /**
+                 * The core render step for a Scene.
+                 * Iterates through the given Game Object's array and renders them with the given Camera.
+                 * @param scene The Scene to render.
+                 * @param children The Game Object's within the Scene to be rendered.
+                 * @param interpolationPercentage The interpolation percentage to apply. Currently un-used.
+                 * @param camera The Scene Camera to render with.
+                 */
+                render(scene: Phaser.Scene, children: Phaser.GameObjects.GameObject, interpolationPercentage: number, camera: Phaser.Cameras.Scene2D.Camera): void;
+
+                /**
+                 * The post-render step happens after all Cameras in all Scenes have been rendered.
+                 */
+                postRender(): void;
+
+                /**
+                 * Schedules a snapshot to be taken after the current frame is rendered.
+                 * @param callback Function to invoke after the snapshot is created.
+                 * @param type The format of the image to create, usually `image/png`.
+                 * @param encoderOptions The image quality, between 0 and 1, to use for image formats with lossy compression (such as `image/jpeg`).
+                 */
+                snapshot(callback: SnapshotCallback, type: string, encoderOptions: number): Phaser.Renderer.WebGL.WebGLRenderer;
+
+                /**
+                 * Creates a WebGL Texture based on the given canvas element.
+                 * @param srcCanvas The Canvas element that will be used to populate the texture.
+                 * @param dstTexture Is this going to replace an existing texture? If so, pass it here.
+                 * @param noRepeat Should this canvas never be allowed to set REPEAT? (such as for Text objects) Default false.
+                 */
+                canvasToTexture(srcCanvas: HTMLCanvasElement, dstTexture?: WebGLTexture, noRepeat?: boolean): WebGLTexture;
+
+                /**
+                 * Sets the minification and magnification filter for a texture.
+                 * @param texture The texture to set the filter for.
+                 * @param filter The filter to set. 0 for linear filtering, 1 for nearest neighbor (blocky) filtering.
+                 */
+                setTextureFilter(texture: integer, filter: integer): this;
+
+                /**
+                 * [description]
+                 * @param program The target WebGLProgram from which the uniform location will be looked-up.
+                 * @param name The name of the uniform to look-up and modify.
+                 * @param x [description]
+                 */
+                setFloat1(program: WebGLProgram, name: string, x: number): this;
+
+                /**
+                 * [description]
+                 * @param program The target WebGLProgram from which the uniform location will be looked-up.
+                 * @param name The name of the uniform to look-up and modify.
+                 * @param x [description]
+                 * @param y [description]
+                 */
+                setFloat2(program: WebGLProgram, name: string, x: number, y: number): this;
+
+                /**
+                 * [description]
+                 * @param program The target WebGLProgram from which the uniform location will be looked-up.
+                 * @param name The name of the uniform to look-up and modify.
+                 * @param x [description]
+                 * @param y [description]
+                 * @param z [description]
+                 */
+                setFloat3(program: WebGLProgram, name: string, x: number, y: number, z: number): this;
+
+                /**
+                 * Sets uniform of a WebGLProgram
+                 * @param program The target WebGLProgram from which the uniform location will be looked-up.
+                 * @param name The name of the uniform to look-up and modify.
+                 * @param x X component
+                 * @param y Y component
+                 * @param z Z component
+                 * @param w W component
+                 */
+                setFloat4(program: WebGLProgram, name: string, x: number, y: number, z: number, w: number): this;
+
+                /**
+                 * Sets the value of a uniform variable in the given WebGLProgram.
+                 * @param program The target WebGLProgram from which the uniform location will be looked-up.
+                 * @param name The name of the uniform to look-up and modify.
+                 * @param arr The new value to be used for the uniform variable.
+                 */
+                setFloat1v(program: WebGLProgram, name: string, arr: Float32Array): this;
+
+                /**
+                 * Sets the value of a uniform variable in the given WebGLProgram.
+                 * @param program The target WebGLProgram from which the uniform location will be looked-up.
+                 * @param name The name of the uniform to look-up and modify.
+                 * @param arr The new value to be used for the uniform variable.
+                 */
+                setFloat2v(program: WebGLProgram, name: string, arr: Float32Array): this;
+
+                /**
+                 * Sets the value of a uniform variable in the given WebGLProgram.
+                 * @param program The target WebGLProgram from which the uniform location will be looked-up.
+                 * @param name The name of the uniform to look-up and modify.
+                 * @param arr The new value to be used for the uniform variable.
+                 */
+                setFloat3v(program: WebGLProgram, name: string, arr: Float32Array): this;
+
+                /**
+                 * Sets the value of a uniform variable in the given WebGLProgram.
+                 * @param program The target WebGLProgram from which the uniform location will be looked-up.
+                 * @param name The name of the uniform to look-up and modify.
+                 * @param arr The new value to be used for the uniform variable.
+                 */
+                setFloat4v(program: WebGLProgram, name: string, arr: Float32Array): this;
+
+                /**
+                 * Sets the value of a uniform variable in the given WebGLProgram.
+                 * @param program The target WebGLProgram from which the uniform location will be looked-up.
+                 * @param name The name of the uniform to look-up and modify.
+                 * @param x [description]
+                 */
+                setInt1(program: WebGLProgram, name: string, x: integer): this;
+
+                /**
+                 * Sets the value of a uniform variable in the given WebGLProgram.
+                 * @param program The target WebGLProgram from which the uniform location will be looked-up.
+                 * @param name The name of the uniform to look-up and modify.
+                 * @param x [description]
+                 * @param y [description]
+                 */
+                setInt2(program: WebGLProgram, name: string, x: integer, y: integer): this;
+
+                /**
+                 * Sets the value of a uniform variable in the given WebGLProgram.
+                 * @param program The target WebGLProgram from which the uniform location will be looked-up.
+                 * @param name The name of the uniform to look-up and modify.
+                 * @param x [description]
+                 * @param y [description]
+                 * @param z [description]
+                 */
+                setInt3(program: WebGLProgram, name: string, x: integer, y: integer, z: integer): this;
+
+                /**
+                 * Sets the value of a uniform variable in the given WebGLProgram.
+                 * @param program The target WebGLProgram from which the uniform location will be looked-up.
+                 * @param name The name of the uniform to look-up and modify.
+                 * @param x X component
+                 * @param y Y component
+                 * @param z Z component
+                 * @param w W component
+                 */
+                setInt4(program: WebGLProgram, name: string, x: integer, y: integer, z: integer, w: integer): this;
+
+                /**
+                 * [description]
+                 * @param program The target WebGLProgram from which the uniform location will be looked-up.
+                 * @param name The name of the uniform to look-up and modify.
+                 * @param transpose [description]
+                 * @param matrix [description]
+                 */
+                setMatrix2(program: WebGLProgram, name: string, transpose: boolean, matrix: Float32Array): this;
+
+                /**
+                 * [description]
+                 * @param program The target WebGLProgram from which the uniform location will be looked-up.
+                 * @param name The name of the uniform to look-up and modify.
+                 * @param transpose [description]
+                 * @param matrix [description]
+                 */
+                setMatrix3(program: WebGLProgram, name: string, transpose: boolean, matrix: Float32Array): this;
+
+                /**
+                 * Sets uniform of a WebGLProgram
+                 * @param program The target WebGLProgram from which the uniform location will be looked-up.
+                 * @param name The name of the uniform to look-up and modify.
+                 * @param transpose Is the matrix transposed
+                 * @param matrix Matrix data
+                 */
+                setMatrix4(program: WebGLProgram, name: string, transpose: boolean, matrix: Float32Array): this;
+
+                /**
+                 * Returns the maximum number of texture units that can be used in a fragment shader.
+                 */
+                getMaxTextures(): integer;
+
+                /**
+                 * Returns the largest texture size (either width or height) that can be created.
+                 * Note that VRAM may not allow a texture of any given size, it just expresses
+                 * hardware / driver support for a given size.
+                 */
+                getMaxTextureSize(): integer;
+
+                /**
+                 * [description]
+                 */
+                destroy(): void;
+
+            }
+
+        }
+
+    }
+
+    /**
+     * Phaser Scale Modes.
+     */
+    enum ScaleModes {
+        /**
+         * Default Scale Mode (Linear).
+         */
+        DEFAULT,
+        /**
+         * Linear Scale Mode.
+         */
+        LINEAR,
+        /**
+         * Nearest Scale Mode.
+         */
+        NEAREST,
+    }
+
+    namespace Scenes {
+        /**
+         * Scene state.
+         */
+        var PENDING: integer;
+
+        /**
+         * Scene state.
+         */
+        var INIT: integer;
+
+        /**
+         * Scene state.
+         */
+        var START: integer;
+
+        /**
+         * Scene state.
+         */
+        var LOADING: integer;
+
+        /**
+         * Scene state.
+         */
+        var CREATING: integer;
+
+        /**
+         * Scene state.
+         */
+        var RUNNING: integer;
+
+        /**
+         * Scene state.
+         */
+        var PAUSED: integer;
+
+        /**
+         * Scene state.
+         */
+        var SLEEPING: integer;
+
+        /**
+         * Scene state.
+         */
+        var SHUTDOWN: integer;
+
+        /**
+         * Scene state.
+         */
+        var DESTROYED: integer;
+
+        /**
+         * Builds an array of which physics plugins should be activated for the given Scene.
+         * @param sys The scene system to get the physics systems of.
+         */
+        function GetPhysicsPlugins(sys: Phaser.Scenes.Systems): any[];
+
+        /**
+         * Builds an array of which plugins (not including physics plugins) should be activated for the given Scene.
+         * @param sys [description]
+         */
+        function GetScenePlugins(sys: Phaser.Scenes.Systems): any[];
+
+        /**
+         * The Scene Manager.
+         *
+         * The Scene Manager is a Game level system, responsible for creating, processing and updating all of the
+         * Scenes in a Game instance.
+         */
+        class SceneManager {
+            /**
+             *
+             * @param game The Phaser.Game instance this Scene Manager belongs to.
+             * @param sceneConfig Scene specific configuration settings.
+             */
+            constructor(game: Phaser.Game, sceneConfig: object);
+
+            /**
+             * The Game that this SceneManager belongs to.
+             */
+            game: Phaser.Game;
+
+            /**
+             * An object that maps the keys to the scene so we can quickly get a scene from a key without iteration.
+             */
+            keys: object;
+
+            /**
+             * The array in which all of the scenes are kept.
+             */
+            scenes: any[];
+
+            /**
+             * Is the Scene Manager actively processing the Scenes list?
+             */
+            readonly isProcessing: boolean;
+
+            /**
+             * Has the Scene Manager properly started?
+             */
+            readonly isBooted: boolean;
+
+            /**
+             * Do any of the Cameras in any of the Scenes require a custom viewport?
+             * If not we can skip scissor tests.
+             */
+            customViewports: number;
+
+            /**
+             * Process the Scene operations queue.
+             */
+            processQueue(): void;
+
+            /**
+             * Adds a new Scene into the SceneManager.
+             * You must give each Scene a unique key by which you'll identify it.
+             *
+             * The `sceneConfig` can be:
+             *
+             * * A `Phaser.Scene` object, or an object that extends it.
+             * * A plain JavaScript object
+             * * A JavaScript ES6 Class that extends `Phaser.Scene`
+             * * A JavaScript ES5 prototype based Class
+             * * A JavaScript function
+             *
+             * If a function is given then a new Scene will be created by calling it.
+             * @param key A unique key used to reference the Scene, i.e. `MainMenu` or `Level1`.
+             * @param sceneConfig The config for the Scene
+             * @param autoStart If `true` the Scene will be started immediately after being added. Default false.
+             * @param data Optional data object. This will be set as Scene.settings.data and passed to `Scene.init`.
+             */
+            add(key: string, sceneConfig: Phaser.Scene | Phaser.Scenes.Settings.Config | Function, autoStart?: boolean, data?: object): Phaser.Scene;
+
+            /**
+             * Removes a Scene from the SceneManager.
+             *
+             * The Scene is removed from the local scenes array, it's key is cleared from the keys
+             * cache and Scene.Systems.destroy is then called on it.
+             *
+             * If the SceneManager is processing the Scenes when this method is called it will
+             * queue the operation for the next update sequence.
+             * @param scene The Scene to be removed.
+             */
+            remove(scene: string | Phaser.Scene): Phaser.Scenes.SceneManager;
+
+            /**
+             * Updates the Scenes.
+             * @param time Time elapsed.
+             * @param delta Delta time from the last update.
+             */
+            update(time: number, delta: number): void;
+
+            /**
+             * Informs the Scenes of the Game being resized.
+             * @param width The new width of the game.
+             * @param height The new height of the game.
+             */
+            resize(width: number, height: number): void;
+
+            /**
+             * Renders the Scenes.
+             * @param renderer The renderer to use.
+             */
+            render(renderer: Phaser.Renderer.Canvas.CanvasRenderer | Phaser.Renderer.WebGL.WebGLRenderer): void;
+
+            /**
+             * Retrieves a Scene.
+             * @param key The Scene to retrieve.
+             */
+            getScene(key: string | Phaser.Scene): Phaser.Scene;
+
+            /**
+             * Determines whether a Scene is active.
+             * @param key The Scene to check.
+             */
+            isActive(key: string): boolean;
+
+            /**
+             * Determines whether a Scene is visible.
+             * @param key The Scene to check.
+             */
+            isVisible(key: string): boolean;
+
+            /**
+             * Determines whether a Scene is sleeping.
+             * @param key The Scene to check.
+             */
+            isSleeping(key: string): boolean;
+
+            /**
+             * Pauses the given Scene.
+             * @param key The Scene to pause.
+             * @param data An optional data object that will be passed to the Scene and emitted by its pause event.
+             */
+            pause(key: string, data?: object): Phaser.Scenes.SceneManager;
+
+            /**
+             * Resumes the given Scene.
+             * @param key The Scene to resume.
+             * @param data An optional data object that will be passed to the Scene and emitted by its resume event.
+             */
+            resume(key: string, data?: object): Phaser.Scenes.SceneManager;
+
+            /**
+             * Puts the given Scene to sleep.
+             * @param key The Scene to put to sleep.
+             * @param data An optional data object that will be passed to the Scene and emitted by its sleep event.
+             */
+            sleep(key: string, data?: object): Phaser.Scenes.SceneManager;
+
+            /**
+             * Awakens the given Scene.
+             * @param key The Scene to wake up.
+             * @param data An optional data object that will be passed to the Scene and emitted by its wake event.
+             */
+            wake(key: string, data?: object): Phaser.Scenes.SceneManager;
+
+            /**
+             * Runs the given Scene, but does not change the state of this Scene.
+             *
+             * If the given Scene is paused, it will resume it. If sleeping, it will wake it.
+             * If not running at all, it will be started.
+             *
+             * Use this if you wish to open a modal Scene by calling `pause` on the current
+             * Scene, then `run` on the modal Scene.
+             * @param key The Scene to run.
+             * @param data A data object that will be passed to the Scene on start, wake, or resume.
+             */
+            run(key: string, data?: object): Phaser.Scenes.SceneManager;
+
+            /**
+             * Starts the given Scene.
+             * @param key The Scene to start.
+             * @param data Optional data object to pass to Scene.Settings and Scene.init.
+             */
+            start(key: string, data?: object): Phaser.Scenes.SceneManager;
+
+            /**
+             * Stops the given Scene.
+             * @param key The Scene to stop.
+             */
+            stop(key: string): Phaser.Scenes.SceneManager;
+
+            /**
+             * Sleeps one one Scene and starts the other.
+             * @param from The Scene to sleep.
+             * @param to The Scene to start.
+             */
+            switch(from: string, to: string): Phaser.Scenes.SceneManager;
+
+            /**
+             * Retrieves a Scene by numeric index.
+             * @param index The index of the Scene to retrieve.
+             */
+            getAt(index: integer): Phaser.Scene | undefined;
+
+            /**
+             * Retrieves the numeric index of a Scene.
+             * @param key The key of the Scene.
+             */
+            getIndex(key: string | Phaser.Scene): integer;
+
+            /**
+             * Brings a Scene to the top of the Scenes list.
+             *
+             * This means it will render above all other Scenes.
+             * @param key The Scene to move.
+             */
+            bringToTop(key: string | Phaser.Scene): Phaser.Scenes.SceneManager;
+
+            /**
+             * Sends a Scene to the back of the Scenes list.
+             *
+             * This means it will render below all other Scenes.
+             * @param key The Scene to move.
+             */
+            sendToBack(key: string | Phaser.Scene): Phaser.Scenes.SceneManager;
+
+            /**
+             * Moves a Scene down one position in the Scenes list.
+             * @param key The Scene to move.
+             */
+            moveDown(key: string | Phaser.Scene): Phaser.Scenes.SceneManager;
+
+            /**
+             * Moves a Scene up one position in the Scenes list.
+             * @param key The Scene to move.
+             */
+            moveUp(key: string | Phaser.Scene): Phaser.Scenes.SceneManager;
+
+            /**
+             * Moves a Scene so it is immediately above another Scene in the Scenes list.
+             *
+             * This means it will render over the top of the other Scene.
+             * @param keyA The Scene that Scene B will be moved above.
+             * @param keyB The Scene to be moved.
+             */
+            moveAbove(keyA: string | Phaser.Scene, keyB: string | Phaser.Scene): Phaser.Scenes.SceneManager;
+
+            /**
+             * Moves a Scene so it is immediately below another Scene in the Scenes list.
+             *
+             * This means it will render behind the other Scene.
+             * @param keyA The Scene that Scene B will be moved above.
+             * @param keyB The Scene to be moved.
+             */
+            moveBelow(keyA: string | Phaser.Scene, keyB: string | Phaser.Scene): Phaser.Scenes.SceneManager;
+
+            /**
+             * Swaps the positions of two Scenes in the Scenes list.
+             * @param keyA The first Scene to swap.
+             * @param keyB The second Scene to swap.
+             */
+            swapPosition(keyA: string | Phaser.Scene, keyB: string | Phaser.Scene): Phaser.Scenes.SceneManager;
+
+            /**
+             * Dumps debug information about each Scene to the developer console.
+             */
+            dump(): void;
+
+            /**
+             * Destroy the SceneManager and all of its Scene's systems.
+             */
+            destroy(): void;
+
+        }
+
+        /**
+         * A proxy class to the Global Scene Manager.
+         */
+        class ScenePlugin {
+            /**
+             *
+             * @param scene The Scene that this ScenePlugin belongs to.
+             */
+            constructor(scene: Phaser.Scene);
+
+            /**
+             * The Scene that this ScenePlugin belongs to.
+             */
+            scene: Phaser.Scene;
+
+            /**
+             * The Scene Systems instance of the Scene that this ScenePlugin belongs to.
+             */
+            systems: Phaser.Scenes.Systems;
+
+            /**
+             * The settings of the Scene this ScenePlugin belongs to.
+             */
+            settings: Phaser.Scenes.Settings.Object;
+
+            /**
+             * The key of the Scene this ScenePlugin belongs to.
+             */
+            key: string;
+
+            /**
+             * The Game's SceneManager.
+             */
+            manager: Phaser.Scenes.SceneManager;
+
+            /**
+             * If this Scene is currently transitioning to another, this holds
+             * the current percentage of the transition progress, between 0 and 1.
+             */
+            transitionProgress: number;
+
+            /**
+             * Shutdown this Scene and run the given one.
+             * @param key The Scene to start.
+             * @param data The Scene data.
+             */
+            start(key?: string, data?: object): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Restarts this Scene.
+             * @param data The Scene data.
+             */
+            restart(data?: object): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * This will start a transition from the current Scene to the target Scene given.
+             *
+             * The transition will last for the duration specified in milliseconds.
+             *
+             * You can have the target Scene moved above or below this one in the display list.
+             *
+             * You can specify an update callback. This callback will be invoked _every frame_ for the duration
+             * of the transition.
+             *
+             * This Scene can either be sent to sleep at the end of the transition, or stopped. The default is to stop.
+             *
+             * There are also 5 transition related events: This scene will emit the event `transitionto` when
+             * the transition begins, which is typically the frame after calling this method.
+             *
+             * The target Scene will emit the event `transitioninit` when that Scene's `init` method is called.
+             * It will then emit the event `transitionstart` when its `create` method is called.
+             * If the Scene was sleeping and has been woken up, it will emit the event `transitionwake` instead of these two,
+             * as the Scenes `init` and `create` methods are not invoked when a Scene wakes up.
+             *
+             * When the duration of the transition has elapsed it will emit the event `transitioncomplete`.
+             * These events are cleared of all listeners when the Scene shuts down, but not if it is sent to sleep.
+             *
+             * It's important to understand that the duration of the transition begins the moment you call this method.
+             * If the Scene you are transitioning to includes delayed processes, such as waiting for files to load, the
+             * time still counts down even while that is happening. If the game itself pauses, or something else causes
+             * this Scenes update loop to stop, then the transition will also pause for that duration. There are
+             * checks in place to prevent you accidentally stopping a transitioning Scene but if you've got code to
+             * override this understand that until the target Scene completes it might never be unlocked for input events.
+             * @param config The transition configuration object.
+             */
+            transition(config: Phaser.Scenes.ScenePlugin.SceneTransitionConfig): boolean;
+
+            /**
+             * Add the Scene into the Scene Manager and start it if 'autoStart' is true or the Scene config 'active' property is set.
+             * @param key The Scene key.
+             * @param sceneConfig The config for the Scene.
+             * @param autoStart Whether to start the Scene after it's added.
+             */
+            add(key: string, sceneConfig: Phaser.Scene | Phaser.Scenes.Settings.Config | Function, autoStart: boolean): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Launch the given Scene and run it in parallel with this one.
+             * @param key The Scene to launch.
+             * @param data The Scene data.
+             */
+            launch(key: string, data?: object): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Runs the given Scene, but does not change the state of this Scene.
+             *
+             * If the given Scene is paused, it will resume it. If sleeping, it will wake it.
+             * If not running at all, it will be started.
+             *
+             * Use this if you wish to open a modal Scene by calling `pause` on the current
+             * Scene, then `run` on the modal Scene.
+             * @param key The Scene to run.
+             * @param data A data object that will be passed to the Scene and emitted in its ready, wake, or resume events.
+             */
+            run(key: string, data?: object): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Pause the Scene - this stops the update step from happening but it still renders.
+             * @param key The Scene to pause.
+             * @param data An optional data object that will be passed to the Scene and emitted in its pause event.
+             */
+            pause(key?: string, data?: object): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Resume the Scene - starts the update loop again.
+             * @param key The Scene to resume.
+             * @param data An optional data object that will be passed to the Scene and emitted in its resume event.
+             */
+            resume(key?: string, data?: object): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Makes the Scene sleep (no update, no render) but doesn't shutdown.
+             * @param key The Scene to put to sleep.
+             * @param data An optional data object that will be passed to the Scene and emitted in its sleep event.
+             */
+            sleep(key?: string, data?: object): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Makes the Scene wake-up (starts update and render)
+             * @param key The Scene to wake up.
+             * @param data An optional data object that will be passed to the Scene and emitted in its wake event.
+             */
+            wake(key?: string, data?: object): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Makes this Scene sleep then starts the Scene given.
+             * @param key The Scene to start.
+             */
+            switch(key: string): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Shutdown the Scene, clearing display list, timers, etc.
+             * @param key The Scene to stop.
+             */
+            stop(key: string): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Sets the active state of the given Scene.
+             * @param value If `true` the Scene will be resumed. If `false` it will be paused.
+             * @param key The Scene to set the active state of.
+             * @param data An optional data object that will be passed to the Scene and emitted with its events.
+             */
+            setActive(value: boolean, key?: string, data?: object): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Sets the visible state of the given Scene.
+             * @param value The visible value.
+             * @param key The Scene to set the visible state for.
+             */
+            setVisible(value: boolean, key?: string): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Checks if the given Scene is sleeping or not?
+             * @param key The Scene to check.
+             */
+            isSleeping(key: string): boolean;
+
+            /**
+             * Checks if the given Scene is active or not?
+             * @param key The Scene to check.
+             */
+            isActive(key: string): boolean;
+
+            /**
+             * Checks if the given Scene is visible or not?
+             * @param key The Scene to check.
+             */
+            isVisible(key: string): boolean;
+
+            /**
+             * Swaps the position of two scenes in the Scenes list.
+             *
+             * This controls the order in which they are rendered and updated.
+             * @param keyA The first Scene to swap.
+             * @param keyB The second Scene to swap. If none is given it defaults to this Scene.
+             */
+            swapPosition(keyA: string, keyB?: string): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Swaps the position of two scenes in the Scenes list, so that Scene B is directly above Scene A.
+             *
+             * This controls the order in which they are rendered and updated.
+             * @param keyA The Scene that Scene B will be moved to be above.
+             * @param keyB The Scene to be moved. If none is given it defaults to this Scene.
+             */
+            moveAbove(keyA: string, keyB?: string): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Swaps the position of two scenes in the Scenes list, so that Scene B is directly below Scene A.
+             *
+             * This controls the order in which they are rendered and updated.
+             * @param keyA The Scene that Scene B will be moved to be below.
+             * @param keyB The Scene to be moved. If none is given it defaults to this Scene.
+             */
+            moveBelow(keyA: string, keyB?: string): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Removes a Scene from the SceneManager.
+             *
+             * The Scene is removed from the local scenes array, it's key is cleared from the keys
+             * cache and Scene.Systems.destroy is then called on it.
+             *
+             * If the SceneManager is processing the Scenes when this method is called it wil
+             * queue the operation for the next update sequence.
+             * @param key The Scene to be removed.
+             */
+            remove(key: string | Phaser.Scene): Phaser.Scenes.SceneManager;
+
+            /**
+             * Moves a Scene up one position in the Scenes list.
+             * @param key The Scene to move.
+             */
+            moveUp(key: string): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Moves a Scene down one position in the Scenes list.
+             * @param key The Scene to move.
+             */
+            moveDown(key: string): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Brings a Scene to the top of the Scenes list.
+             *
+             * This means it will render above all other Scenes.
+             * @param key The Scene to move.
+             */
+            bringToTop(key: string): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Sends a Scene to the back of the Scenes list.
+             *
+             * This means it will render below all other Scenes.
+             * @param key The Scene to move.
+             */
+            sendToBack(key: string): Phaser.Scenes.ScenePlugin;
+
+            /**
+             * Retrieve a Scene.
+             * @param key The Scene to retrieve.
+             */
+            get(key: string): Phaser.Scene;
+
+            /**
+             * Retrieves the numeric index of a Scene in the Scenes list.
+             * @param key The Scene to get the index of.
+             */
+            getIndex(key?: string | Phaser.Scene): integer;
+
+        }
+
+        namespace Settings {
+            type Config = {
+                /**
+                 * [description]
+                 */
+                key?: string;
+                /**
+                 * [description]
+                 */
+                active?: boolean;
+                /**
+                 * [description]
+                 */
+                visible?: boolean;
+                /**
+                 * [description]
+                 */
+                pack?: false | Phaser.Loader.FileTypes.PackFileConfig;
+                /**
+                 * [description]
+                 */
+                cameras?: InputJSONCameraObject | InputJSONCameraObject[];
+                /**
+                 * Overwrites the default injection map for a scene.
+                 */
+                map?: {[key: string]:  string};
+                /**
+                 * Extends the injection map for a scene.
+                 */
+                mapAdd?: {[key: string]:  string};
+                /**
+                 * [description]
+                 */
+                physics?: object;
+                /**
+                 * [description]
+                 */
+                loader?: object;
+                /**
+                 * [description]
+                 */
+                plugins?: false | any;
+            };
+
+            type Object = {
+                /**
+                 * [description]
+                 */
+                status: number;
+                /**
+                 * [description]
+                 */
+                key: string;
+                /**
+                 * [description]
+                 */
+                active: boolean;
+                /**
+                 * [description]
+                 */
+                visible: boolean;
+                /**
+                 * [description]
+                 */
+                isBooted: boolean;
+                /**
+                 * [description]
+                 */
+                isTransition: boolean;
+                /**
+                 * [description]
+                 */
+                transitionFrom: Phaser.Scene;
+                /**
+                 * [description]
+                 */
+                transitionDuration: integer;
+                /**
+                 * [description]
+                 */
+                transitionAllowInput: boolean;
+                /**
+                 * [description]
+                 */
+                data: object;
+                /**
+                 * [description]
+                 */
+                pack: false | Phaser.Loader.FileTypes.PackFileConfig;
+                /**
+                 * [description]
+                 */
+                cameras: InputJSONCameraObject | InputJSONCameraObject[];
+                /**
+                 * [description]
+                 */
+                map: {[key: string]:  string};
+                /**
+                 * [description]
+                 */
+                physics: object;
+                /**
+                 * [description]
+                 */
+                loader: object;
+                /**
+                 * [description]
+                 */
+                plugins: false | any;
+            };
+
+            /**
+             * Takes a Scene configuration object and returns a fully formed Systems object.
+             * @param config [description]
+             */
+            function create(config: string | Phaser.Scenes.Settings.Config): Phaser.Scenes.Settings.Object;
+
+        }
+
+        /**
+         * The Scene Systems class.
+         *
+         * This class is available from within a Scene under the property `sys`.
+         * It is responsible for managing all of the plugins a Scene has running, including the display list, and
+         * handling the update step and renderer. It also contains references to global systems belonging to Game.
+         */
+        class Systems {
+            /**
+             *
+             * @param scene The Scene that owns this Systems instance.
+             * @param config Scene specific configuration settings.
+             */
+            constructor(scene: Phaser.Scene, config: string | Phaser.Scenes.Settings.Config);
+
+            /**
+             * A reference to the Scene that these Systems belong to.
+             */
+            scene: Phaser.Scene;
+
+            /**
+             * A reference to the Phaser Game instance.
+             */
+            game: Phaser.Game;
+
+            /**
+             * The Facebook Instant Games Plugin.
+             */
+            facebook: any;
+
+            /**
+             * The Scene Configuration object, as passed in when creating the Scene.
+             */
+            config: string | Phaser.Scenes.Settings.Config;
+
+            /**
+             * The Scene Settings. This is the parsed output based on the Scene configuration.
+             */
+            settings: Phaser.Scenes.Settings.Object;
+
+            /**
+             * A handy reference to the Scene canvas / context.
+             */
+            canvas: HTMLCanvasElement;
+
+            /**
+             * A reference to the Canvas Rendering Context being used by the renderer.
+             */
+            context: CanvasRenderingContext2D;
+
+            /**
+             * A reference to the global Animations Manager.
+             *
+             * In the default set-up you can access this from within a Scene via the `this.anims` property.
+             */
+            anims: Phaser.Animations.AnimationManager;
+
+            /**
+             * A reference to the global Cache. The Cache stores all files bought in to Phaser via
+             * the Loader, with the exception of images. Images are stored in the Texture Manager.
+             *
+             * In the default set-up you can access this from within a Scene via the `this.cache` property.
+             */
+            cache: Phaser.Cache.CacheManager;
+
+            /**
+             * A reference to the global Plugins Manager.
+             *
+             * In the default set-up you can access this from within a Scene via the `this.plugins` property.
+             */
+            plugins: Phaser.Plugins.PluginManager;
+
+            /**
+             * A reference to the global registry. This is a game-wide instance of the Data Manager, allowing
+             * you to exchange data between Scenes via a universal and shared point.
+             *
+             * In the default set-up you can access this from within a Scene via the `this.registry` property.
+             */
+            registry: Phaser.Data.DataManager;
+
+            /**
+             * A reference to the global Sound Manager.
+             *
+             * In the default set-up you can access this from within a Scene via the `this.sound` property.
+             */
+            sound: Phaser.Sound.BaseSoundManager;
+
+            /**
+             * A reference to the global Texture Manager.
+             *
+             * In the default set-up you can access this from within a Scene via the `this.textures` property.
+             */
+            textures: Phaser.Textures.TextureManager;
+
+            /**
+             * A reference to the Scene's Game Object Factory.
+             *
+             * Use this to quickly and easily create new Game Object's.
+             *
+             * In the default set-up you can access this from within a Scene via the `this.add` property.
+             */
+            add: Phaser.GameObjects.GameObjectFactory;
+
+            /**
+             * A reference to the Scene's Camera Manager.
+             *
+             * Use this to manipulate and create Cameras for this specific Scene.
+             *
+             * In the default set-up you can access this from within a Scene via the `this.cameras` property.
+             */
+            cameras: Phaser.Cameras.Scene2D.CameraManager;
+
+            /**
+             * A reference to the Scene's Display List.
+             *
+             * Use this to organize the children contained in the display list.
+             *
+             * In the default set-up you can access this from within a Scene via the `this.children` property.
+             */
+            displayList: Phaser.GameObjects.DisplayList;
+
+            /**
+             * A reference to the Scene's Event Manager.
+             *
+             * Use this to listen for Scene specific events, such as `pause` and `shutdown`.
+             *
+             * In the default set-up you can access this from within a Scene via the `this.events` property.
+             */
+            events: Phaser.Events.EventEmitter;
+
+            /**
+             * A reference to the Scene's Game Object Creator.
+             *
+             * Use this to quickly and easily create new Game Object's. The difference between this and the
+             * Game Object Factory, is that the Creator just creates and returns Game Object instances, it
+             * doesn't then add them to the Display List or Update List.
+             *
+             * In the default set-up you can access this from within a Scene via the `this.make` property.
+             */
+            make: Phaser.GameObjects.GameObjectCreator;
+
+            /**
+             * A reference to the Scene Manager Plugin.
+             *
+             * Use this to manipulate both this and other Scene's in your game, for example to launch a parallel Scene,
+             * or pause or resume a Scene, or switch from this Scene to another.
+             *
+             * In the default set-up you can access this from within a Scene via the `this.scene` property.
+             */
+            scenePlugin: Phaser.Scenes.ScenePlugin;
+
+            /**
+             * A reference to the Scene's Update List.
+             *
+             * Use this to organize the children contained in the update list.
+             *
+             * The Update List is responsible for managing children that need their `preUpdate` methods called,
+             * in order to process so internal components, such as Sprites with Animations.
+             *
+             * In the default set-up there is no reference to this from within the Scene itself.
+             */
+            updateList: Phaser.GameObjects.UpdateList;
+
+            /**
+             * This method is called only once by the Scene Manager when the Scene is instantiated.
+             * It is responsible for setting up all of the Scene plugins and references.
+             * It should never be called directly.
+             * @param game A reference to the Phaser Game instance.
+             */
+            protected init(game: Phaser.Game): void;
+
+            /**
+             * A single game step. Called automatically by the Scene Manager as a result of a Request Animation
+             * Frame or Set Timeout call to the main Game instance.
+             * @param time The time value from the most recent Game step. Typically a high-resolution timer value, or Date.now().
+             * @param delta The delta value since the last frame. This is smoothed to avoid delta spikes by the TimeStep class.
+             */
+            step(time: number, delta: number): void;
+
+            /**
+             * Called automatically by the Scene Manager.
+             * Instructs the Scene to render itself via its Camera Manager to the renderer given.
+             * @param renderer The renderer that invoked the render call.
+             */
+            render(renderer: Phaser.Renderer.Canvas.CanvasRenderer | Phaser.Renderer.WebGL.WebGLRenderer): void;
+
+            /**
+             * Force a sort of the display list on the next render.
+             */
+            queueDepthSort(): void;
+
+            /**
+             * Immediately sorts the display list if the flag is set.
+             */
+            depthSort(): void;
+
+            /**
+             * Pause this Scene.
+             * A paused Scene still renders, it just doesn't run ANY of its update handlers or systems.
+             * @param data A data object that will be passed in the 'pause' event.
+             */
+            pause(data?: object): Phaser.Scenes.Systems;
+
+            /**
+             * Resume this Scene from a paused state.
+             * @param data A data object that will be passed in the 'resume' event.
+             */
+            resume(data?: object): Phaser.Scenes.Systems;
+
+            /**
+             * Send this Scene to sleep.
+             *
+             * A sleeping Scene doesn't run it's update step or render anything, but it also isn't shut down
+             * or have any of its systems or children removed, meaning it can be re-activated at any point and
+             * will carry on from where it left off. It also keeps everything in memory and events and callbacks
+             * from other Scenes may still invoke changes within it, so be careful what is left active.
+             * @param data A data object that will be passed in the 'sleep' event.
+             */
+            sleep(data?: object): Phaser.Scenes.Systems;
+
+            /**
+             * Wake-up this Scene if it was previously asleep.
+             * @param data A data object that will be passed in the 'wake' event.
+             */
+            wake(data?: object): Phaser.Scenes.Systems;
+
+            /**
+             * Is this Scene sleeping?
+             */
+            isSleeping(): boolean;
+
+            /**
+             * Is this Scene active?
+             */
+            isActive(): boolean;
+
+            /**
+             * Is this Scene paused?
+             */
+            isPaused(): boolean;
+
+            /**
+             * Is this Scene currently transitioning out to, or in from another Scene?
+             */
+            isTransitioning(): boolean;
+
+            /**
+             * Is this Scene currently transitioning out from itself to another Scene?
+             */
+            isTransitionOut(): boolean;
+
+            /**
+             * Is this Scene currently transitioning in from another Scene?
+             */
+            isTransitionIn(): boolean;
+
+            /**
+             * Is this Scene visible and rendering?
+             */
+            isVisible(): boolean;
+
+            /**
+             * Sets the visible state of this Scene.
+             * An invisible Scene will not render, but will still process updates.
+             * @param value `true` to render this Scene, otherwise `false`.
+             */
+            setVisible(value: boolean): Phaser.Scenes.Systems;
+
+            /**
+             * Set the active state of this Scene.
+             *
+             * An active Scene will run its core update loop.
+             * @param value If `true` the Scene will be resumed, if previously paused. If `false` it will be paused.
+             * @param data A data object that will be passed in the 'resume' or 'pause' events.
+             */
+            setActive(value: boolean, data?: object): Phaser.Scenes.Systems;
+
+            /**
+             * Start this Scene running and rendering.
+             * Called automatically by the SceneManager.
+             * @param data Optional data object that may have been passed to this Scene from another.
+             */
+            start(data: object): void;
+
+            /**
+             * Called automatically by the SceneManager if the Game resizes.
+             * Dispatches an event you can respond to in your game code.
+             * @param width The new width of the game.
+             * @param height The new height of the game.
+             */
+            resize(width: number, height: number): void;
+
+            /**
+             * Shutdown this Scene and send a shutdown event to all of its systems.
+             * A Scene that has been shutdown will not run its update loop or render, but it does
+             * not destroy any of its plugins or references. It is put into hibernation for later use.
+             * If you don't ever plan to use this Scene again, then it should be destroyed instead
+             * to free-up resources.
+             * @param data A data object that will be passed in the 'shutdown' event.
+             */
+            shutdown(data?: object): void;
+
+        }
+
+    }
+
+    /**
+     * [description]
+     */
+    class Scene {
+        /**
+         *
+         * @param config Scene specific configuration settings.
+         */
+        constructor(config: string | Phaser.Scenes.Settings.Config);
+
+        /**
+         * The Scene Systems. You must never overwrite this property, or all hell will break lose.
+         */
+        sys: Phaser.Scenes.Systems;
+
+        /**
+         * A reference to the Phaser.Game instance.
+         * This property will only be available if defined in the Scene Injection Map.
+         */
+        game: Phaser.Game;
+
+        /**
+         * A reference to the global Animation Manager.
+         * This property will only be available if defined in the Scene Injection Map.
+         */
+        anims: Phaser.Animations.AnimationManager;
+
+        /**
+         * A reference to the global Cache.
+         * This property will only be available if defined in the Scene Injection Map.
+         */
+        cache: Phaser.Cache.CacheManager;
+
+        /**
+         * A reference to the game level Data Manager.
+         * This property will only be available if defined in the Scene Injection Map.
+         */
+        registry: Phaser.Data.DataManager;
+
+        /**
+         * A reference to the Sound Manager.
+         * This property will only be available if defined in the Scene Injection Map and the plugin is installed.
+         */
+        sound: Phaser.Sound.BaseSoundManager;
+
+        /**
+         * A reference to the Texture Manager.
+         * This property will only be available if defined in the Scene Injection Map.
+         */
+        textures: Phaser.Textures.TextureManager;
+
+        /**
+         * A scene level Event Emitter.
+         * This property will only be available if defined in the Scene Injection Map.
+         */
+        events: Phaser.Events.EventEmitter;
+
+        /**
+         * A scene level Camera System.
+         * This property will only be available if defined in the Scene Injection Map.
+         */
+        cameras: Phaser.Cameras.Scene2D.CameraManager;
+
+        /**
+         * A scene level Game Object Factory.
+         * This property will only be available if defined in the Scene Injection Map.
+         */
+        add: Phaser.GameObjects.GameObjectFactory;
+
+        /**
+         * A scene level Game Object Creator.
+         * This property will only be available if defined in the Scene Injection Map.
+         */
+        make: Phaser.GameObjects.GameObjectCreator;
+
+        /**
+         * A reference to the Scene Manager Plugin.
+         * This property will only be available if defined in the Scene Injection Map.
+         */
+        scene: Phaser.Scenes.ScenePlugin;
+
+        /**
+         * A scene level Game Object Display List.
+         * This property will only be available if defined in the Scene Injection Map.
+         */
+        children: Phaser.GameObjects.DisplayList;
+
+        /**
+         * A scene level Lights Manager Plugin.
+         * This property will only be available if defined in the Scene Injection Map and the plugin is installed.
+         */
+        lights: Phaser.GameObjects.LightsManager;
+
+        /**
+         * A scene level Data Manager Plugin.
+         * This property will only be available if defined in the Scene Injection Map and the plugin is installed.
+         */
+        data: Phaser.Data.DataManager;
+
+        /**
+         * A scene level Input Manager Plugin.
+         * This property will only be available if defined in the Scene Injection Map and the plugin is installed.
+         */
+        input: Phaser.Input.InputPlugin;
+
+        /**
+         * A scene level Loader Plugin.
+         * This property will only be available if defined in the Scene Injection Map and the plugin is installed.
+         */
+        load: Phaser.Loader.LoaderPlugin;
+
+        /**
+         * A scene level Time and Clock Plugin.
+         * This property will only be available if defined in the Scene Injection Map and the plugin is installed.
+         */
+        time: Phaser.Time.Clock;
+
+        /**
+         * A scene level Tween Manager Plugin.
+         * This property will only be available if defined in the Scene Injection Map and the plugin is installed.
+         */
+        tweens: Phaser.Tweens.TweenManager;
+
+        /**
+         * A scene level Arcade Physics Plugin.
+         * This property will only be available if defined in the Scene Injection Map, the plugin is installed and configured.
+         */
+        physics: Phaser.Physics.Arcade.ArcadePhysics;
+
+        /**
+         * A scene level Impact Physics Plugin.
+         * This property will only be available if defined in the Scene Injection Map, the plugin is installed and configured.
+         */
+        impact: Phaser.Physics.Impact.ImpactPhysics;
+
+        /**
+         * A scene level Matter Physics Plugin.
+         * This property will only be available if defined in the Scene Injection Map, the plugin is installed and configured.
+         */
+        matter: Phaser.Physics.Matter.MatterPhysics;
+
+        /**
+         * Should be overridden by your own Scenes.
+         * @param time The current time. Either a High Resolution Timer value if it comes from Request Animation Frame, or Date.now if using SetTimeout.
+         * @param delta The delta time in ms since the last frame. This is a smoothed and capped value based on the FPS rate.
+         */
+        update(time: number, delta: number): void;
+
+    }
+
+    namespace Sound {
+        /**
+         * Class containing all the shared state and behavior of a sound object, independent of the implementation.
+         */
+        class BaseSound extends Phaser.Events.EventEmitter {
+            /**
+             *
+             * @param manager Reference to the current sound manager instance.
+             * @param key Asset key for the sound.
+             * @param config An optional config object containing default sound settings.
+             */
+            constructor(manager: Phaser.Sound.BaseSoundManager, key: string, config?: SoundConfig);
+
+            /**
+             * Asset key for the sound.
+             */
+            readonly key: string;
+
+            /**
+             * Flag indicating if sound is currently playing.
+             */
+            readonly isPlaying: boolean;
+
+            /**
+             * Flag indicating if sound is currently paused.
+             */
+            readonly isPaused: boolean;
+
+            /**
+             * A property that holds the value of sound's actual playback rate,
+             * after its rate and detune values has been combined with global
+             * rate and detune values.
+             */
+            readonly totalRate: number;
+
+            /**
+             * A value representing the duration, in seconds.
+             * It could be total sound duration or a marker duration.
+             */
+            readonly duration: number;
+
+            /**
+             * The total duration of the sound in seconds.
+             */
+            readonly totalDuration: number;
+
+            /**
+             * Object containing markers definitions.
+             */
+            readonly markers: {[key: string]:  SoundMarker};
+
+            /**
+             * Currently playing marker.
+             * 'null' if whole sound is playing.
+             */
+            readonly currentMarker: SoundMarker;
+
+            /**
+             * Adds a marker into the current sound. A marker is represented by name, start time, duration, and optionally config object.
+             * This allows you to bundle multiple sounds together into a single audio file and use markers to jump between them for playback.
+             * @param marker Marker object.
+             */
+            addMarker(marker: SoundMarker): boolean;
+
+            /**
+             * Updates previously added marker.
+             * @param marker Marker object with updated values.
+             */
+            updateMarker(marker: SoundMarker): boolean;
+
+            /**
+             * Removes a marker from the sound.
+             * @param markerName The name of the marker to remove.
+             */
+            removeMarker(markerName: string): SoundMarker;
+
+            /**
+             * Play this sound, or a marked section of it.
+             * It always plays the sound from the start. If you want to start playback from a specific time
+             * you can set 'seek' setting of the config object, provided to this call, to that value.
+             * @param markerName If you want to play a marker then provide the marker name here, otherwise omit it to play the full sound. Default ''.
+             * @param config Optional sound config object to be applied to this marker or entire sound if no marker name is provided. It gets memorized for future plays of current section of the sound.
+             */
+            play(markerName?: string, config?: SoundConfig): boolean;
+
+            /**
+             * Pauses the sound.
+             */
+            pause(): boolean;
+
+            /**
+             * Resumes the sound.
+             */
+            resume(): boolean;
+
+            /**
+             * Stop playing this sound.
+             */
+            stop(): boolean;
+
+            /**
+             * Method used internally for applying config values to some of the sound properties.
+             */
+            protected applyConfig(): void;
+
+            /**
+             * Method used internally for resetting values of some of the config properties.
+             */
+            protected resetConfig(): void;
+
+            /**
+             * Update method called automatically by sound manager on every game step.
+             * @param time The current timestamp as generated by the Request Animation Frame or SetTimeout.
+             * @param delta The delta time elapsed since the last frame.
+             */
+            protected update(time: number, delta: number): void;
+
+            /**
+             * Method used internally to calculate total playback rate of the sound.
+             */
+            protected calculateRate(): void;
+
+            /**
+             * Destroys this sound and all associated events and marks it for removal from the sound manager.
+             */
+            destroy(): void;
+
+        }
+
+        /**
+         * The sound manager is responsible for playing back audio via Web Audio API or HTML Audio tag as fallback.
+         * The audio file type and the encoding of those files are extremely important.
+         *
+         * Not all browsers can play all audio formats.
+         *
+         * There is a good guide to what's supported [here](https://developer.mozilla.org/en-US/Apps/Fundamentals/Audio_and_video_delivery/Cross-browser_audio_basics#Audio_Codec_Support).
+         */
+        class BaseSoundManager extends Phaser.Events.EventEmitter {
+            /**
+             *
+             * @param game Reference to the current game instance.
+             */
+            constructor(game: Phaser.Game);
+
+            /**
+             * Local reference to game.
+             */
+            readonly game: Phaser.Game;
+
+            /**
+             * Local reference to the JSON Cache, as used by Audio Sprites.
+             */
+            readonly jsonCache: Phaser.Cache.BaseCache;
+
+            /**
+             * Global mute setting.
+             */
+            mute: boolean;
+
+            /**
+             * Global volume setting.
+             */
+            volume: number;
+
+            /**
+             * Flag indicating if sounds should be paused when game looses focus,
+             * for instance when user switches to another tab/program/app.
+             */
+            pauseOnBlur: boolean;
+
+            /**
+             * Mobile devices require sounds to be triggered from an explicit user action,
+             * such as a tap, before any sound can be loaded/played on a web page.
+             * Set to true if the audio system is currently locked awaiting user interaction.
+             */
+            readonly locked: boolean;
+
+            /**
+             * Adds a new sound into the sound manager.
+             * @param key Asset key for the sound.
+             * @param config An optional config object containing default sound settings.
+             */
+            add(key: string, config?: SoundConfig): Phaser.Sound.BaseSound;
+
+            /**
+             * Adds a new audio sprite sound into the sound manager.
+             * Audio Sprites are a combination of audio files and a JSON configuration.
+             * The JSON follows the format of that created by https://github.com/tonistiigi/audiosprite
+             * @param key Asset key for the sound.
+             * @param config An optional config object containing default sound settings.
+             */
+            addAudioSprite(key: string, config?: SoundConfig): Phaser.Sound.BaseSound.AudioSpriteSound;
+
+            /**
+             * Enables playing sound on the fly without the need to keep a reference to it.
+             * Sound will auto destroy once its playback ends.
+             * @param key Asset key for the sound.
+             * @param extra An optional additional object containing settings to be applied to the sound. It could be either config or marker object.
+             */
+            play(key: string, extra?: SoundConfig | SoundMarker): boolean;
+
+            /**
+             * Enables playing audio sprite sound on the fly without the need to keep a reference to it.
+             * Sound will auto destroy once its playback ends.
+             * @param key Asset key for the sound.
+             * @param spriteName The name of the sound sprite to play.
+             * @param config An optional config object containing default sound settings.
+             */
+            playAudioSprite(key: string, spriteName: string, config?: SoundConfig): boolean;
+
+            /**
+             * Removes a sound from the sound manager.
+             * The removed sound is destroyed before removal.
+             * @param sound The sound object to remove.
+             */
+            remove(sound: Phaser.Sound.BaseSound): boolean;
+
+            /**
+             * Removes all sounds from the sound manager that have an asset key matching the given value.
+             * The removed sounds are destroyed before removal.
+             * @param key The key to match when removing sound objects.
+             */
+            removeByKey(key: string): number;
+
+            /**
+             * Pauses all the sounds in the game.
+             */
+            pauseAll(): void;
+
+            /**
+             * Resumes all the sounds in the game.
+             */
+            resumeAll(): void;
+
+            /**
+             * Stops all the sounds in the game.
+             */
+            stopAll(): void;
+
+            /**
+             * Method used internally for unlocking audio playback on devices that
+             * require user interaction before any sound can be played on a web page.
+             *
+             * Read more about how this issue is handled here in [this article](https://medium.com/@pgoloskokovic/unlocking-web-audio-the-smarter-way-8858218c0e09).
+             */
+            protected unlock(): void;
+
+            /**
+             * Method used internally for pausing sound manager if
+             * Phaser.Sound.BaseSoundManager#pauseOnBlur is set to true.
+             */
+            protected onBlur(): void;
+
+            /**
+             * Method used internally for resuming sound manager if
+             * Phaser.Sound.BaseSoundManager#pauseOnBlur is set to true.
+             */
+            protected onFocus(): void;
+
+            /**
+             * Update method called on every game step.
+             * Removes destroyed sounds and updates every active sound in the game.
+             * @param time The current timestamp as generated by the Request Animation Frame or SetTimeout.
+             * @param delta The delta time elapsed since the last frame.
+             */
+            protected update(time: number, delta: number): void;
+
+            /**
+             * Destroys all the sounds in the game and all associated events.
+             */
+            destroy(): void;
+
+            /**
+             * Sets the global playback rate at which all the sounds will be played.
+             *
+             * For example, a value of 1.0 plays the audio at full speed, 0.5 plays the audio at half speed
+             * and 2.0 doubles the audios playback speed.
+             * @param value Global playback rate at which all the sounds will be played.
+             */
+            setRate(value: number): Phaser.Sound.BaseSoundManager;
+
+            /**
+             * Global playback rate at which all the sounds will be played.
+             * Value of 1.0 plays the audio at full speed, 0.5 plays the audio at half speed
+             * and 2.0 doubles the audio's playback speed.
+             */
+            rate: number;
+
+            /**
+             * Sets the global detuning of all sounds in [cents](https://en.wikipedia.org/wiki/Cent_%28music%29).
+             * The range of the value is -1200 to 1200, but we recommend setting it to [50](https://en.wikipedia.org/wiki/50_Cent).
+             * @param value The range of the value is -1200 to 1200, but we recommend setting it to [50](https://en.wikipedia.org/wiki/50_Cent).
+             */
+            setDetune(value: number): Phaser.Sound.BaseSoundManager;
+
+            /**
+             * Global detuning of all sounds in [cents](https://en.wikipedia.org/wiki/Cent_%28music%29).
+             * The range of the value is -1200 to 1200, but we recommend setting it to [50](https://en.wikipedia.org/wiki/50_Cent).
+             */
+            detune: number;
+
+        }
+
+        /**
+         * HTML5 Audio implementation of the sound.
+         */
+        class HTML5AudioSound extends Phaser.Sound.BaseSound {
+            /**
+             *
+             * @param manager Reference to the current sound manager instance.
+             * @param key Asset key for the sound.
+             * @param config An optional config object containing default sound settings. Default {}.
+             */
+            constructor(manager: Phaser.Sound.HTML5AudioSoundManager, key: string, config?: SoundConfig);
+
+            /**
+             * Play this sound, or a marked section of it.
+             * It always plays the sound from the start. If you want to start playback from a specific time
+             * you can set 'seek' setting of the config object, provided to this call, to that value.
+             * @param markerName If you want to play a marker then provide the marker name here, otherwise omit it to play the full sound. Default ''.
+             * @param config Optional sound config object to be applied to this marker or entire sound if no marker name is provided. It gets memorized for future plays of current section of the sound.
+             */
+            play(markerName?: string, config?: SoundConfig): boolean;
+
+            /**
+             * Pauses the sound.
+             */
+            pause(): boolean;
+
+            /**
+             * Resumes the sound.
+             */
+            resume(): boolean;
+
+            /**
+             * Stop playing this sound.
+             */
+            stop(): boolean;
+
+            /**
+             * Update method called automatically by sound manager on every game step.
+             * @param time The current timestamp as generated by the Request Animation Frame or SetTimeout.
+             * @param delta The delta time elapsed since the last frame.
+             */
+            protected update(time: number, delta: number): void;
+
+            /**
+             * Calls Phaser.Sound.BaseSound#destroy method
+             * and cleans up all HTML5 Audio related stuff.
+             */
+            destroy(): void;
+
+            /**
+             * Method used internally to calculate total playback rate of the sound.
+             */
+            protected calculateRate(): void;
+
+            /**
+             * Boolean indicating whether the sound is muted or not.
+             * Gets or sets the muted state of this sound.
+             */
+            mute: boolean;
+
+            /**
+             * Sets the muted state of this Sound.
+             * @param value `true` to mute this sound, `false` to unmute it.
+             */
+            setMute(value: boolean): Phaser.Sound.HTML5AudioSound;
+
+            /**
+             * Gets or sets the volume of this sound, a value between 0 (silence) and 1 (full volume).
+             */
+            volume: number;
+
+            /**
+             * Sets the volume of this Sound.
+             * @param value The volume of the sound.
+             */
+            setVolume(value: number): Phaser.Sound.HTML5AudioSound;
+
+            /**
+             * Rate at which this Sound will be played.
+             * Value of 1.0 plays the audio at full speed, 0.5 plays the audio at half speed
+             * and 2.0 doubles the audios playback speed.
+             */
+            rate: number;
+
+            /**
+             * Sets the playback rate of this Sound.
+             *
+             * For example, a value of 1.0 plays the audio at full speed, 0.5 plays the audio at half speed
+             * and 2.0 doubles the audios playback speed.
+             * @param value The playback rate at of this Sound.
+             */
+            setRate(value: number): Phaser.Sound.HTML5AudioSound;
+
+            /**
+             * The detune value of this Sound, given in [cents](https://en.wikipedia.org/wiki/Cent_%28music%29).
+             * The range of the value is -1200 to 1200, but we recommend setting it to [50](https://en.wikipedia.org/wiki/50_Cent).
+             */
+            detune: number;
+
+            /**
+             * Sets the detune value of this Sound, given in [cents](https://en.wikipedia.org/wiki/Cent_%28music%29).
+             * The range of the value is -1200 to 1200, but we recommend setting it to [50](https://en.wikipedia.org/wiki/50_Cent).
+             * @param value The range of the value is -1200 to 1200, but we recommend setting it to [50](https://en.wikipedia.org/wiki/50_Cent).
+             */
+            setDetune(value: number): Phaser.Sound.HTML5AudioSound;
+
+            /**
+             * Property representing the position of playback for this sound, in seconds.
+             * Setting it to a specific value moves current playback to that position.
+             * The value given is clamped to the range 0 to current marker duration.
+             * Setting seek of a stopped sound has no effect.
+             */
+            seek: number;
+
+            /**
+             * Seeks to a specific point in this sound.
+             * @param value The point in the sound to seek to.
+             */
+            setSeek(value: number): Phaser.Sound.HTML5AudioSound;
+
+            /**
+             * Flag indicating whether or not the sound or current sound marker will loop.
+             */
+            loop: boolean;
+
+            /**
+             * Sets the loop state of this Sound.
+             * @param value `true` to loop this sound, `false` to not loop it.
+             */
+            setLoop(value: boolean): Phaser.Sound.HTML5AudioSound;
+
+        }
+
+        /**
+         * HTML5AudioSoundManager
+         */
+        class HTML5AudioSoundManager extends Phaser.Sound.BaseSoundManager {
+            /**
+             *
+             * @param game Reference to the current game instance.
+             */
+            constructor(game: Phaser.Game);
+
+            /**
+             * Flag indicating whether if there are no idle instances of HTML5 Audio tag,
+             * for any particular sound, if one of the used tags should be hijacked and used
+             * for succeeding playback or if succeeding Phaser.Sound.HTML5AudioSound#play
+             * call should be ignored.
+             */
+            override: boolean;
+
+            /**
+             * Value representing time difference, in seconds, between calling
+             * play method on an audio tag and when it actually starts playing.
+             * It is used to achieve more accurate delayed sound playback.
+             *
+             * You might need to tweak this value to get the desired results
+             * since audio play delay varies depending on the browser/platform.
+             */
+            audioPlayDelay: number;
+
+            /**
+             * A value by which we should offset the loop end marker of the
+             * looping sound to compensate for lag, caused by changing audio
+             * tag playback position, in order to achieve gapless looping.
+             *
+             * You might need to tweak this value to get the desired results
+             * since loop lag varies depending on the browser/platform.
+             */
+            loopEndOffset: number;
+
+            /**
+             * Adds a new sound into the sound manager.
+             * @param key Asset key for the sound.
+             * @param config An optional config object containing default sound settings.
+             */
+            add(key: string, config?: SoundConfig): Phaser.Sound.HTML5AudioSound;
+
+            /**
+             * Unlocks HTML5 Audio loading and playback on mobile
+             * devices on the initial explicit user interaction.
+             */
+            unlock(): void;
+
+            /**
+             * Method used internally for pausing sound manager if
+             * Phaser.Sound.HTML5AudioSoundManager#pauseOnBlur is set to true.
+             */
+            protected onBlur(): void;
+
+            /**
+             * Method used internally for resuming sound manager if
+             * Phaser.Sound.HTML5AudioSoundManager#pauseOnBlur is set to true.
+             */
+            protected onFocus(): void;
+
+            /**
+             * Calls Phaser.Sound.BaseSoundManager#destroy method
+             * and cleans up all HTML5 Audio related stuff.
+             */
+            destroy(): void;
+
+            /**
+             * Method used internally by Phaser.Sound.HTML5AudioSound class methods and property setters
+             * to check if sound manager is locked and then either perform action immediately or queue it
+             * to be performed once the sound manager gets unlocked.
+             * @param sound Sound object on which to perform queued action.
+             * @param prop Name of the method to be called or property to be assigned a value to.
+             * @param value An optional parameter that either holds an array of arguments to be passed to the method call or value to be set to the property.
+             */
+            protected isLocked(sound: Phaser.Sound.HTML5AudioSound, prop: string, value?: any): boolean;
+
+            /**
+             * Sets the muted state of all this Sound Manager.
+             * @param value `true` to mute all sounds, `false` to unmute them.
+             */
+            setMute(value: boolean): Phaser.Sound.HTML5AudioSoundManager;
+
+            mute: boolean;
+
+            /**
+             * Sets the volume of this Sound Manager.
+             * @param value The global volume of this Sound Manager.
+             */
+            setVolume(value: number): Phaser.Sound.HTML5AudioSoundManager;
+
+            volume: number;
+
+        }
+
+        /**
+         * No audio implementation of the sound. It is used if audio has been
+         * disabled in the game config or the device doesn't support any audio.
+         *
+         * It represents a graceful degradation of sound logic that provides
+         * minimal functionality and prevents Phaser projects that use audio from
+         * breaking on devices that don't support any audio playback technologies.
+         */
+        class NoAudioSound extends Phaser.Sound.BaseSound {
+            /**
+             *
+             * @param manager Reference to the current sound manager instance.
+             * @param key Asset key for the sound.
+             * @param config An optional config object containing default sound settings. Default {}.
+             */
+            constructor(manager: Phaser.Sound.NoAudioSoundManager, key: string, config?: SoundConfig);
+
+        }
+
+        /**
+         * No audio implementation of the sound manager. It is used if audio has been
+         * disabled in the game config or the device doesn't support any audio.
+         *
+         * It represents a graceful degradation of sound manager logic that provides
+         * minimal functionality and prevents Phaser projects that use audio from
+         * breaking on devices that don't support any audio playback technologies.
+         */
+        class NoAudioSoundManager extends Phaser.Sound.BaseSoundManager {
+            /**
+             *
+             * @param game Reference to the current game instance.
+             */
+            constructor(game: Phaser.Game);
+
+        }
+
+        /**
+         * Creates a Web Audio, HTML5 Audio or No Audio Sound Manager based on config and device settings.
+         *
+         * Be aware of https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
+         * @param game Reference to the current game instance.
+         */
+        function SoundManagerCreator(game: Phaser.Game): void;
+
+        /**
+         * Web Audio API implementation of the sound.
+         */
+        class WebAudioSound extends Phaser.Sound.BaseSound {
+            /**
+             *
+             * @param manager Reference to the current sound manager instance.
+             * @param key Asset key for the sound.
+             * @param config An optional config object containing default sound settings. Default {}.
+             */
+            constructor(manager: Phaser.Sound.WebAudioSoundManager, key: string, config?: SoundConfig);
+
+            /**
+             * Play this sound, or a marked section of it.
+             *
+             * It always plays the sound from the start. If you want to start playback from a specific time
+             * you can set 'seek' setting of the config object, provided to this call, to that value.
+             * @param markerName If you want to play a marker then provide the marker name here, otherwise omit it to play the full sound. Default ''.
+             * @param config Optional sound config object to be applied to this marker or entire sound if no marker name is provided. It gets memorized for future plays of current section of the sound.
+             */
+            play(markerName?: string, config?: SoundConfig): boolean;
+
+            /**
+             * Pauses the sound.
+             */
+            pause(): boolean;
+
+            /**
+             * Resumes the sound.
+             */
+            resume(): boolean;
+
+            /**
+             * Stop playing this sound.
+             */
+            stop(): boolean;
+
+            /**
+             * Method used internally for applying config values to some of the sound properties.
+             */
+            protected applyConfig(): void;
+
+            /**
+             * Update method called automatically by sound manager on every game step.
+             * @param time The current timestamp as generated by the Request Animation Frame or SetTimeout.
+             * @param delta The delta time elapsed since the last frame.
+             */
+            protected update(time: number, delta: number): void;
+
+            /**
+             * Calls Phaser.Sound.BaseSound#destroy method
+             * and cleans up all Web Audio API related stuff.
+             */
+            destroy(): void;
+
+            /**
+             * Method used internally to calculate total playback rate of the sound.
+             */
+            protected calculateRate(): void;
+
+            /**
+             * Rate at which this Sound will be played.
+             * Value of 1.0 plays the audio at full speed, 0.5 plays the audio at half speed
+             * and 2.0 doubles the audios playback speed.
+             */
+            rate: number;
+
+            /**
+             * Sets the playback rate of this Sound.
+             *
+             * For example, a value of 1.0 plays the audio at full speed, 0.5 plays the audio at half speed
+             * and 2.0 doubles the audios playback speed.
+             * @param value The playback rate at of this Sound.
+             */
+            setRate(value: number): Phaser.Sound.WebAudioSound;
+
+            /**
+             * The detune value of this Sound, given in [cents](https://en.wikipedia.org/wiki/Cent_%28music%29).
+             * The range of the value is -1200 to 1200, but we recommend setting it to [50](https://en.wikipedia.org/wiki/50_Cent).
+             */
+            detune: number;
+
+            /**
+             * Sets the detune value of this Sound, given in [cents](https://en.wikipedia.org/wiki/Cent_%28music%29).
+             * The range of the value is -1200 to 1200, but we recommend setting it to [50](https://en.wikipedia.org/wiki/50_Cent).
+             * @param value The range of the value is -1200 to 1200, but we recommend setting it to [50](https://en.wikipedia.org/wiki/50_Cent).
+             */
+            setDetune(value: number): Phaser.Sound.WebAudioSound;
+
+            /**
+             * Boolean indicating whether the sound is muted or not.
+             * Gets or sets the muted state of this sound.
+             */
+            mute: boolean;
+
+            /**
+             * Sets the muted state of this Sound.
+             * @param value `true` to mute this sound, `false` to unmute it.
+             */
+            setMute(value: boolean): Phaser.Sound.WebAudioSound;
+
+            /**
+             * Gets or sets the volume of this sound, a value between 0 (silence) and 1 (full volume).
+             */
+            volume: number;
+
+            /**
+             * Sets the volume of this Sound.
+             * @param value The volume of the sound.
+             */
+            setVolume(value: number): Phaser.Sound.WebAudioSound;
+
+            /**
+             * Property representing the position of playback for this sound, in seconds.
+             * Setting it to a specific value moves current playback to that position.
+             * The value given is clamped to the range 0 to current marker duration.
+             * Setting seek of a stopped sound has no effect.
+             */
+            seek: number;
+
+            /**
+             * Seeks to a specific point in this sound.
+             * @param value The point in the sound to seek to.
+             */
+            setSeek(value: number): Phaser.Sound.WebAudioSound;
+
+            /**
+             * Flag indicating whether or not the sound or current sound marker will loop.
+             */
+            loop: boolean;
+
+            /**
+             * Sets the loop state of this Sound.
+             * @param value `true` to loop this sound, `false` to not loop it.
+             */
+            setLoop(value: boolean): Phaser.Sound.WebAudioSound;
+
+        }
+
+        /**
+         * Web Audio API implementation of the sound manager.
+         */
+        class WebAudioSoundManager extends Phaser.Sound.BaseSoundManager {
+            /**
+             *
+             * @param game Reference to the current game instance.
+             */
+            constructor(game: Phaser.Game);
+
+            /**
+             * Adds a new sound into the sound manager.
+             * @param key Asset key for the sound.
+             * @param config An optional config object containing default sound settings.
+             */
+            add(key: string, config?: SoundConfig): Phaser.Sound.WebAudioSound;
+
+            /**
+             * Unlocks Web Audio API on the initial input event.
+             *
+             * Read more about how this issue is handled here in [this article](https://medium.com/@pgoloskokovic/unlocking-web-audio-the-smarter-way-8858218c0e09).
+             */
+            unlock(): void;
+
+            /**
+             * Method used internally for pausing sound manager if
+             * Phaser.Sound.WebAudioSoundManager#pauseOnBlur is set to true.
+             */
+            protected onBlur(): void;
+
+            /**
+             * Method used internally for resuming sound manager if
+             * Phaser.Sound.WebAudioSoundManager#pauseOnBlur is set to true.
+             */
+            protected onFocus(): void;
+
+            /**
+             * Calls Phaser.Sound.BaseSoundManager#destroy method
+             * and cleans up all Web Audio API related stuff.
+             */
+            destroy(): void;
+
+            /**
+             * Sets the muted state of all this Sound Manager.
+             * @param value `true` to mute all sounds, `false` to unmute them.
+             */
+            setMute(value: boolean): Phaser.Sound.WebAudioSoundManager;
+
+            mute: boolean;
+
+            /**
+             * Sets the volume of this Sound Manager.
+             * @param value The global volume of this Sound Manager.
+             */
+            setVolume(value: number): Phaser.Sound.WebAudioSoundManager;
+
+            volume: number;
+
+        }
+
+    }
+
+    namespace Structs {
+        /**
+         * List is a generic implementation of an ordered list which contains utility methods for retrieving, manipulating, and iterating items.
+         */
+        class List<T> {
+            /**
+             *
+             * @param parent The parent of this list.
+             */
+            constructor(parent: any);
+
+            /**
+             * The parent of this list.
+             */
+            parent: any;
+
+            /**
+             * The objects that belong to this collection.
+             */
+            list: T[];
+
+            /**
+             * The index of the current element.
+             *
+             * This is used internally when iterating through the list with the {@link #first}, {@link #last}, {@link #get}, and {@link #previous} properties.
+             */
+            position: integer;
+
+            /**
+             * A callback that is invoked every time a child is added to this list.
+             */
+            addCallback: Function;
+
+            /**
+             * A callback that is invoked every time a child is removed from this list.
+             */
+            removeCallback: Function;
+
+            /**
+             * The property key to sort by.
+             */
+            _sortKey: string;
+
+            /**
+             * Adds the given item to the end of the list. Each item must be unique.
+             * @param child The item, or array of items, to add to the list.
+             * @param skipCallback Skip calling the List.addCallback if this child is added successfully. Default false.
+             */
+            add(child: T, skipCallback?: boolean): T;
+
+            /**
+             * Adds an item to list, starting at a specified index. Each item must be unique within the list.
+             * @param child The item, or array of items, to add to the list.
+             * @param index The index in the list at which the element(s) will be inserted. Default 0.
+             * @param skipCallback Skip calling the List.addCallback if this child is added successfully. Default false.
+             */
+            addAt(child: T, index?: integer, skipCallback?: boolean): T;
+
+            /**
+             * Retrieves the item at a given position inside the List.
+             * @param index The index of the item.
+             */
+            getAt(index: integer): T;
+
+            /**
+             * Locates an item within the List and returns its index.
+             * @param child The item to locate.
+             */
+            getIndex(child: T): integer;
+
+            /**
+             * Sort the contents of this List so the items are in order based
+             * on the given property. For example, `sort('alpha')` would sort the List
+             * contents based on the value of their `alpha` property.
+             * @param property The property to lexically sort by.
+             */
+            sort(property: string): T[];
+
+            /**
+             * Searches for the first instance of a child with its `name`
+             * property matching the given argument. Should more than one child have
+             * the same name only the first is returned.
+             * @param name The name to search for.
+             */
+            getByName(name: string): T | null;
+
+            /**
+             * Returns a random child from the group.
+             * @param startIndex Offset from the front of the group (lowest child). Default 0.
+             * @param length Restriction on the number of values you want to randomly select from. Default (to top).
+             */
+            getRandom(startIndex?: integer, length?: integer): T | null;
+
+            /**
+             * Returns the first element in a given part of the List which matches a specific criterion.
+             * @param property The name of the property to test or a falsey value to have no criterion.
+             * @param value The value to test the `property` against, or `undefined` to allow any value and only check for existence.
+             * @param startIndex The position in the List to start the search at. Default 0.
+             * @param endIndex The position in the List to optionally stop the search at. It won't be checked.
+             */
+            getFirst(property: string, value: T, startIndex?: number, endIndex?: number): T | null;
+
+            /**
+             * Returns all children in this List.
+             *
+             * You can optionally specify a matching criteria using the `property` and `value` arguments.
+             *
+             * For example: `getAll('parent')` would return only children that have a property called `parent`.
+             *
+             * You can also specify a value to compare the property to:
+             *
+             * `getAll('visible', true)` would return only children that have their visible property set to `true`.
+             *
+             * Optionally you can specify a start and end index. For example if this List had 100 children,
+             * and you set `startIndex` to 0 and `endIndex` to 50, it would return matches from only
+             * the first 50 children in the List.
+             * @param property An optional property to test against the value argument.
+             * @param value If property is set then Child.property must strictly equal this value to be included in the results.
+             * @param startIndex The first child index to start the search from.
+             * @param endIndex The last child index to search up until.
+             */
+            getAll(property?: string, value?: T, startIndex?: integer, endIndex?: integer): T[];
+
+            /**
+             * Returns the total number of items in the List which have a property matching the given value.
+             * @param property The property to test on each item.
+             * @param value The value to test the property against.
+             */
+            count(property: string, value: T): integer;
+
+            /**
+             * Swaps the positions of two items in the list.
+             * @param child1 The first item to swap.
+             * @param child2 The second item to swap.
+             */
+            swap(child1: T, child2: T): void;
+
+            /**
+             * Moves an item in the List to a new position.
+             * @param child The item to move.
+             * @param index Moves an item in the List to a new position.
+             */
+            moveTo(child: T, index: integer): T;
+
+            /**
+             * Removes one or many items from the List.
+             * @param child The item, or array of items, to remove.
+             * @param skipCallback Skip calling the List.removeCallback. Default false.
+             */
+            remove(child: T, skipCallback?: boolean): T;
+
+            /**
+             * Removes the item at the given position in the List.
+             * @param index The position to remove the item from.
+             * @param skipCallback Skip calling the List.removeCallback. Default false.
+             */
+            removeAt(index: integer, skipCallback?: boolean): T;
+
+            /**
+             * Removes the items within the given range in the List.
+             * @param startIndex The index to start removing from. Default 0.
+             * @param endIndex The position to stop removing at. The item at this position won't be removed.
+             * @param skipCallback Skip calling the List.removeCallback. Default false.
+             */
+            removeBetween(startIndex?: integer, endIndex?: integer, skipCallback?: boolean): T[];
+
+            /**
+             * Removes all the items.
+             * @param skipCallback Skip calling the List.removeCallback. Default false.
+             */
+            removeAll(skipCallback?: boolean): Phaser.Structs.List<T>;
+
+            /**
+             * Brings the given child to the top of this List.
+             * @param child The item to bring to the top of the List.
+             */
+            bringToTop(child: T): T;
+
+            /**
+             * Sends the given child to the bottom of this List.
+             * @param child The item to send to the back of the list.
+             */
+            sendToBack(child: T): T;
+
+            /**
+             * Moves the given child up one place in this group unless it's already at the top.
+             * @param child The item to move up.
+             */
+            moveUp(child: T): T;
+
+            /**
+             * Moves the given child down one place in this group unless it's already at the bottom.
+             * @param child The item to move down.
+             */
+            moveDown(child: T): T;
+
+            /**
+             * Reverses the order of all children in this List.
+             */
+            reverse(): Phaser.Structs.List<T>;
+
+            /**
+             * Shuffles the items in the list.
+             */
+            shuffle(): Phaser.Structs.List<T>;
+
+            /**
+             * Replaces a child of this List with the given newChild. The newChild cannot be a member of this List.
+             * @param oldChild The child in this List that will be replaced.
+             * @param newChild The child to be inserted into this List.
+             */
+            replace(oldChild: T, newChild: T): T;
+
+            /**
+             * Checks if an item exists within the List.
+             * @param child The item to check for the existence of.
+             */
+            exists(child: T): boolean;
+
+            /**
+             * Sets the property `key` to the given value on all members of this List.
+             * @param property The name of the property to set.
+             * @param value The value to set the property to.
+             * @param startIndex The first child index to start the search from.
+             * @param endIndex The last child index to search up until.
+             */
+            setAll(property: string, value: T, startIndex?: integer, endIndex?: integer): void;
+
+            /**
+             * Passes all children to the given callback.
+             * @param callback The function to call.
+             * @param context Value to use as `this` when executing callback.
+             * @param args Additional arguments that will be passed to the callback, after the child.
+             */
+            each(callback: EachListCallback<T>, context?: any, ...args: any[]): void;
+
+            /**
+             * Clears the List and recreates its internal array.
+             */
+            shutdown(): void;
+
+            /**
+             * Destroys this List.
+             */
+            destroy(): void;
+
+            /**
+             * The number of items inside the List.
+             */
+            readonly length: integer;
+
+            /**
+             * The first item in the List or `null` for an empty List.
+             */
+            readonly first: integer;
+
+            /**
+             * The last item in the List, or `null` for an empty List.
+             */
+            readonly last: integer;
+
+            /**
+             * The next item in the List, or `null` if the entire List has been traversed.
+             *
+             * This property can be read successively after reading {@link #first} or manually setting the {@link #position} to iterate the List.
+             */
+            readonly next: integer;
+
+            /**
+             * The previous item in the List, or `null` if the entire List has been traversed.
+             *
+             * This property can be read successively after reading {@link #last} or manually setting the {@link #position} to iterate the List backwards.
+             */
+            readonly previous: integer;
+
+        }
+
+        /**
+         * The keys of a Map can be arbitrary values.
+         *
+         * ```javascript
+         * var map = new Map([
+         *    [ 1, 'one' ],
+         *    [ 2, 'two' ],
+         *    [ 3, 'three' ]
+         * ]);
+         * ```
+         */
+        class Map<K, V> {
+            /**
+             *
+             * @param elements An optional array of key-value pairs to populate this Map with.
+             */
+            constructor(elements: V[]);
+
+            /**
+             * The entries in this Map.
+             */
+            entries: {[key: string]:  V};
+
+            /**
+             * The number of key / value pairs in this Map.
+             */
+            size: number;
+
+            /**
+             * Adds an element with a specified `key` and `value` to this Map.
+             * @param key The key of the element to be added to this Map.
+             * @param value The value of the element to be added to this Map.
+             */
+            set(key: K, value: V): Phaser.Structs.Map<K, V>;
+
+            /**
+             * Returns the value associated to the `key`, or `undefined` if there is none.
+             * @param key The key of the element to return from the `Map` object.
+             */
+            get(key: K): V;
+
+            /**
+             * Returns an `Array` of all the values stored in this Map.
+             */
+            getArray(): V[];
+
+            /**
+             * Returns a boolean indicating whether an element with the specified key exists or not.
+             * @param key The key of the element to test for presence of in this Map.
+             */
+            has(key: K): boolean;
+
+            /**
+             * Delete the specified element from this Map.
+             * @param key The key of the element to delete from this Map.
+             */
+            delete(key: K): Phaser.Structs.Map<K, V>;
+
+            /**
+             * Delete all entries from this Map.
+             */
+            clear(): Phaser.Structs.Map<K, V>;
+
+            /**
+             * Returns all entries keys in this Map.
+             */
+            keys(): K[];
+
+            /**
+             * Returns an `Array` of all entries.
+             */
+            values(): V[];
+
+            /**
+             * Dumps the contents of this Map to the console via `console.group`.
+             */
+            dump(): void;
+
+            /**
+             * Passes all entries in this Map to the given callback.
+             * @param callback The callback which will receive the keys and entries held in this Map.
+             */
+            each(callback: EachMapCallback<V>): Phaser.Structs.Map<K, V>;
+
+            /**
+             * Returns `true` if the value exists within this Map. Otherwise, returns `false`.
+             * @param value The value to search for.
+             */
+            contains(value: V): boolean;
+
+            /**
+             * Merges all new keys from the given Map into this one.
+             * If it encounters a key that already exists it will be skipped unless override is set to `true`.
+             * @param map The Map to merge in to this Map.
+             * @param override Set to `true` to replace values in this Map with those from the source map, or `false` to skip them. Default false.
+             */
+            merge(map: Phaser.Structs.Map<K, V>, override?: boolean): Phaser.Structs.Map<K, V>;
+
+        }
+
+        /**
+         * [description]
+         */
+        class ProcessQueue<T> {
+            /**
+             * [description]
+             * @param item [description]
+             */
+            add(item: T): Phaser.Structs.ProcessQueue<T>;
+
+            /**
+             * [description]
+             * @param item [description]
+             */
+            remove(item: T): Phaser.Structs.ProcessQueue<T>;
+
+            /**
+             * [description]
+             */
+            update(): T[];
+
+            /**
+             * [description]
+             */
+            getActive(): T[];
+
+            /**
+             * [description]
+             */
+            destroy(): void;
+
+        }
+
+        /**
+         * RBush is a high-performance JavaScript library for 2D spatial indexing of points and rectangles.
+         * It's based on an optimized R-tree data structure with bulk insertion support.
+         *
+         * Spatial index is a special data structure for points and rectangles that allows you to perform queries like
+         * "all items within this bounding box" very efficiently (e.g. hundreds of times faster than looping over all items).
+         *
+         * This version of RBush uses a fixed min/max accessor structure of `[ '.left', '.top', '.right', '.bottom' ]`.
+         * This is to avoid the eval like function creation that the original library used, which caused CSP policy violations.
+         */
+        class RTree {
+        }
+
+        /**
+         * A Set is a collection of unique elements.
+         */
+        class Set<T> {
+            /**
+             *
+             * @param elements An optional array of elements to insert into this Set.
+             */
+            constructor(elements?: T[]);
+
+            /**
+             * The entries of this Set. Stored internally as an array.
+             */
+            entries: T[];
+
+            /**
+             * Inserts the provided value into this Set. If the value is already contained in this Set this method will have no effect.
+             * @param value The value to insert into this Set.
+             */
+            set(value: T): Phaser.Structs.Set<T>;
+
+            /**
+             * Get an element of this Set which has a property of the specified name, if that property is equal to the specified value.
+             * If no elements of this Set satisfy the condition then this method will return `null`.
+             * @param property The property name to check on the elements of this Set.
+             * @param value The value to check for.
+             */
+            get(property: string, value: T): T;
+
+            /**
+             * Returns an array containing all the values in this Set.
+             */
+            getArray(): T[];
+
+            /**
+             * Removes the given value from this Set if this Set contains that value.
+             * @param value The value to remove from the Set.
+             */
+            delete(value: T): Phaser.Structs.Set<T>;
+
+            /**
+             * Dumps the contents of this Set to the console via `console.group`.
+             */
+            dump(): void;
+
+            /**
+             * Passes each value in this Set to the given callback.
+             * Use this function when you know this Set will be modified during the iteration, otherwise use `iterate`.
+             * @param callback The callback to be invoked and passed each value this Set contains.
+             * @param callbackScope The scope of the callback.
+             */
+            each(callback: EachSetCallback<T>, callbackScope: any): Phaser.Structs.Set<T>;
+
+            /**
+             * Passes each value in this Set to the given callback.
+             * For when you absolutely know this Set won't be modified during the iteration.
+             * @param callback The callback to be invoked and passed each value this Set contains.
+             * @param callbackScope The scope of the callback.
+             */
+            iterate(callback: EachSetCallback<T>, callbackScope: any): Phaser.Structs.Set<T>;
+
+            /**
+             * Goes through each entry in this Set and invokes the given function on them, passing in the arguments.
+             * @param callbackKey The key of the function to be invoked on each Set entry.
+             * @param args Additional arguments that will be passed to the callback, after the child.
+             */
+            iterateLocal(callbackKey: string, ...args: any[]): Phaser.Structs.Set<T>;
+
+            /**
+             * Clears this Set so that it no longer contains any values.
+             */
+            clear(): Phaser.Structs.Set<T>;
+
+            /**
+             * Returns `true` if this Set contains the given value, otherwise returns `false`.
+             * @param value The value to check for in this Set.
+             */
+            contains(value: T): boolean;
+
+            /**
+             * Returns a new Set containing all values that are either in this Set or in the Set provided as an argument.
+             * @param set The Set to perform the union with.
+             */
+            union(set: Phaser.Structs.Set<T>): Phaser.Structs.Set<T>;
+
+            /**
+             * Returns a new Set that contains only the values which are in this Set and that are also in the given Set.
+             * @param set The Set to intersect this set with.
+             */
+            intersect(set: Phaser.Structs.Set<T>): Phaser.Structs.Set<T>;
+
+            /**
+             * Returns a new Set containing all the values in this Set which are *not* also in the given Set.
+             * @param set The Set to perform the difference with.
+             */
+            difference(set: Phaser.Structs.Set<T>): Phaser.Structs.Set<T>;
+
+            /**
+             * The size of this Set. This is the number of entries within it.
+             * Changing the size will truncate the Set if the given value is smaller than the current size.
+             * Increasing the size larger than the current size has no effect.
+             */
+            size: integer;
+
+        }
+
+    }
+
+    namespace Textures {
+        /**
+         * A Canvas Texture is a special kind of Texture that is backed by an HTML Canvas Element as its source.
+         *
+         * You can use the properties of this texture to draw to the canvas element directly, using all of the standard
+         * canvas operations available in the browser. Any Game Object can be given this texture and will render with it.
+         *
+         * Note: When running under WebGL the Canvas Texture needs to re-generate its base WebGLTexture and reupload it to
+         * the GPU every time you modify it, otherwise the changes you make to this texture will not be visible. To do this
+         * you should call `CanvasTexture.refresh()` once you are finished with your changes to the canvas. Try and keep
+         * this to a minimum, especially on large canvas sizes, or you may inadvertently thrash the GPU by constantly uploading
+         * texture data to it. This restriction does not apply if using the Canvas Renderer.
+         *
+         * It starts with only one frame that covers the whole of the canvas. You can add further frames, that specify
+         * sections of the canvas using the `add` method.
+         *
+         * Should you need to resize the canvas use the `setSize` method so that it accurately updates all of the underlying
+         * texture data as well. Forgetting to do this (i.e. by changing the canvas size directly from your code) could cause
+         * graphical errors.
+         */
+        class CanvasTexture extends Phaser.Textures.Texture {
+            /**
+             *
+             * @param manager A reference to the Texture Manager this Texture belongs to.
+             * @param key The unique string-based key of this Texture.
+             * @param source The canvas element that is used as the base of this texture.
+             * @param width The width of the canvas.
+             * @param height The height of the canvas.
+             */
+            constructor(manager: Phaser.Textures.CanvasTexture, key: string, source: HTMLCanvasElement, width: integer, height: integer);
+
+            /**
+             * The source Canvas Element.
+             */
+            readonly canvas: HTMLCanvasElement;
+
+            /**
+             * The 2D Canvas Rendering Context.
+             */
+            readonly context: CanvasRenderingContext2D;
+
+            /**
+             * The width of the Canvas.
+             * This property is read-only, if you wish to change it use the `setSize` method.
+             */
+            readonly width: integer;
+
+            /**
+             * The height of the Canvas.
+             * This property is read-only, if you wish to change it use the `setSize` method.
+             */
+            readonly height: integer;
+
+            /**
+             * The context image data.
+             * Use the `update` method to populate this when the canvas changes.
+             */
+            imageData: ImageData;
+
+            /**
+             * A Uint8ClampedArray view into the `buffer`.
+             * Use the `update` method to populate this when the canvas changes.
+             * Note that this is unavailable in some browsers, such as Epic Browser, due to their security restrictions.
+             */
+            data: Uint8ClampedArray;
+
+            /**
+             * An Uint32Array view into the `buffer`.
+             */
+            pixels: Uint32Array;
+
+            /**
+             * An ArrayBuffer the same size as the context ImageData.
+             */
+            buffer: ArrayBuffer;
+
+            /**
+             * This re-creates the `imageData` from the current context.
+             * It then re-builds the ArrayBuffer, the `data` Uint8ClampedArray reference and the `pixels` Int32Array.
+             *
+             * Warning: This is a very expensive operation, so use it sparingly.
+             */
+            update(): Phaser.Textures.CanvasTexture;
+
+            /**
+             * Draws the given Image or Canvas element to this CanvasTexture, then updates the internal
+             * ImageData buffer and arrays.
+             * @param x The x coordinate to draw the source at.
+             * @param y The y coordinate to draw the source at.
+             * @param source The element to draw to this canvas.
+             */
+            draw(x: integer, y: integer, source: HTMLImageElement | HTMLCanvasElement): Phaser.Textures.CanvasTexture;
+
+            /**
+             * Get the color of a specific pixel from this texture and store it in a Color object.
+             *
+             * If you have drawn anything to this CanvasTexture since it was created you must call `CanvasTexture.update` to refresh the array buffer,
+             * otherwise this may return out of date color values, or worse - throw a run-time error as it tries to access an array element that doesn't exist.
+             * @param x The x coordinate of the pixel to be set. Must lay within the dimensions of this CanvasTexture and be an integer.
+             * @param y The y coordinate of the pixel to be set. Must lay within the dimensions of this CanvasTexture and be an integer.
+             * @param out An object into which 4 properties will be set: r, g, b and a. If not provided a Color object will be created.
+             */
+            getPixel(x: integer, y: integer, out?: Phaser.Display.Color): Phaser.Display.Color;
+
+            /**
+             * This should be called manually if you are running under WebGL.
+             * It will refresh the WebGLTexture from the Canvas source. Only call this if you know that the
+             * canvas has changed, as there is a significant GPU texture allocation cost involved in doing so.
+             */
+            refresh(): Phaser.Textures.CanvasTexture;
+
+            /**
+             * Gets the Canvas Element.
+             */
+            getCanvas(): HTMLCanvasElement;
+
+            /**
+             * Gets the 2D Canvas Rendering Context.
+             */
+            getContext(): CanvasRenderingContext2D;
+
+            /**
+             * Clears this Canvas Texture, resetting it back to transparent.
+             */
+            clear(): Phaser.Textures.CanvasTexture;
+
+            /**
+             * Changes the size of this Canvas Texture.
+             * @param width The new width of the Canvas.
+             * @param height The new height of the Canvas. If not given it will use the width as the height.
+             */
+            setSize(width: integer, height?: integer): Phaser.Textures.CanvasTexture;
+
+        }
+
+        /**
+         * Filter Types.
+         */
+        enum FilterMode {
+            /**
+             * Linear filter type.
+             */
+            LINEAR,
+            /**
+             * Nearest neighbor filter type.
+             */
+            NEAREST,
+        }
+
+        /**
+         * A Frame is a section of a Texture.
+         */
+        class Frame {
+            /**
+             *
+             * @param texture The Texture this Frame is a part of.
+             * @param name The name of this Frame. The name is unique within the Texture.
+             * @param sourceIndex The index of the TextureSource that this Frame is a part of.
+             * @param x The x coordinate of the top-left of this Frame.
+             * @param y The y coordinate of the top-left of this Frame.
+             * @param width The width of this Frame.
+             * @param height The height of this Frame.
+             */
+            constructor(texture: Phaser.Textures.Texture, name: integer | string, sourceIndex: integer, x: number, y: number, width: number, height: number);
+
+            /**
+             * The Texture this Frame is a part of.
+             */
+            texture: Phaser.Textures.Texture;
+
+            /**
+             * The name of this Frame.
+             * The name is unique within the Texture.
+             */
+            name: string;
+
+            /**
+             * The TextureSource this Frame is part of.
+             */
+            source: Phaser.Textures.TextureSource;
+
+            /**
+             * The index of the TextureSource in the Texture sources array.
+             */
+            sourceIndex: integer;
+
+            /**
+             * A reference to the Texture Source WebGL Texture that this Frame is using.
+             */
+            glTexture: WebGLTexture;
+
+            /**
+             * X position within the source image to cut from.
+             */
+            cutX: integer;
+
+            /**
+             * Y position within the source image to cut from.
+             */
+            cutY: integer;
+
+            /**
+             * The width of the area in the source image to cut.
+             */
+            cutWidth: integer;
+
+            /**
+             * The height of the area in the source image to cut.
+             */
+            cutHeight: integer;
+
+            /**
+             * The X rendering offset of this Frame, taking trim into account.
+             */
+            x: integer;
+
+            /**
+             * The Y rendering offset of this Frame, taking trim into account.
+             */
+            y: integer;
+
+            /**
+             * The rendering width of this Frame, taking trim into account.
+             */
+            width: integer;
+
+            /**
+             * The rendering height of this Frame, taking trim into account.
+             */
+            height: integer;
+
+            /**
+             * Half the width, floored.
+             * Precalculated for the renderer.
+             */
+            halfWidth: integer;
+
+            /**
+             * Half the height, floored.
+             * Precalculated for the renderer.
+             */
+            halfHeight: integer;
+
+            /**
+             * The x center of this frame, floored.
+             */
+            centerX: integer;
+
+            /**
+             * The y center of this frame, floored.
+             */
+            centerY: integer;
+
+            /**
+             * The horizontal pivot point of this Frame.
+             */
+            pivotX: number;
+
+            /**
+             * The vertical pivot point of this Frame.
+             */
+            pivotY: number;
+
+            /**
+             * Does this Frame have a custom pivot point?
+             */
+            customPivot: boolean;
+
+            /**
+             * **CURRENTLY UNSUPPORTED**
+             *
+             * Is this frame is rotated or not in the Texture?
+             * Rotation allows you to use rotated frames in texture atlas packing.
+             * It has nothing to do with Sprite rotation.
+             */
+            rotated: boolean;
+
+            /**
+             * Over-rides the Renderer setting.
+             * -1 = use Renderer Setting
+             * 0 = No rounding
+             * 1 = Round
+             */
+            autoRound: integer;
+
+            /**
+             * Any Frame specific custom data can be stored here.
+             */
+            customData: object;
+
+            /**
+             * WebGL UV u0 value.
+             */
+            u0: number;
+
+            /**
+             * WebGL UV v0 value.
+             */
+            v0: number;
+
+            /**
+             * WebGL UV u1 value.
+             */
+            u1: number;
+
+            /**
+             * WebGL UV v1 value.
+             */
+            v1: number;
+
+            /**
+             * Sets the width, height, x and y of this Frame.
+             *
+             * This is called automatically by the constructor
+             * and should rarely be changed on-the-fly.
+             * @param width The width of the frame before being trimmed.
+             * @param height The height of the frame before being trimmed.
+             * @param x The x coordinate of the top-left of this Frame. Default 0.
+             * @param y The y coordinate of the top-left of this Frame. Default 0.
+             */
+            setSize(width: integer, height: integer, x?: integer, y?: integer): Phaser.Textures.Frame;
+
+            /**
+             * If the frame was trimmed when added to the Texture Atlas, this records the trim and source data.
+             * @param actualWidth The width of the frame before being trimmed.
+             * @param actualHeight The height of the frame before being trimmed.
+             * @param destX The destination X position of the trimmed frame for display.
+             * @param destY The destination Y position of the trimmed frame for display.
+             * @param destWidth The destination width of the trimmed frame for display.
+             * @param destHeight The destination height of the trimmed frame for display.
+             */
+            setTrim(actualWidth: number, actualHeight: number, destX: number, destY: number, destWidth: number, destHeight: number): Phaser.Textures.Frame;
+
+            /**
+             * Takes a crop data object and, based on the rectangular region given, calculates the
+             * required UV coordinates in order to crop this Frame for WebGL and Canvas rendering.
+             *
+             * This is called directly by the Game Object Texture Components `setCrop` method.
+             * Please use that method to crop a Game Object.
+             * @param crop The crop data object. This is the `GameObject._crop` property.
+             * @param x The x coordinate to start the crop from. Cannot be negative or exceed the Frame width.
+             * @param y The y coordinate to start the crop from. Cannot be negative or exceed the Frame height.
+             * @param width The width of the crop rectangle. Cannot exceed the Frame width.
+             * @param height The height of the crop rectangle. Cannot exceed the Frame height.
+             * @param flipX Does the parent Game Object have flipX set?
+             * @param flipY Does the parent Game Object have flipY set?
+             */
+            setCropUVs(crop: object, x: number, y: number, width: number, height: number, flipX: boolean, flipY: boolean): object;
+
+            /**
+             * Takes a crop data object and recalculates the UVs based on the dimensions inside the crop object.
+             * Called automatically by `setFrame`.
+             * @param crop The crop data object. This is the `GameObject._crop` property.
+             * @param flipX Does the parent Game Object have flipX set?
+             * @param flipY Does the parent Game Object have flipY set?
+             */
+            updateCropUVs(crop: object, flipX: boolean, flipY: boolean): object;
+
+            /**
+             * Updates the internal WebGL UV cache and the drawImage cache.
+             */
+            updateUVs(): Phaser.Textures.Frame;
+
+            /**
+             * Updates the internal WebGL UV cache.
+             */
+            updateUVsInverted(): Phaser.Textures.Frame;
+
+            /**
+             * Clones this Frame into a new Frame object.
+             */
+            clone(): Phaser.Textures.Frame;
+
+            /**
+             * Destroys this Frames references.
+             */
+            destroy(): void;
+
+            /**
+             * The width of the Frame in its un-trimmed, un-padded state, as prepared in the art package,
+             * before being packed.
+             */
+            readonly realWidth: number;
+
+            /**
+             * The height of the Frame in its un-trimmed, un-padded state, as prepared in the art package,
+             * before being packed.
+             */
+            readonly realHeight: number;
+
+            /**
+             * The radius of the Frame (derived from sqrt(w * w + h * h) / 2)
+             */
+            readonly radius: number;
+
+            /**
+             * Is the Frame trimmed or not?
+             */
+            readonly trimmed: boolean;
+
+            /**
+             * The Canvas drawImage data object.
+             */
+            readonly canvasData: object;
+
+        }
+
+        /**
+         * Linear filter type.
+         */
+        const LINEAR: any;
+
+        /**
+         * Nearest Neighbor filter type.
+         */
+        const NEAREST: any;
+
+        namespace Parsers {
+        }
+
+        /**
+         * A Texture consists of a source, usually an Image from the Cache, and a collection of Frames.
+         * The Frames represent the different areas of the Texture. For example a texture atlas
+         * may have many Frames, one for each element within the atlas. Where-as a single image would have
+         * just one frame, that encompasses the whole image.
+         *
+         * Textures are managed by the global TextureManager. This is a singleton class that is
+         * responsible for creating and delivering Textures and their corresponding Frames to Game Objects.
+         *
+         * Sprites and other Game Objects get the texture data they need from the TextureManager.
+         */
+        class Texture {
+            /**
+             *
+             * @param manager A reference to the Texture Manager this Texture belongs to.
+             * @param key The unique string-based key of this Texture.
+             * @param source An array of sources that are used to create the texture. Usually Images, but can also be a Canvas.
+             * @param width The width of the Texture. This is optional and automatically derived from the source images.
+             * @param height The height of the Texture. This is optional and automatically derived from the source images.
+             */
+            constructor(manager: Phaser.Textures.TextureManager, key: string, source: HTMLImageElement[] | HTMLCanvasElement[], width?: number, height?: number);
+
+            /**
+             * A reference to the Texture Manager this Texture belongs to.
+             */
+            manager: Phaser.Textures.TextureManager;
+
+            /**
+             * The unique string-based key of this Texture.
+             */
+            key: string;
+
+            /**
+             * An array of TextureSource instances.
+             * These are unique to this Texture and contain the actual Image (or Canvas) data.
+             */
+            source: Phaser.Textures.TextureSource[];
+
+            /**
+             * An array of TextureSource data instances.
+             * Used to store additional data images, such as normal maps or specular maps.
+             */
+            dataSource: any[];
+
+            /**
+             * A key-value object pair associating the unique Frame keys with the Frames objects.
+             */
+            frames: object;
+
+            /**
+             * Any additional data that was set in the source JSON (if any),
+             * or any extra data you'd like to store relating to this texture
+             */
+            customData: object;
+
+            /**
+             * The name of the first frame of the Texture.
+             */
+            firstFrame: string;
+
+            /**
+             * The total number of Frames in this Texture.
+             */
+            frameTotal: integer;
+
+            /**
+             * Adds a new Frame to this Texture.
+             *
+             * A Frame is a rectangular region of a TextureSource with a unique index or string-based key.
+             * @param name The name of this Frame. The name is unique within the Texture.
+             * @param sourceIndex The index of the TextureSource that this Frame is a part of.
+             * @param x The x coordinate of the top-left of this Frame.
+             * @param y The y coordinate of the top-left of this Frame.
+             * @param width The width of this Frame.
+             * @param height The height of this Frame.
+             */
+            add(name: integer | string, sourceIndex: integer, x: number, y: number, width: number, height: number): Phaser.Textures.Frame;
+
+            /**
+             * Checks to see if a Frame matching the given key exists within this Texture.
+             * @param name The key of the Frame to check for.
+             */
+            has(name: string): boolean;
+
+            /**
+             * Gets a Frame from this Texture based on either the key or the index of the Frame.
+             *
+             * In a Texture Atlas Frames are typically referenced by a key.
+             * In a Sprite Sheet Frames are referenced by an index.
+             * Passing no value for the name returns the base texture.
+             * @param name The string-based name, or integer based index, of the Frame to get from this Texture.
+             */
+            get(name?: string | integer): Phaser.Textures.Frame;
+
+            /**
+             * Takes the given TextureSource and returns the index of it within this Texture.
+             * If it's not in this Texture, it returns -1.
+             * Unless this Texture has multiple TextureSources, such as with a multi-atlas, this
+             * method will always return zero or -1.
+             * @param source The TextureSource to check.
+             */
+            getTextureSourceIndex(source: Phaser.Textures.TextureSource): integer;
+
+            /**
+             * Returns an array of all the Frames in the given TextureSource.
+             * @param sourceIndex The index of the TextureSource to get the Frames from.
+             * @param includeBase Include the `__BASE` Frame in the output array? Default false.
+             */
+            getFramesFromTextureSource(sourceIndex: integer, includeBase?: boolean): Phaser.Textures.Frame[];
+
+            /**
+             * Returns an array with all of the names of the Frames in this Texture.
+             *
+             * Useful if you want to randomly assign a Frame to a Game Object, as you can
+             * pick a random element from the returned array.
+             * @param includeBase Include the `__BASE` Frame in the output array? Default false.
+             */
+            getFrameNames(includeBase?: boolean): string[];
+
+            /**
+             * Given a Frame name, return the source image it uses to render with.
+             *
+             * This will return the actual DOM Image or Canvas element.
+             * @param name The string-based name, or integer based index, of the Frame to get from this Texture.
+             */
+            getSourceImage(name?: string | integer): HTMLImageElement | HTMLCanvasElement | Phaser.GameObjects.RenderTexture;
+
+            /**
+             * Given a Frame name, return the data source image it uses to render with.
+             * You can use this to get the normal map for an image for example.
+             *
+             * This will return the actual DOM Image.
+             * @param name The string-based name, or integer based index, of the Frame to get from this Texture.
+             */
+            getDataSourceImage(name?: string | integer): HTMLImageElement | HTMLCanvasElement;
+
+            /**
+             * Adds a data source image to this Texture.
+             *
+             * An example of a data source image would be a normal map, where all of the Frames for this Texture
+             * equally apply to the normal map.
+             * @param data The source image.
+             */
+            setDataSource(data: HTMLImageElement | HTMLCanvasElement): void;
+
+            /**
+             * Sets the Filter Mode for this Texture.
+             *
+             * The mode can be either Linear, the default, or Nearest.
+             *
+             * For pixel-art you should use Nearest.
+             *
+             * The mode applies to the entire Texture, not just a specific Frame of it.
+             * @param filterMode The Filter Mode.
+             */
+            setFilter(filterMode: Phaser.Textures.FilterMode): void;
+
+            /**
+             * Destroys this Texture and releases references to its sources and frames.
+             */
+            destroy(): void;
+
+        }
+
+        /**
+         * Textures are managed by the global TextureManager. This is a singleton class that is
+         * responsible for creating and delivering Textures and their corresponding Frames to Game Objects.
+         *
+         * Sprites and other Game Objects get the texture data they need from the TextureManager.
+         *
+         * Access it via `scene.textures`.
+         */
+        class TextureManager extends Phaser.Events.EventEmitter {
+            /**
+             *
+             * @param game The Phaser.Game instance this Texture Manager belongs to.
+             */
+            constructor(game: Phaser.Game);
+
+            /**
+             * The Game that this TextureManager belongs to.
+             */
+            game: Phaser.Game;
+
+            /**
+             * The name of this manager.
+             */
+            name: string;
+
+            /**
+             * An object that has all of textures that Texture Manager creates.
+             * Textures are assigned to keys so we can access to any texture that this object has directly by key value without iteration.
+             */
+            list: object;
+
+            /**
+             * Checks the given texture key and throws a console.warn if the key is already in use, then returns false.
+             * If you wish to avoid the console.warn then use `TextureManager.exists` instead.
+             * @param key The texture key to check.
+             */
+            checkKey(key: string): boolean;
+
+            /**
+             * Removes a Texture from the Texture Manager and destroys it. This will immediately
+             * clear all references to it from the Texture Manager, and if it has one, destroy its
+             * WebGLTexture. This will emit a `removetexture` event.
+             *
+             * Note: If you have any Game Objects still using this texture they will start throwing
+             * errors the next time they try to render. Make sure that removing the texture is the final
+             * step when clearing down to avoid this.
+             * @param key The key of the Texture to remove, or a reference to it.
+             */
+            remove(key: string | Phaser.Textures.Texture): Phaser.Textures.TextureManager;
+
+            /**
+             * Adds a new Texture to the Texture Manager created from the given Base64 encoded data.
+             * @param key The unique string-based key of the Texture.
+             * @param data The Base64 encoded data.
+             */
+            addBase64(key: string, data: any): this;
+
+            /**
+             * Gets an existing texture frame and converts it into a base64 encoded image and returns the base64 data.
+             *
+             * You can also provide the image type and encoder options.
+             * @param key The unique string-based key of the Texture.
+             * @param frame The string-based name, or integer based index, of the Frame to get from the Texture.
+             * @param type [description] Default 'image/png'.
+             * @param encoderOptions [description] Default 0.92.
+             */
+            getBase64(key: string, frame?: string | integer, type?: string, encoderOptions?: number): string;
+
+            /**
+             * Adds a new Texture to the Texture Manager created from the given Image element.
+             * @param key The unique string-based key of the Texture.
+             * @param source The source Image element.
+             * @param dataSource An optional data Image element.
+             */
+            addImage(key: string, source: HTMLImageElement, dataSource?: HTMLImageElement): Phaser.Textures.Texture;
+
+            /**
+             * Adds a Render Texture to the Texture Manager using the given key.
+             * This allows you to then use the Render Texture as a normal texture for texture based Game Objects like Sprites.
+             * @param key The unique string-based key of the Texture.
+             * @param renderTexture The source Render Texture.
+             */
+            addRenderTexture(key: string, renderTexture: Phaser.GameObjects.RenderTexture): Phaser.Textures.Texture;
+
+            /**
+             * Creates a new Texture using the given config values.
+             * Generated textures consist of a Canvas element to which the texture data is drawn.
+             * See the Phaser.Create function for the more direct way to create textures.
+             * @param key The unique string-based key of the Texture.
+             * @param config The configuration object needed to generate the texture.
+             */
+            generate(key: string, config: object): Phaser.Textures.Texture;
+
+            /**
+             * Creates a new Texture using a blank Canvas element of the size given.
+             *
+             * Canvas elements are automatically pooled and calling this method will
+             * extract a free canvas from the CanvasPool, or create one if none are available.
+             * @param key The unique string-based key of the Texture.
+             * @param width The width of the Canvas element. Default 256.
+             * @param height The height of the Canvas element. Default 256.
+             */
+            createCanvas(key: string, width?: integer, height?: integer): Phaser.Textures.CanvasTexture;
+
+            /**
+             * Creates a new Canvas Texture object from an existing Canvas element
+             * and adds it to this Texture Manager, unless `skipCache` is true.
+             * @param key The unique string-based key of the Texture.
+             * @param source The Canvas element to form the base of the new Texture.
+             * @param skipCache Skip adding this Texture into the Cache? Default false.
+             */
+            addCanvas(key: string, source: HTMLCanvasElement, skipCache?: boolean): Phaser.Textures.CanvasTexture;
+
+            /**
+             * Adds a new Texture Atlas to this Texture Manager.
+             * It can accept either JSON Array or JSON Hash formats, as exported by Texture Packer and similar software.
+             * @param key The unique string-based key of the Texture.
+             * @param source The source Image element.
+             * @param data The Texture Atlas data.
+             * @param dataSource An optional data Image element.
+             */
+            addAtlas(key: string, source: HTMLImageElement, data: object, dataSource?: HTMLImageElement): Phaser.Textures.Texture;
+
+            /**
+             * Adds a Texture Atlas to this Texture Manager.
+             * The frame data of the atlas must be stored in an Array within the JSON.
+             * This is known as a JSON Array in software such as Texture Packer.
+             * @param key The unique string-based key of the Texture.
+             * @param source The source Image element/s.
+             * @param data The Texture Atlas data/s.
+             * @param dataSource An optional data Image element.
+             */
+            addAtlasJSONArray(key: string, source: HTMLImageElement | HTMLImageElement[], data: object | object[], dataSource?: HTMLImageElement): Phaser.Textures.Texture;
+
+            /**
+             * Adds a Texture Atlas to this Texture Manager.
+             * The frame data of the atlas must be stored in an Object within the JSON.
+             * This is known as a JSON Hash in software such as Texture Packer.
+             * @param key The unique string-based key of the Texture.
+             * @param source The source Image element.
+             * @param data The Texture Atlas data.
+             * @param dataSource An optional data Image element.
+             */
+            addAtlasJSONHash(key: string, source: HTMLImageElement, data: object, dataSource?: HTMLImageElement): Phaser.Textures.Texture;
+
+            /**
+             * Adds a Texture Atlas to this Texture Manager, where the atlas data is given
+             * in the XML format.
+             * @param key The unique string-based key of the Texture.
+             * @param source The source Image element.
+             * @param data The Texture Atlas XML data.
+             * @param dataSource An optional data Image element.
+             */
+            addAtlasXML(key: string, source: HTMLImageElement, data: object, dataSource?: HTMLImageElement): Phaser.Textures.Texture;
+
+            /**
+             * Adds a Unity Texture Atlas to this Texture Manager.
+             * The data must be in the form of a Unity YAML file.
+             * @param key The unique string-based key of the Texture.
+             * @param source The source Image element.
+             * @param data The Texture Atlas data.
+             * @param dataSource An optional data Image element.
+             */
+            addUnityAtlas(key: string, source: HTMLImageElement, data: object, dataSource?: HTMLImageElement): Phaser.Textures.Texture;
+
+            /**
+             * Adds a Sprite Sheet to this Texture Manager.
+             *
+             * In Phaser terminology a Sprite Sheet is a texture containing different frames, but each frame is the exact
+             * same size and cannot be trimmed or rotated.
+             * @param key The unique string-based key of the Texture.
+             * @param source The source Image element.
+             * @param config The configuration object for this Sprite Sheet.
+             */
+            addSpriteSheet(key: string, source: HTMLImageElement, config: SpriteSheetConfig): Phaser.Textures.Texture;
+
+            /**
+             * Adds a Sprite Sheet to this Texture Manager, where the Sprite Sheet exists as a Frame within a Texture Atlas.
+             *
+             * In Phaser terminology a Sprite Sheet is a texture containing different frames, but each frame is the exact
+             * same size and cannot be trimmed or rotated.
+             * @param key The unique string-based key of the Texture.
+             * @param config The configuration object for this Sprite Sheet.
+             */
+            addSpriteSheetFromAtlas(key: string, config: SpriteSheetFromAtlasConfig): Phaser.Textures.Texture;
+
+            /**
+             * Creates a new Texture using the given source and dimensions.
+             * @param key The unique string-based key of the Texture.
+             * @param source The source Image element.
+             * @param width The width of the Texture.
+             * @param height The height of the Texture.
+             */
+            create(key: string, source: HTMLImageElement, width: integer, height: integer): Phaser.Textures.Texture;
+
+            /**
+             * Checks the given key to see if a Texture using it exists within this Texture Manager.
+             * @param key The unique string-based key of the Texture.
+             */
+            exists(key: string): boolean;
+
+            /**
+             * Returns a Texture from the Texture Manager that matches the given key.
+             * If the key is undefined it will return the `__DEFAULT` Texture.
+             * If the key is given, but not found, it will return the `__MISSING` Texture.
+             * @param key The unique string-based key of the Texture.
+             */
+            get(key: string): Phaser.Textures.Texture;
+
+            /**
+             * Takes a Texture key and Frame name and returns a clone of that Frame if found.
+             * @param key The unique string-based key of the Texture.
+             * @param frame The string or index of the Frame to be cloned.
+             */
+            cloneFrame(key: string, frame: string | integer): Phaser.Textures.Frame;
+
+            /**
+             * Takes a Texture key and Frame name and returns a reference to that Frame, if found.
+             * @param key The unique string-based key of the Texture.
+             * @param frame The string-based name, or integer based index, of the Frame to get from the Texture.
+             */
+            getFrame(key: string, frame?: string | integer): Phaser.Textures.Frame;
+
+            /**
+             * Returns an array with all of the keys of all Textures in this Texture Manager.
+             * The output array will exclude the `__DEFAULT` and `__MISSING` keys.
+             */
+            getTextureKeys(): string[];
+
+            /**
+             * Given a Texture and an `x` and `y` coordinate this method will return a new
+             * Color object that has been populated with the color and alpha values of the pixel
+             * at that location in the Texture.
+             * @param x The x coordinate of the pixel within the Texture.
+             * @param y The y coordinate of the pixel within the Texture.
+             * @param key The unique string-based key of the Texture.
+             * @param frame The string or index of the Frame.
+             */
+            getPixel(x: integer, y: integer, key: string, frame: string | integer): Phaser.Display.Color;
+
+            /**
+             * Given a Texture and an `x` and `y` coordinate this method will return a value between 0 and 255
+             * corresponding to the alpha value of the pixel at that location in the Texture. If the coordinate
+             * is out of bounds it will return null.
+             * @param x The x coordinate of the pixel within the Texture.
+             * @param y The y coordinate of the pixel within the Texture.
+             * @param key The unique string-based key of the Texture.
+             * @param frame The string or index of the Frame.
+             */
+            getPixelAlpha(x: integer, y: integer, key: string, frame: string | integer): integer;
+
+            /**
+             * Sets the given Game Objects `texture` and `frame` properties so that it uses
+             * the Texture and Frame specified in the `key` and `frame` arguments to this method.
+             * @param gameObject The Game Object the texture would be set on.
+             * @param key The unique string-based key of the Texture.
+             * @param frame The string or index of the Frame.
+             */
+            setTexture(gameObject: Phaser.GameObjects.GameObject, key: string, frame: string | integer): Phaser.GameObjects.GameObject;
+
+            /**
+             * Changes the key being used by a Texture to the new key provided.
+             *
+             * The old key is removed, allowing it to be re-used.
+             *
+             * Game Objects are linked to Textures by a reference to the Texture object, so
+             * all existing references will be retained.
+             * @param currentKey The current string-based key of the Texture you wish to rename.
+             * @param newKey The new unique string-based key to use for the Texture.
+             */
+            renameTexture(currentKey: string, newKey: string): boolean;
+
+            /**
+             * Passes all Textures to the given callback.
+             * @param callback The callback function to be sent the Textures.
+             * @param scope The value to use as `this` when executing the callback.
+             * @param args Additional arguments that will be passed to the callback, after the child.
+             */
+            each(callback: EachTextureCallback, scope: object, ...args: any[]): void;
+
+            /**
+             * Destroys the Texture Manager and all Textures stored within it.
+             */
+            destroy(): void;
+
+        }
+
+        /**
+         * A Texture Source is the encapsulation of the actual source data for a Texture.
+         * This is typically an Image Element, loaded from the file system or network, or a Canvas Element.
+         *
+         * A Texture can contain multiple Texture Sources, which only happens when a multi-atlas is loaded.
+         */
+        class TextureSource {
+            /**
+             *
+             * @param texture The Texture this TextureSource belongs to.
+             * @param source The source image data.
+             * @param width Optional width of the source image. If not given it's derived from the source itself.
+             * @param height Optional height of the source image. If not given it's derived from the source itself.
+             */
+            constructor(texture: Phaser.Textures.Texture, source: HTMLImageElement | HTMLCanvasElement, width?: integer, height?: integer);
+
+            /**
+             * The Texture this TextureSource belongs to.
+             */
+            renderer: Phaser.Renderer.Canvas.CanvasRenderer | Phaser.Renderer.WebGL.WebGLRenderer;
+
+            /**
+             * The Texture this TextureSource belongs to.
+             */
+            texture: Phaser.Textures.Texture;
+
+            /**
+             * The source of the image data.
+             * This is either an Image Element, a Canvas Element or a RenderTexture.
+             */
+            source: HTMLImageElement | HTMLCanvasElement | Phaser.GameObjects.RenderTexture;
+
+            /**
+             * The image data.
+             * This is either an Image element or a Canvas element.
+             */
+            image: HTMLImageElement | HTMLCanvasElement;
+
+            /**
+             * Currently un-used.
+             */
+            compressionAlgorithm: integer;
+
+            /**
+             * The resolution of the source image.
+             */
+            resolution: number;
+
+            /**
+             * The width of the source image. If not specified in the constructor it will check
+             * the `naturalWidth` and then `width` properties of the source image.
+             */
+            width: integer;
+
+            /**
+             * The height of the source image. If not specified in the constructor it will check
+             * the `naturalHeight` and then `height` properties of the source image.
+             */
+            height: integer;
+
+            /**
+             * The Scale Mode the image will use when rendering.
+             * Either Linear or Nearest.
+             */
+            scaleMode: number;
+
+            /**
+             * Is the source image a Canvas Element?
+             */
+            isCanvas: boolean;
+
+            /**
+             * Is the source image a Render Texture?
+             */
+            isRenderTexture: boolean;
+
+            /**
+             * Are the source image dimensions a power of two?
+             */
+            isPowerOf2: boolean;
+
+            /**
+             * The WebGL Texture of the source image.
+             */
+            glTexture: WebGLTexture;
+
+            /**
+             * Creates a WebGL Texture, if required, and sets the Texture filter mode.
+             * @param game A reference to the Phaser Game instance.
+             */
+            init(game: Phaser.Game): void;
+
+            /**
+             * Sets the Filter Mode for this Texture.
+             *
+             * The mode can be either Linear, the default, or Nearest.
+             *
+             * For pixel-art you should use Nearest.
+             * @param filterMode The Filter Mode.
+             */
+            setFilter(filterMode: Phaser.Textures.FilterMode): void;
+
+            /**
+             * If this TextureSource is backed by a Canvas and is running under WebGL,
+             * it updates the WebGLTexture using the canvas data.
+             */
+            update(): void;
+
+            /**
+             * Destroys this Texture Source and nulls the references.
+             */
+            destroy(): void;
+
+        }
+
+    }
+
+    namespace Tilemaps {
+        namespace Components {
+        }
+
+        /**
+         * A Dynamic Tilemap Layer is a Game Object that renders LayerData from a Tilemap when used in combination
+         * with one, or more, Tilesets.
+         *
+         * A Dynamic Tilemap Layer trades some speed for being able to apply powerful effects. Unlike a
+         * Static Tilemap Layer, you can apply per-tile effects like tint or alpha, and you can change the
+         * tiles in a DynamicTilemapLayer.
+         *
+         * Use this over a Static Tilemap Layer when you need those features.
+         */
+        class DynamicTilemapLayer extends Phaser.GameObjects.GameObject implements Phaser.GameObjects.Components.Alpha, Phaser.GameObjects.Components.BlendMode, Phaser.GameObjects.Components.ComputedSize, Phaser.GameObjects.Components.Depth, Phaser.GameObjects.Components.Flip, Phaser.GameObjects.Components.GetBounds, Phaser.GameObjects.Components.Origin, Phaser.GameObjects.Components.Pipeline, Phaser.GameObjects.Components.ScaleMode, Phaser.GameObjects.Components.ScrollFactor, Phaser.GameObjects.Components.Transform, Phaser.GameObjects.Components.Visible {
+            /**
+             *
+             * @param scene The Scene to which this Game Object belongs.
+             * @param tilemap The Tilemap this layer is a part of.
+             * @param layerIndex The index of the LayerData associated with this layer.
+             * @param tileset The tileset, or an array of tilesets, used to render this layer. Can be a string or a Tileset object.
+             * @param x The world x position where the top left of this layer will be placed. Default 0.
+             * @param y The world y position where the top left of this layer will be placed. Default 0.
+             */
+            constructor(scene: Phaser.Scene, tilemap: Phaser.Tilemaps.Tilemap, layerIndex: integer, tileset: string | string[] | Phaser.Tilemaps.Tileset | Phaser.Tilemaps.Tileset[], x?: number, y?: number);
+
+            /**
+             * Used internally by physics system to perform fast type checks.
+             */
+            readonly isTilemap: boolean;
+
+            /**
+             * The Tilemap that this layer is a part of.
+             */
+            tilemap: Phaser.Tilemaps.Tilemap;
+
+            /**
+             * The index of the LayerData associated with this layer.
+             */
+            layerIndex: integer;
+
+            /**
+             * The LayerData associated with this layer. LayerData can only be associated with one
+             * tilemap layer.
+             */
+            layer: Phaser.Tilemaps.LayerData;
+
+            /**
+             * The Tileset/s associated with this layer.
+             *
+             * As of Phaser 3.14 this property is now an array of Tileset objects, previously it was a single reference.
+             */
+            tileset: Phaser.Tilemaps.Tileset[];
+
+            /**
+             * Used internally with the canvas render. This holds the tiles that are visible within the
+             * camera.
+             */
+            culledTiles: any[];
+
+            /**
+             * You can control if the Cameras should cull tiles before rendering them or not.
+             * By default the camera will try to cull the tiles in this layer, to avoid over-drawing to the renderer.
+             *
+             * However, there are some instances when you may wish to disable this, and toggling this flag allows
+             * you to do so. Also see `setSkipCull` for a chainable method that does the same thing.
+             */
+            skipCull: boolean;
+
+            /**
+             * The total number of tiles drawn by the renderer in the last frame.
+             */
+            readonly tilesDrawn: integer;
+
+            /**
+             * The total number of tiles in this layer. Updated every frame.
+             */
+            readonly tilesTotal: integer;
+
+            /**
+             * The amount of extra tiles to add into the cull rectangle when calculating its horizontal size.
+             *
+             * See the method `setCullPadding` for more details.
+             */
+            cullPaddingX: integer;
+
+            /**
+             * The amount of extra tiles to add into the cull rectangle when calculating its vertical size.
+             *
+             * See the method `setCullPadding` for more details.
+             */
+            cullPaddingY: integer;
+
+            /**
+             * The callback that is invoked when the tiles are culled.
+             *
+             * By default it will call `TilemapComponents.CullTiles` but you can override this to call any function you like.
+             *
+             * It will be sent 3 arguments:
+             *
+             * 1) The Phaser.Tilemaps.LayerData object for this Layer
+             * 2) The Camera that is culling the layer. You can check its `dirty` property to see if it has changed since the last cull.
+             * 3) A reference to the `culledTiles` array, which should be used to store the tiles you want rendered.
+             *
+             * See the `TilemapComponents.CullTiles` source code for details on implementing your own culling system.
+             */
+            cullCallback: Function;
+
+            /**
+             * An array holding the mapping between the tile indexes and the tileset they belong to.
+             */
+            gidMap: Phaser.Tilemaps.Tileset[];
+
+            /**
+             * Sets the rendering (draw) order of the tiles in this layer.
+             *
+             * The default is 'right-down', meaning it will order the tiles starting from the top-left,
+             * drawing to the right and then moving down to the next row.
+             *
+             * The draw orders are:
+             *
+             * 0 = right-down
+             * 1 = left-down
+             * 2 = right-up
+             * 3 = left-up
+             *
+             * Setting the render order does not change the tiles or how they are stored in the layer,
+             * it purely impacts the order in which they are rendered.
+             *
+             * You can provide either an integer (0 to 3), or the string version of the order.
+             * @param renderOrder The render (draw) order value. Either an integer between 0 and 3, or a string: 'right-down', 'left-down', 'right-up' or 'left-up'.
+             */
+            setRenderOrder(renderOrder: integer | string): this;
+
+            /**
+             * Calculates interesting faces at the given tile coordinates of the specified layer. Interesting
+             * faces are used internally for optimizing collisions against tiles. This method is mostly used
+             * internally to optimize recalculating faces when only one tile has been changed.
+             * @param tileX The x coordinate.
+             * @param tileY The y coordinate.
+             */
+            calculateFacesAt(tileX: integer, tileY: integer): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Calculates interesting faces within the rectangular area specified (in tile coordinates) of the
+             * layer. Interesting faces are used internally for optimizing collisions against tiles. This method
+             * is mostly used internally.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             */
+            calculateFacesWithin(tileX?: integer, tileY?: integer, width?: integer, height?: integer): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Creates a Sprite for every object matching the given tile indexes in the layer. You can
+             * optionally specify if each tile will be replaced with a new tile after the Sprite has been
+             * created. This is useful if you want to lay down special tiles in a level that are converted to
+             * Sprites, but want to replace the tile itself with a floor tile or similar once converted.
+             * @param indexes The tile index, or array of indexes, to create Sprites from.
+             * @param replacements The tile index, or array of indexes, to change a converted
+             * tile to. Set to `null` to leave the tiles unchanged. If an array is given, it is assumed to be a
+             * one-to-one mapping with the indexes array.
+             * @param spriteConfig The config object to pass into the Sprite creator (i.e.
+             * scene.make.sprite).
+             * @param scene The Scene to create the Sprites within. Default scene the map is within.
+             * @param camera The Camera to use when determining the world XY Default main camera.
+             */
+            createFromTiles(indexes: integer | any[], replacements: integer | any[], spriteConfig: SpriteConfig, scene?: Phaser.Scene, camera?: Phaser.Cameras.Scene2D.Camera): Phaser.GameObjects.Sprite[];
+
+            /**
+             * Returns the tiles in the given layer that are within the cameras viewport.
+             * This is used internally.
+             * @param camera The Camera to run the cull check against.
+             */
+            cull(camera?: Phaser.Cameras.Scene2D.Camera): Phaser.Tilemaps.Tile[];
+
+            /**
+             * Copies the tiles in the source rectangular area to a new destination (all specified in tile
+             * coordinates) within the layer. This copies all tile properties & recalculates collision
+             * information in the destination region.
+             * @param srcTileX The x coordinate of the area to copy from, in tiles, not pixels.
+             * @param srcTileY The y coordinate of the area to copy from, in tiles, not pixels.
+             * @param width The width of the area to copy, in tiles, not pixels.
+             * @param height The height of the area to copy, in tiles, not pixels.
+             * @param destTileX The x coordinate of the area to copy to, in tiles, not pixels.
+             * @param destTileY The y coordinate of the area to copy to, in tiles, not pixels.
+             * @param recalculateFaces `true` if the faces data should be recalculated. Default true.
+             */
+            copy(srcTileX: integer, srcTileY: integer, width: integer, height: integer, destTileX: integer, destTileY: integer, recalculateFaces?: boolean): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Destroys this DynamicTilemapLayer and removes its link to the associated LayerData.
+             */
+            destroy(): void;
+
+            /**
+             * Sets the tiles in the given rectangular area (in tile coordinates) of the layer with the
+             * specified index. Tiles will be set to collide if the given index is a colliding index.
+             * Collision information in the region will be recalculated.
+             * @param index The tile index to fill the area with.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param recalculateFaces `true` if the faces data should be recalculated. Default true.
+             */
+            fill(index: integer, tileX?: integer, tileY?: integer, width?: integer, height?: integer, recalculateFaces?: boolean): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * For each tile in the given rectangular area (in tile coordinates) of the layer, run the given
+             * filter callback function. Any tiles that pass the filter test (i.e. where the callback returns
+             * true) will returned as a new array. Similar to Array.prototype.Filter in vanilla JS.
+             * @param callback The callback. Each tile in the given area will be passed to this
+             * callback as the first and only parameter. The callback should return true for tiles that pass the
+             * filter.
+             * @param context The context under which the callback should be run.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area to filter. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area to filter. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide on at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that have at least one interesting face. Default false.
+             */
+            filterTiles(callback: Function, context?: object, tileX?: integer, tileY?: integer, width?: integer, height?: integer, filteringOptions?: object): Phaser.Tilemaps.Tile[];
+
+            /**
+             * Searches the entire map layer for the first tile matching the given index, then returns that Tile
+             * object. If no match is found, it returns null. The search starts from the top-left tile and
+             * continues horizontally until it hits the end of the row, then it drops down to the next column.
+             * If the reverse boolean is true, it scans starting from the bottom-right corner traveling up to
+             * the top-left.
+             * @param index The tile index value to search for.
+             * @param skip The number of times to skip a matching tile before returning. Default 0.
+             * @param reverse If true it will scan the layer in reverse, starting at the
+             * bottom-right. Otherwise it scans from the top-left. Default false.
+             */
+            findByIndex(index: integer, skip?: integer, reverse?: boolean): Phaser.Tilemaps.Tile;
+
+            /**
+             * Find the first tile in the given rectangular area (in tile coordinates) of the layer that
+             * satisfies the provided testing function. I.e. finds the first tile for which `callback` returns
+             * true. Similar to Array.prototype.find in vanilla JS.
+             * @param callback The callback. Each tile in the given area will be passed to this callback as the first and only parameter.
+             * @param context The context under which the callback should be run.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area to search. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area to search. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide on at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that have at least one interesting face. Default false.
+             */
+            findTile(callback: FindTileCallback, context?: object, tileX?: integer, tileY?: integer, width?: integer, height?: integer, filteringOptions?: object): Phaser.Tilemaps.Tile;
+
+            /**
+             * For each tile in the given rectangular area (in tile coordinates) of the layer, run the given
+             * callback. Similar to Array.prototype.forEach in vanilla JS.
+             * @param callback The callback. Each tile in the given area will be passed to this callback as the first and only parameter.
+             * @param context The context under which the callback should be run.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area to search. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area to search. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide on at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that have at least one interesting face. Default false.
+             */
+            forEachTile(callback: EachTileCallback, context?: object, tileX?: integer, tileY?: integer, width?: integer, height?: integer, filteringOptions?: object): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Gets a tile at the given tile coordinates from the given layer.
+             * @param tileX X position to get the tile from (given in tile units, not pixels).
+             * @param tileY Y position to get the tile from (given in tile units, not pixels).
+             * @param nonNull If true getTile won't return null for empty tiles, but a Tile object with an index of -1. Default false.
+             */
+            getTileAt(tileX: integer, tileY: integer, nonNull?: boolean): Phaser.Tilemaps.Tile;
+
+            /**
+             * Gets a tile at the given world coordinates from the given layer.
+             * @param worldX X position to get the tile from (given in pixels)
+             * @param worldY Y position to get the tile from (given in pixels)
+             * @param nonNull If true, function won't return null for empty tiles, but a Tile object with an index of -1. Default false.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             */
+            getTileAtWorldXY(worldX: number, worldY: number, nonNull?: boolean, camera?: Phaser.Cameras.Scene2D.Camera): Phaser.Tilemaps.Tile;
+
+            /**
+             * Gets the tiles in the given rectangular area (in tile coordinates) of the layer.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide on at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that have at least one interesting face. Default false.
+             */
+            getTilesWithin(tileX?: integer, tileY?: integer, width?: integer, height?: integer, filteringOptions?: object): Phaser.Tilemaps.Tile[];
+
+            /**
+             * Gets the tiles that overlap with the given shape in the given layer. The shape must be a Circle,
+             * Line, Rectangle or Triangle. The shape should be in world coordinates.
+             * @param shape A shape in world (pixel) coordinates
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide on at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that have at least one interesting face. Default false.
+             * @param camera The Camera to use when factoring in which tiles to return. Default main camera.
+             */
+            getTilesWithinShape(shape: Phaser.Geom.Circle | Phaser.Geom.Line | Phaser.Geom.Rectangle | Phaser.Geom.Triangle, filteringOptions?: object, camera?: Phaser.Cameras.Scene2D.Camera): Phaser.Tilemaps.Tile[];
+
+            /**
+             * Gets the tiles in the given rectangular area (in world coordinates) of the layer.
+             * @param worldX The world x coordinate for the top-left of the area.
+             * @param worldY The world y coordinate for the top-left of the area.
+             * @param width The width of the area.
+             * @param height The height of the area.
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide on at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that have at least one interesting face. Default false.
+             * @param camera The Camera to use when factoring in which tiles to return. Default main camera.
+             */
+            getTilesWithinWorldXY(worldX: number, worldY: number, width: number, height: number, filteringOptions?: object, camera?: Phaser.Cameras.Scene2D.Camera): Phaser.Tilemaps.Tile[];
+
+            /**
+             * Checks if there is a tile at the given location (in tile coordinates) in the given layer. Returns
+             * false if there is no tile or if the tile at that location has an index of -1.
+             * @param tileX The x coordinate, in tiles, not pixels.
+             * @param tileY The y coordinate, in tiles, not pixels.
+             */
+            hasTileAt(tileX: integer, tileY: integer): boolean;
+
+            /**
+             * Checks if there is a tile at the given location (in world coordinates) in the given layer. Returns
+             * false if there is no tile or if the tile at that location has an index of -1.
+             * @param worldX The x coordinate, in pixels.
+             * @param worldY The y coordinate, in pixels.
+             * @param camera The Camera to use when factoring in which tiles to return. Default main camera.
+             */
+            hasTileAtWorldXY(worldX: number, worldY: number, camera?: Phaser.Cameras.Scene2D.Camera): boolean;
+
+            /**
+             * Puts a tile at the given tile coordinates in the specified layer. You can pass in either an index
+             * or a Tile object. If you pass in a Tile, all attributes will be copied over to the specified
+             * location. If you pass in an index, only the index at the specified location will be changed.
+             * Collision information will be recalculated at the specified location.
+             * @param tile The index of this tile to set or a Tile object.
+             * @param tileX The x coordinate, in tiles, not pixels.
+             * @param tileY The y coordinate, in tiles, not pixels.
+             * @param recalculateFaces `true` if the faces data should be recalculated. Default true.
+             */
+            putTileAt(tile: integer | Phaser.Tilemaps.Tile, tileX: integer, tileY: integer, recalculateFaces?: boolean): Phaser.Tilemaps.Tile;
+
+            /**
+             * Puts a tile at the given world coordinates (pixels) in the specified layer. You can pass in either
+             * an index or a Tile object. If you pass in a Tile, all attributes will be copied over to the
+             * specified location. If you pass in an index, only the index at the specified location will be
+             * changed. Collision information will be recalculated at the specified location.
+             * @param tile The index of this tile to set or a Tile object.
+             * @param worldX The x coordinate, in pixels.
+             * @param worldY The y coordinate, in pixels.
+             * @param recalculateFaces `true` if the faces data should be recalculated. Default true.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             */
+            putTileAtWorldXY(tile: integer | Phaser.Tilemaps.Tile, worldX: number, worldY: number, recalculateFaces?: boolean, camera?: Phaser.Cameras.Scene2D.Camera): Phaser.Tilemaps.Tile;
+
+            /**
+             * Puts an array of tiles or a 2D array of tiles at the given tile coordinates in the specified
+             * layer. The array can be composed of either tile indexes or Tile objects. If you pass in a Tile,
+             * all attributes will be copied over to the specified location. If you pass in an index, only the
+             * index at the specified location will be changed. Collision information will be recalculated
+             * within the region tiles were changed.
+             * @param tile A row (array) or grid (2D array) of Tiles or tile indexes to place.
+             * @param tileX The x coordinate, in tiles, not pixels.
+             * @param tileY The y coordinate, in tiles, not pixels.
+             * @param recalculateFaces `true` if the faces data should be recalculated. Default true.
+             */
+            putTilesAt(tile: integer[] | integer[][] | Phaser.Tilemaps.Tile[] | Phaser.Tilemaps.Tile[][], tileX: integer, tileY: integer, recalculateFaces?: boolean): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Randomizes the indexes of a rectangular region of tiles (in tile coordinates) within the
+             * specified layer. Each tile will receive a new index. If an array of indexes is passed in, then
+             * those will be used for randomly assigning new tile indexes. If an array is not provided, the
+             * indexes found within the region (excluding -1) will be used for randomly assigning new tile
+             * indexes. This method only modifies tile indexes and does not change collision information.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param indexes An array of indexes to randomly draw from during randomization.
+             */
+            randomize(tileX?: integer, tileY?: integer, width?: integer, height?: integer, indexes?: integer[]): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Removes the tile at the given tile coordinates in the specified layer and updates the layer's
+             * collision information.
+             * @param tileX The x coordinate, in tiles, not pixels.
+             * @param tileY The y coordinate, in tiles, not pixels.
+             * @param replaceWithNull If true, this will replace the tile at the specified location with null instead of a Tile with an index of -1. Default true.
+             * @param recalculateFaces `true` if the faces data should be recalculated. Default true.
+             */
+            removeTileAt(tileX: integer, tileY: integer, replaceWithNull?: boolean, recalculateFaces?: boolean): Phaser.Tilemaps.Tile;
+
+            /**
+             * Removes the tile at the given world coordinates in the specified layer and updates the layer's
+             * collision information.
+             * @param worldX The x coordinate, in pixels.
+             * @param worldY The y coordinate, in pixels.
+             * @param replaceWithNull If true, this will replace the tile at the specified location with null instead of a Tile with an index of -1. Default true.
+             * @param recalculateFaces `true` if the faces data should be recalculated. Default true.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             */
+            removeTileAtWorldXY(worldX: number, worldY: number, replaceWithNull?: boolean, recalculateFaces?: boolean, camera?: Phaser.Cameras.Scene2D.Camera): Phaser.Tilemaps.Tile;
+
+            /**
+             * Draws a debug representation of the layer to the given Graphics. This is helpful when you want to
+             * get a quick idea of which of your tiles are colliding and which have interesting faces. The tiles
+             * are drawn starting at (0, 0) in the Graphics, allowing you to place the debug representation
+             * wherever you want on the screen.
+             * @param graphics The target Graphics object to draw upon.
+             * @param styleConfig An object specifying the colors to use for the debug drawing.
+             * @param styleConfig.tileColor Color to use for drawing a filled rectangle at
+             * non-colliding tile locations. If set to null, non-colliding tiles will not be drawn. Default blue.
+             * @param styleConfig.collidingTileColor Color to use for drawing a filled
+             * rectangle at colliding tile locations. If set to null, colliding tiles will not be drawn. Default orange.
+             * @param styleConfig.faceColor Color to use for drawing a line at interesting
+             * tile faces. If set to null, interesting tile faces will not be drawn. Default grey.
+             */
+            renderDebug(graphics: Phaser.GameObjects.Graphics, styleConfig: object): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Scans the given rectangular area (given in tile coordinates) for tiles with an index matching
+             * `findIndex` and updates their index to match `newIndex`. This only modifies the index and does
+             * not change collision information.
+             * @param findIndex The index of the tile to search for.
+             * @param newIndex The index of the tile to replace it with.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             */
+            replaceByIndex(findIndex: integer, newIndex: integer, tileX?: integer, tileY?: integer, width?: integer, height?: integer): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * You can control if the Cameras should cull tiles before rendering them or not.
+             * By default the camera will try to cull the tiles in this layer, to avoid over-drawing to the renderer.
+             *
+             * However, there are some instances when you may wish to disable this.
+             * @param value Set to `true` to stop culling tiles. Set to `false` to enable culling again. Default true.
+             */
+            setSkipCull(value?: boolean): this;
+
+            /**
+             * When a Camera culls the tiles in this layer it does so using its view into the world, building up a
+             * rectangle inside which the tiles must exist or they will be culled. Sometimes you may need to expand the size
+             * of this 'cull rectangle', especially if you plan on rotating the Camera viewing the layer. Do so
+             * by providing the padding values. The values given are in tiles, not pixels. So if the tile width was 32px
+             * and you set `paddingX` to be 4, it would add 32px x 4 to the cull rectangle (adjusted for scale)
+             * @param paddingX The amount of extra horizontal tiles to add to the cull check padding. Default 1.
+             * @param paddingY The amount of extra vertical tiles to add to the cull check padding. Default 1.
+             */
+            setCullPadding(paddingX?: integer, paddingY?: integer): this;
+
+            /**
+             * Sets collision on the given tile or tiles within a layer by index. You can pass in either a
+             * single numeric index or an array of indexes: [2, 3, 15, 20]. The `collides` parameter controls if
+             * collision will be enabled (true) or disabled (false).
+             * @param indexes Either a single tile index, or an array of tile indexes.
+             * @param collides If true it will enable collision. If false it will clear
+             * collision. Default true.
+             * @param recalculateFaces Whether or not to recalculate the tile faces after the
+             * update. Default true.
+             */
+            setCollision(indexes: integer | any[], collides?: boolean, recalculateFaces?: boolean): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Sets collision on a range of tiles in a layer whose index is between the specified `start` and
+             * `stop` (inclusive). Calling this with a start value of 10 and a stop value of 14 would set
+             * collision for tiles 10, 11, 12, 13 and 14. The `collides` parameter controls if collision will be
+             * enabled (true) or disabled (false).
+             * @param start The first index of the tile to be set for collision.
+             * @param stop The last index of the tile to be set for collision.
+             * @param collides If true it will enable collision. If false it will clear
+             * collision. Default true.
+             * @param recalculateFaces Whether or not to recalculate the tile faces after the
+             * update. Default true.
+             */
+            setCollisionBetween(start: integer, stop: integer, collides?: boolean, recalculateFaces?: boolean): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Sets collision on the tiles within a layer by checking tile properties. If a tile has a property
+             * that matches the given properties object, its collision flag will be set. The `collides`
+             * parameter controls if collision will be enabled (true) or disabled (false). Passing in
+             * `{ collides: true }` would update the collision flag on any tiles with a "collides" property that
+             * has a value of true. Any tile that doesn't have "collides" set to true will be ignored. You can
+             * also use an array of values, e.g. `{ types: ["stone", "lava", "sand" ] }`. If a tile has a
+             * "types" property that matches any of those values, its collision flag will be updated.
+             * @param properties An object with tile properties and corresponding values that should
+             * be checked.
+             * @param collides If true it will enable collision. If false it will clear
+             * collision. Default true.
+             * @param recalculateFaces Whether or not to recalculate the tile faces after the
+             * update. Default true.
+             */
+            setCollisionByProperty(properties: object, collides?: boolean, recalculateFaces?: boolean): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Sets collision on all tiles in the given layer, except for tiles that have an index specified in
+             * the given array. The `collides` parameter controls if collision will be enabled (true) or
+             * disabled (false).
+             * @param indexes An array of the tile indexes to not be counted for collision.
+             * @param collides If true it will enable collision. If false it will clear
+             * collision. Default true.
+             * @param recalculateFaces Whether or not to recalculate the tile faces after the
+             * update. Default true.
+             */
+            setCollisionByExclusion(indexes: integer[], collides?: boolean, recalculateFaces?: boolean): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Sets collision on the tiles within a layer by checking each tiles collision group data
+             * (typically defined in Tiled within the tileset collision editor). If any objects are found within
+             * a tiles collision group, the tile's colliding information will be set. The `collides` parameter
+             * controls if collision will be enabled (true) or disabled (false).
+             * @param collides If true it will enable collision. If false it will clear
+             * collision. Default true.
+             * @param recalculateFaces Whether or not to recalculate the tile faces after the
+             * update. Default true.
+             */
+            setCollisionFromCollisionGroup(collides?: boolean, recalculateFaces?: boolean): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Sets a global collision callback for the given tile index within the layer. This will affect all
+             * tiles on this layer that have the same index. If a callback is already set for the tile index it
+             * will be replaced. Set the callback to null to remove it. If you want to set a callback for a tile
+             * at a specific location on the map then see setTileLocationCallback.
+             * @param indexes Either a single tile index, or an array of tile indexes to have a
+             * collision callback set for.
+             * @param callback The callback that will be invoked when the tile is collided with.
+             * @param callbackContext The context under which the callback is called.
+             */
+            setTileIndexCallback(indexes: integer | any[], callback: Function, callbackContext: object): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Sets a collision callback for the given rectangular area (in tile coordinates) within the layer.
+             * If a callback is already set for the tile index it will be replaced. Set the callback to null to
+             * remove it.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param callback The callback that will be invoked when the tile is collided with.
+             * @param callbackContext The context under which the callback is called.
+             */
+            setTileLocationCallback(tileX?: integer, tileY?: integer, width?: integer, height?: integer, callback?: Function, callbackContext?: object): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Shuffles the tiles in a rectangular region (specified in tile coordinates) within the given
+             * layer. It will only randomize the tiles in that area, so if they're all the same nothing will
+             * appear to have changed! This method only modifies tile indexes and does not change collision
+             * information.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             */
+            shuffle(tileX?: integer, tileY?: integer, width?: integer, height?: integer): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Scans the given rectangular area (given in tile coordinates) for tiles with an index matching
+             * `indexA` and swaps then with `indexB`. This only modifies the index and does not change collision
+             * information.
+             * @param tileA First tile index.
+             * @param tileB Second tile index.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             */
+            swapByIndex(tileA: integer, tileB: integer, tileX?: integer, tileY?: integer, width?: integer, height?: integer): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Converts from tile X coordinates (tile units) to world X coordinates (pixels), factoring in the
+             * layers position, scale and scroll.
+             * @param tileX The x coordinate, in tiles, not pixels.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             */
+            tileToWorldX(tileX: integer, camera?: Phaser.Cameras.Scene2D.Camera): number;
+
+            /**
+             * Converts from tile Y coordinates (tile units) to world Y coordinates (pixels), factoring in the
+             * layers position, scale and scroll.
+             * @param tileY The y coordinate, in tiles, not pixels.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             */
+            tileToWorldY(tileY: integer, camera?: Phaser.Cameras.Scene2D.Camera): number;
+
+            /**
+             * Converts from tile XY coordinates (tile units) to world XY coordinates (pixels), factoring in the
+             * layers position, scale and scroll. This will return a new Vector2 object or update the given
+             * `point` object.
+             * @param tileX The x coordinate, in tiles, not pixels.
+             * @param tileY The y coordinate, in tiles, not pixels.
+             * @param point A Vector2 to store the coordinates in. If not given a new Vector2 is created.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             */
+            tileToWorldXY(tileX: integer, tileY: integer, point?: Phaser.Math.Vector2, camera?: Phaser.Cameras.Scene2D.Camera): Phaser.Math.Vector2;
+
+            /**
+             * Randomizes the indexes of a rectangular region of tiles (in tile coordinates) within the
+             * specified layer. Each tile will recieve a new index. New indexes are drawn from the given
+             * weightedIndexes array. An example weighted array:
+             *
+             * [
+             *  { index: 6, weight: 4 },    // Probability of index 6 is 4 / 8
+             *  { index: 7, weight: 2 },    // Probability of index 7 would be 2 / 8
+             *  { index: 8, weight: 1.5 },  // Probability of index 8 would be 1.5 / 8
+             *  { index: 26, weight: 0.5 }  // Probability of index 27 would be 0.5 / 8
+             * ]
+             *
+             * The probability of any index being choose is (the index's weight) / (sum of all weights). This
+             * method only modifies tile indexes and does not change collision information.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param weightedIndexes An array of objects to randomly draw from during
+             * randomization. They should be in the form: { index: 0, weight: 4 } or
+             * { index: [0, 1], weight: 4 } if you wish to draw from multiple tile indexes.
+             */
+            weightedRandomize(tileX?: integer, tileY?: integer, width?: integer, height?: integer, weightedIndexes?: object[]): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Converts from world X coordinates (pixels) to tile X coordinates (tile units), factoring in the
+             * layers position, scale and scroll.
+             * @param worldX The x coordinate to be converted, in pixels, not tiles.
+             * @param snapToFloor Whether or not to round the tile coordinate down to the nearest integer. Default true.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             */
+            worldToTileX(worldX: number, snapToFloor?: boolean, camera?: Phaser.Cameras.Scene2D.Camera): number;
+
+            /**
+             * Converts from world Y coordinates (pixels) to tile Y coordinates (tile units), factoring in the
+             * layers position, scale and scroll.
+             * @param worldY The y coordinate to be converted, in pixels, not tiles.
+             * @param snapToFloor Whether or not to round the tile coordinate down to the nearest integer. Default true.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             */
+            worldToTileY(worldY: number, snapToFloor?: boolean, camera?: Phaser.Cameras.Scene2D.Camera): number;
+
+            /**
+             * Converts from world XY coordinates (pixels) to tile XY coordinates (tile units), factoring in the
+             * layers position, scale and scroll. This will return a new Vector2 object or update the given
+             * `point` object.
+             * @param worldX The x coordinate to be converted, in pixels, not tiles.
+             * @param worldY The y coordinate to be converted, in pixels, not tiles.
+             * @param snapToFloor Whether or not to round the tile coordinate down to the nearest integer. Default true.
+             * @param point A Vector2 to store the coordinates in. If not given a new Vector2 is created.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             */
+            worldToTileXY(worldX: number, worldY: number, snapToFloor?: boolean, point?: Phaser.Math.Vector2, camera?: Phaser.Cameras.Scene2D.Camera): Phaser.Math.Vector2;
+
+            /**
+             * Clears all alpha values associated with this Game Object.
+             *
+             * Immediately sets the alpha levels back to 1 (fully opaque).
+             */
+            clearAlpha(): this;
+
+            /**
+             * Set the Alpha level of this Game Object. The alpha controls the opacity of the Game Object as it renders.
+             * Alpha values are provided as a float between 0, fully transparent, and 1, fully opaque.
+             *
+             * If your game is running under WebGL you can optionally specify four different alpha values, each of which
+             * correspond to the four corners of the Game Object. Under Canvas only the `topLeft` value given is used.
+             * @param topLeft The alpha value used for the top-left of the Game Object. If this is the only value given it's applied across the whole Game Object. Default 1.
+             * @param topRight The alpha value used for the top-right of the Game Object. WebGL only.
+             * @param bottomLeft The alpha value used for the bottom-left of the Game Object. WebGL only.
+             * @param bottomRight The alpha value used for the bottom-right of the Game Object. WebGL only.
+             */
+            setAlpha(topLeft?: number, topRight?: number, bottomLeft?: number, bottomRight?: number): this;
+
+            /**
+             * The alpha value of the Game Object.
+             *
+             * This is a global value, impacting the entire Game Object, not just a region of it.
+             */
+            alpha: number;
+
+            /**
+             * The alpha value starting from the top-left of the Game Object.
+             * This value is interpolated from the corner to the center of the Game Object.
+             */
+            alphaTopLeft: number;
+
+            /**
+             * The alpha value starting from the top-right of the Game Object.
+             * This value is interpolated from the corner to the center of the Game Object.
+             */
+            alphaTopRight: number;
+
+            /**
+             * The alpha value starting from the bottom-left of the Game Object.
+             * This value is interpolated from the corner to the center of the Game Object.
+             */
+            alphaBottomLeft: number;
+
+            /**
+             * The alpha value starting from the bottom-right of the Game Object.
+             * This value is interpolated from the corner to the center of the Game Object.
+             */
+            alphaBottomRight: number;
+
+            /**
+             * Sets the Blend Mode being used by this Game Object.
+             *
+             * This can be a const, such as `Phaser.BlendModes.SCREEN`, or an integer, such as 4 (for Overlay)
+             *
+             * Under WebGL only the following Blend Modes are available:
+             *
+             * * ADD
+             * * MULTIPLY
+             * * SCREEN
+             *
+             * Canvas has more available depending on browser support.
+             *
+             * You can also create your own custom Blend Modes in WebGL.
+             *
+             * Blend modes have different effects under Canvas and WebGL, and from browser to browser, depending
+             * on support. Blend Modes also cause a WebGL batch flush should it encounter a new blend mode. For these
+             * reasons try to be careful about the construction of your Scene and the frequency of which blend modes
+             * are used.
+             */
+            blendMode: Phaser.BlendModes | string;
+
+            /**
+             * Sets the Blend Mode being used by this Game Object.
+             *
+             * This can be a const, such as `Phaser.BlendModes.SCREEN`, or an integer, such as 4 (for Overlay)
+             *
+             * Under WebGL only the following Blend Modes are available:
+             *
+             * * ADD
+             * * MULTIPLY
+             * * SCREEN
+             *
+             * Canvas has more available depending on browser support.
+             *
+             * You can also create your own custom Blend Modes in WebGL.
+             *
+             * Blend modes have different effects under Canvas and WebGL, and from browser to browser, depending
+             * on support. Blend Modes also cause a WebGL batch flush should it encounter a new blend mode. For these
+             * reasons try to be careful about the construction of your Scene and the frequency of which blend modes
+             * are used.
+             * @param value The BlendMode value. Either a string or a CONST.
+             */
+            setBlendMode(value: string | Phaser.BlendModes): this;
+
+            /**
+             * The native (un-scaled) width of this Game Object.
+             *
+             * Changing this value will not change the size that the Game Object is rendered in-game.
+             * For that you need to either set the scale of the Game Object (`setScale`) or use
+             * the `displayWidth` property.
+             */
+            width: number;
+
+            /**
+             * The native (un-scaled) height of this Game Object.
+             *
+             * Changing this value will not change the size that the Game Object is rendered in-game.
+             * For that you need to either set the scale of the Game Object (`setScale`) or use
+             * the `displayHeight` property.
+             */
+            height: number;
+
+            /**
+             * The displayed width of this Game Object.
+             *
+             * This value takes into account the scale factor.
+             *
+             * Setting this value will adjust the Game Object's scale property.
+             */
+            displayWidth: number;
+
+            /**
+             * The displayed height of this Game Object.
+             *
+             * This value takes into account the scale factor.
+             *
+             * Setting this value will adjust the Game Object's scale property.
+             */
+            displayHeight: number;
+
+            /**
+             * Sets the internal size of this Game Object, as used for frame or physics body creation.
+             *
+             * This will not change the size that the Game Object is rendered in-game.
+             * For that you need to either set the scale of the Game Object (`setScale`) or call the
+             * `setDisplaySize` method, which is the same thing as changing the scale but allows you
+             * to do so by giving pixel values.
+             *
+             * If you have enabled this Game Object for input, changing the size will _not_ change the
+             * size of the hit area. To do this you should adjust the `input.hitArea` object directly.
+             * @param width The width of this Game Object.
+             * @param height The height of this Game Object.
+             */
+            setSize(width: number, height: number): this;
+
+            /**
+             * Sets the display size of this Game Object.
+             *
+             * Calling this will adjust the scale.
+             * @param width The width of this Game Object.
+             * @param height The height of this Game Object.
+             */
+            setDisplaySize(width: number, height: number): this;
+
+            /**
+             * The depth of this Game Object within the Scene.
+             *
+             * The depth is also known as the 'z-index' in some environments, and allows you to change the rendering order
+             * of Game Objects, without actually moving their position in the display list.
+             *
+             * The depth starts from zero (the default value) and increases from that point. A Game Object with a higher depth
+             * value will always render in front of one with a lower value.
+             *
+             * Setting the depth will queue a depth sort event within the Scene.
+             */
+            depth: number;
+
+            /**
+             * The depth of this Game Object within the Scene.
+             *
+             * The depth is also known as the 'z-index' in some environments, and allows you to change the rendering order
+             * of Game Objects, without actually moving their position in the display list.
+             *
+             * The depth starts from zero (the default value) and increases from that point. A Game Object with a higher depth
+             * value will always render in front of one with a lower value.
+             *
+             * Setting the depth will queue a depth sort event within the Scene.
+             * @param value The depth of this Game Object.
+             */
+            setDepth(value: integer): this;
+
+            /**
+             * The horizontally flipped state of the Game Object.
+             * A Game Object that is flipped horizontally will render inversed on the horizontal axis.
+             * Flipping always takes place from the middle of the texture and does not impact the scale value.
+             */
+            flipX: boolean;
+
+            /**
+             * The vertically flipped state of the Game Object.
+             * A Game Object that is flipped vertically will render inversed on the vertical axis (i.e. upside down)
+             * Flipping always takes place from the middle of the texture and does not impact the scale value.
+             */
+            flipY: boolean;
+
+            /**
+             * Toggles the horizontal flipped state of this Game Object.
+             */
+            toggleFlipX(): this;
+
+            /**
+             * Toggles the vertical flipped state of this Game Object.
+             */
+            toggleFlipY(): this;
+
+            /**
+             * Sets the horizontal flipped state of this Game Object.
+             * @param value The flipped state. `false` for no flip, or `true` to be flipped.
+             */
+            setFlipX(value: boolean): this;
+
+            /**
+             * Sets the vertical flipped state of this Game Object.
+             * @param value The flipped state. `false` for no flip, or `true` to be flipped.
+             */
+            setFlipY(value: boolean): this;
+
+            /**
+             * Sets the horizontal and vertical flipped state of this Game Object.
+             * @param x The horizontal flipped state. `false` for no flip, or `true` to be flipped.
+             * @param y The horizontal flipped state. `false` for no flip, or `true` to be flipped.
+             */
+            setFlip(x: boolean, y: boolean): this;
+
+            /**
+             * Resets the horizontal and vertical flipped state of this Game Object back to their default un-flipped state.
+             */
+            resetFlip(): this;
+
+            /**
+             * Gets the center coordinate of this Game Object, regardless of origin.
+             * The returned point is calculated in local space and does not factor in any parent containers
+             * @param output An object to store the values in. If not provided a new Vector2 will be created.
+             */
+            getCenter<O extends Phaser.Math.Vector2>(output?: O): O;
+
+            /**
+             * Gets the top-left corner coordinate of this Game Object, regardless of origin.
+             * The returned point is calculated in local space and does not factor in any parent containers
+             * @param output An object to store the values in. If not provided a new Vector2 will be created.
+             * @param includeParent If this Game Object has a parent Container, include it (and all other ancestors) in the resulting vector? Default false.
+             */
+            getTopLeft<O extends Phaser.Math.Vector2>(output?: O, includeParent?: boolean): O;
+
+            /**
+             * Gets the top-right corner coordinate of this Game Object, regardless of origin.
+             * The returned point is calculated in local space and does not factor in any parent containers
+             * @param output An object to store the values in. If not provided a new Vector2 will be created.
+             * @param includeParent If this Game Object has a parent Container, include it (and all other ancestors) in the resulting vector? Default false.
+             */
+            getTopRight<O extends Phaser.Math.Vector2>(output?: O, includeParent?: boolean): O;
+
+            /**
+             * Gets the bottom-left corner coordinate of this Game Object, regardless of origin.
+             * The returned point is calculated in local space and does not factor in any parent containers
+             * @param output An object to store the values in. If not provided a new Vector2 will be created.
+             * @param includeParent If this Game Object has a parent Container, include it (and all other ancestors) in the resulting vector? Default false.
+             */
+            getBottomLeft<O extends Phaser.Math.Vector2>(output?: O, includeParent?: boolean): O;
+
+            /**
+             * Gets the bottom-right corner coordinate of this Game Object, regardless of origin.
+             * The returned point is calculated in local space and does not factor in any parent containers
+             * @param output An object to store the values in. If not provided a new Vector2 will be created.
+             * @param includeParent If this Game Object has a parent Container, include it (and all other ancestors) in the resulting vector? Default false.
+             */
+            getBottomRight<O extends Phaser.Math.Vector2>(output?: O, includeParent?: boolean): O;
+
+            /**
+             * Gets the bounds of this Game Object, regardless of origin.
+             * The values are stored and returned in a Rectangle, or Rectangle-like, object.
+             * @param output An object to store the values in. If not provided a new Rectangle will be created.
+             */
+            getBounds<O extends Phaser.Geom.Rectangle>(output?: O): O;
+
+            /**
+             * The horizontal origin of this Game Object.
+             * The origin maps the relationship between the size and position of the Game Object.
+             * The default value is 0.5, meaning all Game Objects are positioned based on their center.
+             * Setting the value to 0 means the position now relates to the left of the Game Object.
+             */
+            originX: number;
+
+            /**
+             * The vertical origin of this Game Object.
+             * The origin maps the relationship between the size and position of the Game Object.
+             * The default value is 0.5, meaning all Game Objects are positioned based on their center.
+             * Setting the value to 0 means the position now relates to the top of the Game Object.
+             */
+            originY: number;
+
+            /**
+             * The horizontal display origin of this Game Object.
+             * The origin is a normalized value between 0 and 1.
+             * The displayOrigin is a pixel value, based on the size of the Game Object combined with the origin.
+             */
+            displayOriginX: number;
+
+            /**
+             * The vertical display origin of this Game Object.
+             * The origin is a normalized value between 0 and 1.
+             * The displayOrigin is a pixel value, based on the size of the Game Object combined with the origin.
+             */
+            displayOriginY: number;
+
+            /**
+             * Sets the origin of this Game Object.
+             *
+             * The values are given in the range 0 to 1.
+             * @param x The horizontal origin value. Default 0.5.
+             * @param y The vertical origin value. If not defined it will be set to the value of `x`. Default x.
+             */
+            setOrigin(x?: number, y?: number): this;
+
+            /**
+             * Sets the origin of this Game Object based on the Pivot values in its Frame.
+             */
+            setOriginFromFrame(): this;
+
+            /**
+             * Sets the display origin of this Game Object.
+             * The difference between this and setting the origin is that you can use pixel values for setting the display origin.
+             * @param x The horizontal display origin value. Default 0.
+             * @param y The vertical display origin value. If not defined it will be set to the value of `x`. Default x.
+             */
+            setDisplayOrigin(x?: number, y?: number): this;
+
+            /**
+             * Updates the Display Origin cached values internally stored on this Game Object.
+             * You don't usually call this directly, but it is exposed for edge-cases where you may.
+             */
+            updateDisplayOrigin(): this;
+
+            /**
+             * The initial WebGL pipeline of this Game Object.
+             */
+            defaultPipeline: Phaser.Renderer.WebGL.WebGLPipeline;
+
+            /**
+             * The current WebGL pipeline of this Game Object.
+             */
+            pipeline: Phaser.Renderer.WebGL.WebGLPipeline;
+
+            /**
+             * Sets the initial WebGL Pipeline of this Game Object.
+             * This should only be called during the instantiation of the Game Object.
+             * @param pipelineName The name of the pipeline to set on this Game Object. Defaults to the Texture Tint Pipeline. Default TextureTintPipeline.
+             */
+            initPipeline(pipelineName?: string): boolean;
+
+            /**
+             * Sets the active WebGL Pipeline of this Game Object.
+             * @param pipelineName The name of the pipeline to set on this Game Object.
+             */
+            setPipeline(pipelineName: string): this;
+
+            /**
+             * Resets the WebGL Pipeline of this Game Object back to the default it was created with.
+             */
+            resetPipeline(): boolean;
+
+            /**
+             * Gets the name of the WebGL Pipeline this Game Object is currently using.
+             */
+            getPipelineName(): string;
+
+            /**
+             * The Scale Mode being used by this Game Object.
+             * Can be either `ScaleModes.LINEAR` or `ScaleModes.NEAREST`.
+             */
+            scaleMode: Phaser.ScaleModes;
+
+            /**
+             * Sets the Scale Mode being used by this Game Object.
+             * Can be either `ScaleModes.LINEAR` or `ScaleModes.NEAREST`.
+             * @param value The Scale Mode to be used by this Game Object.
+             */
+            setScaleMode(value: Phaser.ScaleModes): this;
+
+            /**
+             * The horizontal scroll factor of this Game Object.
+             *
+             * The scroll factor controls the influence of the movement of a Camera upon this Game Object.
+             *
+             * When a camera scrolls it will change the location at which this Game Object is rendered on-screen.
+             * It does not change the Game Objects actual position values.
+             *
+             * A value of 1 means it will move exactly in sync with a camera.
+             * A value of 0 means it will not move at all, even if the camera moves.
+             * Other values control the degree to which the camera movement is mapped to this Game Object.
+             *
+             * Please be aware that scroll factor values other than 1 are not taken in to consideration when
+             * calculating physics collisions. Bodies always collide based on their world position, but changing
+             * the scroll factor is a visual adjustment to where the textures are rendered, which can offset
+             * them from physics bodies if not accounted for in your code.
+             */
+            scrollFactorX: number;
+
+            /**
+             * The vertical scroll factor of this Game Object.
+             *
+             * The scroll factor controls the influence of the movement of a Camera upon this Game Object.
+             *
+             * When a camera scrolls it will change the location at which this Game Object is rendered on-screen.
+             * It does not change the Game Objects actual position values.
+             *
+             * A value of 1 means it will move exactly in sync with a camera.
+             * A value of 0 means it will not move at all, even if the camera moves.
+             * Other values control the degree to which the camera movement is mapped to this Game Object.
+             *
+             * Please be aware that scroll factor values other than 1 are not taken in to consideration when
+             * calculating physics collisions. Bodies always collide based on their world position, but changing
+             * the scroll factor is a visual adjustment to where the textures are rendered, which can offset
+             * them from physics bodies if not accounted for in your code.
+             */
+            scrollFactorY: number;
+
+            /**
+             * Sets the scroll factor of this Game Object.
+             *
+             * The scroll factor controls the influence of the movement of a Camera upon this Game Object.
+             *
+             * When a camera scrolls it will change the location at which this Game Object is rendered on-screen.
+             * It does not change the Game Objects actual position values.
+             *
+             * A value of 1 means it will move exactly in sync with a camera.
+             * A value of 0 means it will not move at all, even if the camera moves.
+             * Other values control the degree to which the camera movement is mapped to this Game Object.
+             *
+             * Please be aware that scroll factor values other than 1 are not taken in to consideration when
+             * calculating physics collisions. Bodies always collide based on their world position, but changing
+             * the scroll factor is a visual adjustment to where the textures are rendered, which can offset
+             * them from physics bodies if not accounted for in your code.
+             * @param x The horizontal scroll factor of this Game Object.
+             * @param y The vertical scroll factor of this Game Object. If not set it will use the `x` value. Default x.
+             */
+            setScrollFactor(x: number, y?: number): this;
+
+            /**
+             * The x position of this Game Object.
+             */
+            x: number;
+
+            /**
+             * The y position of this Game Object.
+             */
+            y: number;
+
+            /**
+             * The z position of this Game Object.
+             * Note: Do not use this value to set the z-index, instead see the `depth` property.
+             */
+            z: number;
+
+            /**
+             * The w position of this Game Object.
+             */
+            w: number;
+
+            /**
+             * The horizontal scale of this Game Object.
+             */
+            scaleX: number;
+
+            /**
+             * The vertical scale of this Game Object.
+             */
+            scaleY: number;
+
+            /**
+             * The angle of this Game Object as expressed in degrees.
+             *
+             * Where 0 is to the right, 90 is down, 180 is left.
+             *
+             * If you prefer to work in radians, see the `rotation` property instead.
+             */
+            angle: integer;
+
+            /**
+             * The angle of this Game Object in radians.
+             *
+             * If you prefer to work in degrees, see the `angle` property instead.
+             */
+            rotation: number;
+
+            /**
+             * Sets the position of this Game Object.
+             * @param x The x position of this Game Object. Default 0.
+             * @param y The y position of this Game Object. If not set it will use the `x` value. Default x.
+             * @param z The z position of this Game Object. Default 0.
+             * @param w The w position of this Game Object. Default 0.
+             */
+            setPosition(x?: number, y?: number, z?: number, w?: number): this;
+
+            /**
+             * Sets the position of this Game Object to be a random position within the confines of
+             * the given area.
+             *
+             * If no area is specified a random position between 0 x 0 and the game width x height is used instead.
+             *
+             * The position does not factor in the size of this Game Object, meaning that only the origin is
+             * guaranteed to be within the area.
+             * @param x The x position of the top-left of the random area. Default 0.
+             * @param y The y position of the top-left of the random area. Default 0.
+             * @param width The width of the random area.
+             * @param height The height of the random area.
+             */
+            setRandomPosition(x?: number, y?: number, width?: number, height?: number): this;
+
+            /**
+             * Sets the rotation of this Game Object.
+             * @param radians The rotation of this Game Object, in radians. Default 0.
+             */
+            setRotation(radians?: number): this;
+
+            /**
+             * Sets the angle of this Game Object.
+             * @param degrees The rotation of this Game Object, in degrees. Default 0.
+             */
+            setAngle(degrees?: number): this;
+
+            /**
+             * Sets the scale of this Game Object.
+             * @param x The horizontal scale of this Game Object.
+             * @param y The vertical scale of this Game Object. If not set it will use the `x` value. Default x.
+             */
+            setScale(x: number, y?: number): this;
+
+            /**
+             * Sets the x position of this Game Object.
+             * @param value The x position of this Game Object. Default 0.
+             */
+            setX(value?: number): this;
+
+            /**
+             * Sets the y position of this Game Object.
+             * @param value The y position of this Game Object. Default 0.
+             */
+            setY(value?: number): this;
+
+            /**
+             * Sets the z position of this Game Object.
+             * @param value The z position of this Game Object. Default 0.
+             */
+            setZ(value?: number): this;
+
+            /**
+             * Sets the w position of this Game Object.
+             * @param value The w position of this Game Object. Default 0.
+             */
+            setW(value?: number): this;
+
+            /**
+             * Gets the local transform matrix for this Game Object.
+             * @param tempMatrix The matrix to populate with the values from this Game Object.
+             */
+            getLocalTransformMatrix(tempMatrix?: Phaser.GameObjects.Components.TransformMatrix): Phaser.GameObjects.Components.TransformMatrix;
+
+            /**
+             * Gets the world transform matrix for this Game Object, factoring in any parent Containers.
+             * @param tempMatrix The matrix to populate with the values from this Game Object.
+             * @param parentMatrix A temporary matrix to hold parent values during the calculations.
+             */
+            getWorldTransformMatrix(tempMatrix?: Phaser.GameObjects.Components.TransformMatrix, parentMatrix?: Phaser.GameObjects.Components.TransformMatrix): Phaser.GameObjects.Components.TransformMatrix;
+
+            /**
+             * The visible state of the Game Object.
+             *
+             * An invisible Game Object will skip rendering, but will still process update logic.
+             */
+            visible: boolean;
+
+            /**
+             * Sets the visibility of this Game Object.
+             *
+             * An invisible Game Object will skip rendering, but will still process update logic.
+             * @param value The visible state of the Game Object.
+             */
+            setVisible(value: boolean): this;
+
+        }
+
+        namespace Formats {
+            /**
+             * CSV Map Type
+             */
+            var CSV: number;
+
+            /**
+             * Tiled JSON Map Type
+             */
+            var TILED_JSON: number;
+
+            /**
+             * 2D Array Map Type
+             */
+            var ARRAY_2D: number;
+
+            /**
+             * Weltmeister (Impact.js) Map Type
+             */
+            var WELTMEISTER: number;
+
+        }
+
+        /**
+         * An Image Collection is a special Tile Set containing multiple images, with no slicing into each image.
+         *
+         * Image Collections are normally created automatically when Tiled data is loaded.
+         */
+        class ImageCollection {
+            /**
+             *
+             * @param name The name of the image collection in the map data.
+             * @param firstgid The first image index this image collection contains.
+             * @param width Width of widest image (in pixels). Default 32.
+             * @param height Height of tallest image (in pixels). Default 32.
+             * @param margin The margin around all images in the collection (in pixels). Default 0.
+             * @param spacing The spacing between each image in the collection (in pixels). Default 0.
+             * @param properties Custom Image Collection properties. Default {}.
+             */
+            constructor(name: string, firstgid: integer, width?: integer, height?: integer, margin?: integer, spacing?: integer, properties?: object);
+
+            /**
+             * The name of the Image Collection.
+             */
+            name: string;
+
+            /**
+             * The Tiled firstgid value.
+             * This is the starting index of the first image index this Image Collection contains.
+             */
+            firstgid: integer;
+
+            /**
+             * The width of the widest image (in pixels).
+             */
+            readonly imageWidth: integer;
+
+            /**
+             * The height of the tallest image (in pixels).
+             */
+            readonly imageHeight: integer;
+
+            /**
+             * The margin around the images in the collection (in pixels).
+             * Use `setSpacing` to change.
+             */
+            readonly imageMarge: integer;
+
+            /**
+             * The spacing between each image in the collection (in pixels).
+             * Use `setSpacing` to change.
+             */
+            readonly imageSpacing: integer;
+
+            /**
+             * Image Collection-specific properties that are typically defined in the Tiled editor.
+             */
+            properties: object;
+
+            /**
+             * The cached images that are a part of this collection.
+             */
+            readonly images: any[];
+
+            /**
+             * The total number of images in the image collection.
+             */
+            readonly total: integer;
+
+            /**
+             * Returns true if and only if this image collection contains the given image index.
+             * @param imageIndex The image index to search for.
+             */
+            containsImageIndex(imageIndex: integer): boolean;
+
+            /**
+             * Add an image to this Image Collection.
+             * @param gid The gid of the image in the Image Collection.
+             * @param image The the key of the image in the Image Collection and in the cache.
+             */
+            addImage(gid: integer, image: string): Phaser.Tilemaps.ImageCollection;
+
+        }
+
+        /**
+         * A class for representing data about about a layer in a map. Maps are parsed from CSV, Tiled,
+         * etc. into this format. Tilemap, StaticTilemapLayer and DynamicTilemapLayer have a reference
+         * to this data and use it to look up and perform operations on tiles.
+         */
+        class LayerData {
+            /**
+             *
+             * @param config [description]
+             */
+            constructor(config?: object);
+
+            /**
+             * [description]
+             */
+            name: string;
+
+            /**
+             * [description]
+             */
+            x: number;
+
+            /**
+             * [description]
+             */
+            y: number;
+
+            /**
+             * [description]
+             */
+            width: number;
+
+            /**
+             * [description]
+             */
+            height: number;
+
+            /**
+             * [description]
+             */
+            tileWidth: number;
+
+            /**
+             * [description]
+             */
+            tileHeight: number;
+
+            /**
+             * [description]
+             */
+            baseTileWidth: number;
+
+            /**
+             * [description]
+             */
+            baseTileHeight: number;
+
+            /**
+             * [description]
+             */
+            widthInPixels: number;
+
+            /**
+             * [description]
+             */
+            heightInPixels: number;
+
+            /**
+             * [description]
+             */
+            alpha: number;
+
+            /**
+             * [description]
+             */
+            visible: boolean;
+
+            /**
+             * [description]
+             */
+            properties: object;
+
+            /**
+             * [description]
+             */
+            indexes: any[];
+
+            /**
+             * [description]
+             */
+            collideIndexes: any[];
+
+            /**
+             * [description]
+             */
+            callbacks: any[];
+
+            /**
+             * [description]
+             */
+            bodies: any[];
+
+            /**
+             * [description]
+             */
+            data: any[];
+
+            /**
+             * [description]
+             */
+            tilemapLayer: Phaser.Tilemaps.DynamicTilemapLayer | Phaser.Tilemaps.StaticTilemapLayer;
+
+        }
+
+        /**
+         * A class for representing data about a map. Maps are parsed from CSV, Tiled, etc. into this
+         * format. A Tilemap object get a copy of this data and then unpacks the needed properties into
+         * itself.
+         */
+        class MapData {
+            /**
+             *
+             * @param config [description]
+             */
+            constructor(config?: object);
+
+            /**
+             * [description]
+             */
+            name: string;
+
+            /**
+             * [description]
+             */
+            width: number;
+
+            /**
+             * [description]
+             */
+            height: number;
+
+            /**
+             * [description]
+             */
+            tileWidth: number;
+
+            /**
+             * [description]
+             */
+            tileHeight: number;
+
+            /**
+             * [description]
+             */
+            widthInPixels: number;
+
+            /**
+             * [description]
+             */
+            heightInPixels: number;
+
+            /**
+             * [description]
+             */
+            format: integer;
+
+            /**
+             * [description]
+             */
+            orientation: string;
+
+            /**
+             * [description]
+             */
+            renderOrder: string;
+
+            /**
+             * [description]
+             */
+            version: string;
+
+            /**
+             * [description]
+             */
+            properties: object;
+
+            /**
+             * [description]
+             */
+            layers: any[];
+
+            /**
+             * [description]
+             */
+            images: any[];
+
+            /**
+             * [description]
+             */
+            objects: object;
+
+            /**
+             * [description]
+             */
+            collision: object;
+
+            /**
+             * [description]
+             */
+            tilesets: any[];
+
+            /**
+             * [description]
+             */
+            imageCollections: any[];
+
+            /**
+             * [description]
+             */
+            tiles: any[];
+
+        }
+
+        /**
+         * A class for representing a Tiled object layer in a map. This mirrors the structure of a Tiled
+         * object layer, except:
+         *  - "x" & "y" properties are ignored since these cannot be changed in Tiled.
+         *  - "offsetx" & "offsety" are applied to the individual object coordinates directly, so they
+         *    are ignored as well.
+         *  - "draworder" is ignored.
+         */
+        class ObjectLayer {
+            /**
+             *
+             * @param config [description]
+             */
+            constructor(config?: object);
+
+            /**
+             * [description]
+             */
+            name: string;
+
+            /**
+             * [description]
+             */
+            opacity: number;
+
+            /**
+             * [description]
+             */
+            properties: object;
+
+            /**
+             * [description]
+             */
+            propertyTypes: object;
+
+            /**
+             * [description]
+             */
+            type: string;
+
+            /**
+             * [description]
+             */
+            visible: boolean;
+
+            /**
+             * [description]
+             */
+            objects: Phaser.GameObjects.GameObject[];
+
+        }
+
+        namespace Parsers {
+            namespace Impact {
+                /**
+                 * [description]
+                 * @param json [description]
+                 * @param insertNull [description]
+                 */
+                function ParseTileLayers(json: object, insertNull: boolean): any[];
+
+                /**
+                 * [description]
+                 * @param json [description]
+                 */
+                function ParseTilesets(json: object): any[];
+
+                /**
+                 * Parses a Weltmeister JSON object into a new MapData object.
+                 * @param name The name of the tilemap, used to set the name on the MapData.
+                 * @param json The Weltmeister JSON object.
+                 * @param insertNull Controls how empty tiles, tiles with an index of -1, in the map
+                 * data are handled. If `true`, empty locations will get a value of `null`. If `false`, empty
+                 * location will get a Tile object with an index of -1. If you've a large sparsely populated map and
+                 * the tile data doesn't need to change then setting this value to `true` will help with memory
+                 * consumption. However if your map is small or you need to update the tiles dynamically, then leave
+                 * the default value set.
+                 */
+                function ParseWeltmeister(name: string, json: object, insertNull: boolean): object;
+
+            }
+
+            /**
+             * Parses raw data of a given Tilemap format into a new MapData object. If no recognized data format
+             * is found, returns `null`. When loading from CSV or a 2D array, you should specify the tileWidth &
+             * tileHeight. When parsing from a map from Tiled, the tileWidth & tileHeight will be pulled from
+             * the map data.
+             * @param name The name of the tilemap, used to set the name on the MapData.
+             * @param mapFormat See ../Formats.js.
+             * @param data 2D array, CSV string or Tiled JSON object.
+             * @param tileWidth The width of a tile in pixels. Required for 2D array and CSV, but
+             * ignored for Tiled JSON.
+             * @param tileHeight The height of a tile in pixels. Required for 2D array and CSV, but
+             * ignored for Tiled JSON.
+             * @param insertNull Controls how empty tiles, tiles with an index of -1, in the map
+             * data are handled. If `true`, empty locations will get a value of `null`. If `false`, empty
+             * location will get a Tile object with an index of -1. If you've a large sparsely populated map and
+             * the tile data doesn't need to change then setting this value to `true` will help with memory
+             * consumption. However if your map is small or you need to update the tiles dynamically, then leave
+             * the default value set.
+             */
+            function Parse(name: string, mapFormat: integer, data: integer[][] | string | object, tileWidth: integer, tileHeight: integer, insertNull: boolean): Phaser.Tilemaps.MapData;
+
+            /**
+             * Parses a 2D array of tile indexes into a new MapData object with a single layer.
+             * @param name The name of the tilemap, used to set the name on the MapData.
+             * @param data 2D array, CSV string or Tiled JSON object.
+             * @param tileWidth The width of a tile in pixels.
+             * @param tileHeight The height of a tile in pixels.
+             * @param insertNull Controls how empty tiles, tiles with an index of -1, in the map
+             * data are handled. If `true`, empty locations will get a value of `null`. If `false`, empty
+             * location will get a Tile object with an index of -1. If you've a large sparsely populated map and
+             * the tile data doesn't need to change then setting this value to `true` will help with memory
+             * consumption. However if your map is small or you need to update the tiles dynamically, then leave
+             * the default value set.
+             */
+            function Parse2DArray(name: string, data: integer[][], tileWidth: integer, tileHeight: integer, insertNull: boolean): Phaser.Tilemaps.MapData;
+
+            /**
+             * Parses a CSV string of tile indexes into a new MapData object with a single layer.
+             * @param name The name of the tilemap, used to set the name on the MapData.
+             * @param data CSV string of tile indexes.
+             * @param tileWidth The width of a tile in pixels.
+             * @param tileHeight The height of a tile in pixels.
+             * @param insertNull Controls how empty tiles, tiles with an index of -1, in the map
+             * data are handled. If `true`, empty locations will get a value of `null`. If `false`, empty
+             * location will get a Tile object with an index of -1. If you've a large sparsely populated map and
+             * the tile data doesn't need to change then setting this value to `true` will help with memory
+             * consumption. However if your map is small or you need to update the tiles dynamically, then leave
+             * the default value set.
+             */
+            function ParseCSV(name: string, data: string, tileWidth: integer, tileHeight: integer, insertNull: boolean): Phaser.Tilemaps.MapData;
+
+            namespace Tiled {
+                /**
+                 * Copy properties from tileset to tiles.
+                 * @param mapData [description]
+                 */
+                function AssignTileProperties(mapData: Phaser.Tilemaps.MapData): void;
+
+                /**
+                 * Decode base-64 encoded data, for example as exported by Tiled.
+                 * @param data Base-64 encoded data to decode.
+                 */
+                function Base64Decode(data: object): any[];
+
+                /**
+                 * Master list of tiles -> x, y, index in tileset.
+                 * @param mapData [description]
+                 */
+                function BuildTilesetIndex(mapData: Phaser.Tilemaps.MapData): any[];
+
+                /**
+                 * See Tiled documentation on tile flipping:
+                 * http://docs.mapeditor.org/en/latest/reference/tmx-map-format/
+                 * @param gid [description]
+                 */
+                function ParseGID(gid: number): object;
+
+                /**
+                 * [description]
+                 * @param json [description]
+                 */
+                function ParseImageLayers(json: object): any[];
+
+                /**
+                 * Parses a Tiled JSON object into a new MapData object.
+                 * @param name The name of the tilemap, used to set the name on the MapData.
+                 * @param json The Tiled JSON object.
+                 * @param insertNull Controls how empty tiles, tiles with an index of -1, in the map
+                 * data are handled. If `true`, empty locations will get a value of `null`. If `false`, empty
+                 * location will get a Tile object with an index of -1. If you've a large sparsely populated map and
+                 * the tile data doesn't need to change then setting this value to `true` will help with memory
+                 * consumption. However if your map is small or you need to update the tiles dynamically, then leave
+                 * the default value set.
+                 */
+                function ParseJSONTiled(name: string, json: object, insertNull: boolean): Phaser.Tilemaps.MapData;
+
+                /**
+                 * [description]
+                 * @param tiledObject [description]
+                 * @param offsetX [description] Default 0.
+                 * @param offsetY [description] Default 0.
+                 */
+                function ParseObject(tiledObject: object, offsetX?: number, offsetY?: number): object;
+
+                /**
+                 * [description]
+                 * @param json [description]
+                 */
+                function ParseObjectLayers(json: object): any[];
+
+                /**
+                 * [description]
+                 * @param json [description]
+                 * @param insertNull [description]
+                 */
+                function ParseTileLayers(json: object, insertNull: boolean): any[];
+
+                /**
+                 * Tilesets & Image Collections
+                 * @param json [description]
+                 */
+                function ParseTilesets(json: object): object;
+
+                /**
+                 * [description]
+                 * @param object [description]
+                 * @param keys [description]
+                 */
+                function Pick(object: object, keys: any[]): object;
+
+            }
+
+        }
+
+        /**
+         * Create a Tilemap from the given key or data. If neither is given, make a blank Tilemap. When
+         * loading from CSV or a 2D array, you should specify the tileWidth & tileHeight. When parsing from
+         * a map from Tiled, the tileWidth, tileHeight, width & height will be pulled from the map data. For
+         * an empty map, you should specify tileWidth, tileHeight, width & height.
+         * @param scene The Scene to which this Tilemap belongs.
+         * @param key The key in the Phaser cache that corresponds to the loaded tilemap data.
+         * @param tileWidth The width of a tile in pixels. Default 32.
+         * @param tileHeight The height of a tile in pixels. Default 32.
+         * @param width The width of the map in tiles. Default 10.
+         * @param height The height of the map in tiles. Default 10.
+         * @param data Instead of loading from the cache, you can also load directly from
+         * a 2D array of tile indexes.
+         * @param insertNull Controls how empty tiles, tiles with an index of -1, in the
+         * map data are handled. If `true`, empty locations will get a value of `null`. If `false`, empty
+         * location will get a Tile object with an index of -1. If you've a large sparsely populated map and
+         * the tile data doesn't need to change then setting this value to `true` will help with memory
+         * consumption. However if your map is small or you need to update the tiles dynamically, then leave
+         * the default value set. Default false.
+         */
+        function ParseToTilemap(scene: Phaser.Scene, key?: string, tileWidth?: integer, tileHeight?: integer, width?: integer, height?: integer, data?: integer[][], insertNull?: boolean): Phaser.Tilemaps.Tilemap;
+
+        /**
+         * A Static Tilemap Layer is a Game Object that renders LayerData from a Tilemap when used in combination
+         * with one, or more, Tilesets.
+         *
+         * A Static Tilemap Layer is optimized for rendering speed over flexibility. You cannot apply per-tile
+         * effects like tint or alpha, or change the tiles or tilesets the layer uses.
+         *
+         * Use a Static Tilemap Layer instead of a Dynamic Tilemap Layer when you don't need tile manipulation features.
+         */
+        class StaticTilemapLayer extends Phaser.GameObjects.GameObject implements Phaser.GameObjects.Components.Alpha, Phaser.GameObjects.Components.BlendMode, Phaser.GameObjects.Components.ComputedSize, Phaser.GameObjects.Components.Depth, Phaser.GameObjects.Components.Flip, Phaser.GameObjects.Components.GetBounds, Phaser.GameObjects.Components.Origin, Phaser.GameObjects.Components.Pipeline, Phaser.GameObjects.Components.ScaleMode, Phaser.GameObjects.Components.Transform, Phaser.GameObjects.Components.Visible, Phaser.GameObjects.Components.ScrollFactor {
+            /**
+             *
+             * @param scene The Scene to which this Game Object belongs.
+             * @param tilemap The Tilemap this layer is a part of.
+             * @param layerIndex The index of the LayerData associated with this layer.
+             * @param tileset The tileset, or an array of tilesets, used to render this layer. Can be a string or a Tileset object.
+             * @param x The world x position where the top left of this layer will be placed. Default 0.
+             * @param y The world y position where the top left of this layer will be placed. Default 0.
+             */
+            constructor(scene: Phaser.Scene, tilemap: Phaser.Tilemaps.Tilemap, layerIndex: integer, tileset: string | string[] | Phaser.Tilemaps.Tileset | Phaser.Tilemaps.Tileset[], x?: number, y?: number);
+
+            /**
+             * Used internally by physics system to perform fast type checks.
+             */
+            readonly isTilemap: boolean;
+
+            /**
+             * The Tilemap that this layer is a part of.
+             */
+            tilemap: Phaser.Tilemaps.Tilemap;
+
+            /**
+             * The index of the LayerData associated with this layer.
+             */
+            layerIndex: integer;
+
+            /**
+             * The LayerData associated with this layer. LayerData can only be associated with one
+             * tilemap layer.
+             */
+            layer: Phaser.Tilemaps.LayerData;
+
+            /**
+             * The Tileset/s associated with this layer.
+             *
+             * As of Phaser 3.14 this property is now an array of Tileset objects, previously it was a single reference.
+             */
+            tileset: Phaser.Tilemaps.Tileset[];
+
+            /**
+             * Used internally by the Canvas renderer.
+             * This holds the tiles that are visible within the camera in the last frame.
+             */
+            culledTiles: any[];
+
+            /**
+             * Canvas only.
+             *
+             * You can control if the Cameras should cull tiles before rendering them or not.
+             * By default the camera will try to cull the tiles in this layer, to avoid over-drawing to the renderer.
+             *
+             * However, there are some instances when you may wish to disable this, and toggling this flag allows
+             * you to do so. Also see `setSkipCull` for a chainable method that does the same thing.
+             */
+            skipCull: boolean;
+
+            /**
+             * Canvas only.
+             *
+             * The total number of tiles drawn by the renderer in the last frame.
+             *
+             * This only works when rending with Canvas.
+             */
+            readonly tilesDrawn: integer;
+
+            /**
+             * Canvas only.
+             *
+             * The total number of tiles in this layer. Updated every frame.
+             */
+            readonly tilesTotal: integer;
+
+            /**
+             * Canvas only.
+             *
+             * The amount of extra tiles to add into the cull rectangle when calculating its horizontal size.
+             *
+             * See the method `setCullPadding` for more details.
+             */
+            cullPaddingX: integer;
+
+            /**
+             * Canvas only.
+             *
+             * The amount of extra tiles to add into the cull rectangle when calculating its vertical size.
+             *
+             * See the method `setCullPadding` for more details.
+             */
+            cullPaddingY: integer;
+
+            /**
+             * Canvas only.
+             *
+             * The callback that is invoked when the tiles are culled.
+             *
+             * By default it will call `TilemapComponents.CullTiles` but you can override this to call any function you like.
+             *
+             * It will be sent 3 arguments:
+             *
+             * 1) The Phaser.Tilemaps.LayerData object for this Layer
+             * 2) The Camera that is culling the layer. You can check its `dirty` property to see if it has changed since the last cull.
+             * 3) A reference to the `culledTiles` array, which should be used to store the tiles you want rendered.
+             *
+             * See the `TilemapComponents.CullTiles` source code for details on implementing your own culling system.
+             */
+            cullCallback: Function;
+
+            /**
+             * An array holding the mapping between the tile indexes and the tileset they belong to.
+             */
+            gidMap: Phaser.Tilemaps.Tileset[];
+
+            /**
+             * Upload the tile data to a VBO.
+             * @param camera The camera to render to.
+             * @param tilesetIndex The tileset index.
+             */
+            upload(camera: Phaser.Cameras.Scene2D.Camera, tilesetIndex: integer): Phaser.Tilemaps.StaticTilemapLayer;
+
+            /**
+             * Sets the rendering (draw) order of the tiles in this layer.
+             *
+             * The default is 'right-down', meaning it will order the tiles starting from the top-left,
+             * drawing to the right and then moving down to the next row.
+             *
+             * The draw orders are:
+             *
+             * 0 = right-down
+             * 1 = left-down
+             * 2 = right-up
+             * 3 = left-up
+             *
+             * Setting the render order does not change the tiles or how they are stored in the layer,
+             * it purely impacts the order in which they are rendered.
+             *
+             * You can provide either an integer (0 to 3), or the string version of the order.
+             * @param renderOrder The render (draw) order value. Either an integer between 0 and 3, or a string: 'right-down', 'left-down', 'right-up' or 'left-up'.
+             */
+            setRenderOrder(renderOrder: integer | string): this;
+
+            /**
+             * Calculates interesting faces at the given tile coordinates of the specified layer. Interesting
+             * faces are used internally for optimizing collisions against tiles. This method is mostly used
+             * internally to optimize recalculating faces when only one tile has been changed.
+             * @param tileX The x coordinate.
+             * @param tileY The y coordinate.
+             */
+            calculateFacesAt(tileX: integer, tileY: integer): Phaser.Tilemaps.StaticTilemapLayer;
+
+            /**
+             * Calculates interesting faces within the rectangular area specified (in tile coordinates) of the
+             * layer. Interesting faces are used internally for optimizing collisions against tiles. This method
+             * is mostly used internally.
+             * @param tileX [description] Default 0.
+             * @param tileY [description] Default 0.
+             * @param width [description] Default max width based on tileX.
+             * @param height [description] Default max height based on tileY.
+             */
+            calculateFacesWithin(tileX?: integer, tileY?: integer, width?: integer, height?: integer): Phaser.Tilemaps.StaticTilemapLayer;
+
+            /**
+             * Creates a Sprite for every object matching the given tile indexes in the layer. You can
+             * optionally specify if each tile will be replaced with a new tile after the Sprite has been
+             * created. This is useful if you want to lay down special tiles in a level that are converted to
+             * Sprites, but want to replace the tile itself with a floor tile or similar once converted.
+             * @param indexes The tile index, or array of indexes, to create Sprites from.
+             * @param replacements The tile index, or array of indexes, to change a converted
+             * tile to. Set to `null` to leave the tiles unchanged. If an array is given, it is assumed to be a
+             * one-to-one mapping with the indexes array.
+             * @param spriteConfig The config object to pass into the Sprite creator (i.e.
+             * scene.make.sprite).
+             * @param scene The Scene to create the Sprites within. Default scene the map is within.
+             * @param camera The Camera to use when determining the world XY Default main camera.
+             */
+            createFromTiles(indexes: integer | any[], replacements: integer | any[], spriteConfig: SpriteConfig, scene?: Phaser.Scene, camera?: Phaser.Cameras.Scene2D.Camera): Phaser.GameObjects.Sprite[];
+
+            /**
+             * Returns the tiles in the given layer that are within the cameras viewport.
+             * This is used internally.
+             * @param camera The Camera to run the cull check against.
+             */
+            cull(camera?: Phaser.Cameras.Scene2D.Camera): Phaser.Tilemaps.Tile[];
+
+            /**
+             * Canvas only.
+             *
+             * You can control if the Cameras should cull tiles before rendering them or not.
+             * By default the camera will try to cull the tiles in this layer, to avoid over-drawing to the renderer.
+             *
+             * However, there are some instances when you may wish to disable this.
+             * @param value Set to `true` to stop culling tiles. Set to `false` to enable culling again. Default true.
+             */
+            setSkipCull(value?: boolean): this;
+
+            /**
+             * Canvas only.
+             *
+             * When a Camera culls the tiles in this layer it does so using its view into the world, building up a
+             * rectangle inside which the tiles must exist or they will be culled. Sometimes you may need to expand the size
+             * of this 'cull rectangle', especially if you plan on rotating the Camera viewing the layer. Do so
+             * by providing the padding values. The values given are in tiles, not pixels. So if the tile width was 32px
+             * and you set `paddingX` to be 4, it would add 32px x 4 to the cull rectangle (adjusted for scale)
+             * @param paddingX The amount of extra horizontal tiles to add to the cull check padding. Default 1.
+             * @param paddingY The amount of extra vertical tiles to add to the cull check padding. Default 1.
+             */
+            setCullPadding(paddingX?: integer, paddingY?: integer): this;
+
+            /**
+             * Searches the entire map layer for the first tile matching the given index, then returns that Tile
+             * object. If no match is found, it returns null. The search starts from the top-left tile and
+             * continues horizontally until it hits the end of the row, then it drops down to the next column.
+             * If the reverse boolean is true, it scans starting from the bottom-right corner traveling up to
+             * the top-left.
+             * @param index The tile index value to search for.
+             * @param skip The number of times to skip a matching tile before returning. Default 0.
+             * @param reverse If true it will scan the layer in reverse, starting at the
+             * bottom-right. Otherwise it scans from the top-left. Default false.
+             */
+            findByIndex(index: integer, skip?: integer, reverse?: boolean): Phaser.Tilemaps.Tile;
+
+            /**
+             * Find the first tile in the given rectangular area (in tile coordinates) of the layer that
+             * satisfies the provided testing function. I.e. finds the first tile for which `callback` returns
+             * true. Similar to Array.prototype.find in vanilla JS.
+             * @param callback The callback. Each tile in the given area will be passed to this
+             * callback as the first and only parameter.
+             * @param context The context under which the callback should be run.
+             * @param tileX [description] Default 0.
+             * @param tileY [description] Default 0.
+             * @param width [description] Default max width based on tileX.
+             * @param height [description] Default max height based on tileY.
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have
+             * -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide
+             * on at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that
+             * have at least one interesting face. Default false.
+             */
+            findTile(callback: Function, context?: object, tileX?: integer, tileY?: integer, width?: integer, height?: integer, filteringOptions?: object): Phaser.Tilemaps.Tile;
+
+            /**
+             * For each tile in the given rectangular area (in tile coordinates) of the layer, run the given
+             * filter callback function. Any tiles that pass the filter test (i.e. where the callback returns
+             * true) will returned as a new array. Similar to Array.prototype.Filter in vanilla JS.
+             * @param callback The callback. Each tile in the given area will be passed to this
+             * callback as the first and only parameter. The callback should return true for tiles that pass the
+             * filter.
+             * @param context The context under which the callback should be run.
+             * @param tileX [description] Default 0.
+             * @param tileY [description] Default 0.
+             * @param width [description] Default max width based on tileX.
+             * @param height [description] Default max height based on tileY.
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have
+             * -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide
+             * on at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that
+             * have at least one interesting face. Default false.
+             */
+            filterTiles(callback: Function, context?: object, tileX?: integer, tileY?: integer, width?: integer, height?: integer, filteringOptions?: object): Phaser.Tilemaps.Tile[];
+
+            /**
+             * For each tile in the given rectangular area (in tile coordinates) of the layer, run the given
+             * callback. Similar to Array.prototype.forEach in vanilla JS.
+             * @param callback The callback. Each tile in the given area will be passed to this
+             * callback as the first and only parameter.
+             * @param context The context under which the callback should be run.
+             * @param tileX [description] Default 0.
+             * @param tileY [description] Default 0.
+             * @param width [description] Default max width based on tileX.
+             * @param height [description] Default max height based on tileY.
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have
+             * -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide
+             * on at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that
+             * have at least one interesting face. Default false.
+             */
+            forEachTile(callback: Function, context?: object, tileX?: integer, tileY?: integer, width?: integer, height?: integer, filteringOptions?: object): Phaser.Tilemaps.StaticTilemapLayer;
+
+            /**
+             * Gets a tile at the given tile coordinates from the given layer.
+             * @param tileX X position to get the tile from (given in tile units, not pixels).
+             * @param tileY Y position to get the tile from (given in tile units, not pixels).
+             * @param nonNull If true getTile won't return null for empty tiles, but a Tile
+             * object with an index of -1. Default false.
+             */
+            getTileAt(tileX: integer, tileY: integer, nonNull?: boolean): Phaser.Tilemaps.Tile;
+
+            /**
+             * Gets a tile at the given world coordinates from the given layer.
+             * @param worldX X position to get the tile from (given in pixels)
+             * @param worldY Y position to get the tile from (given in pixels)
+             * @param nonNull If true, function won't return null for empty tiles, but a Tile
+             * object with an index of -1. Default false.
+             * @param camera [description] Default main camera.
+             */
+            getTileAtWorldXY(worldX: number, worldY: number, nonNull?: boolean, camera?: Phaser.Cameras.Scene2D.Camera): Phaser.Tilemaps.Tile;
+
+            /**
+             * Gets the tiles in the given rectangular area (in tile coordinates) of the layer.
+             * @param tileX [description] Default 0.
+             * @param tileY [description] Default 0.
+             * @param width [description] Default max width based on tileX.
+             * @param height [description] Default max height based on tileY.
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have
+             * -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide on
+             * at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that
+             * have at least one interesting face. Default false.
+             */
+            getTilesWithin(tileX?: integer, tileY?: integer, width?: integer, height?: integer, filteringOptions?: object): Phaser.Tilemaps.Tile[];
+
+            /**
+             * Gets the tiles in the given rectangular area (in world coordinates) of the layer.
+             * @param worldX [description]
+             * @param worldY [description]
+             * @param width [description]
+             * @param height [description]
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have
+             * -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide on
+             * at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that
+             * have at least one interesting face. Default false.
+             * @param camera [description] Default main camera.
+             */
+            getTilesWithinWorldXY(worldX: number, worldY: number, width: number, height: number, filteringOptions?: object, camera?: Phaser.Cameras.Scene2D.Camera): Phaser.Tilemaps.Tile[];
+
+            /**
+             * Gets the tiles that overlap with the given shape in the given layer. The shape must be a Circle,
+             * Line, Rectangle or Triangle. The shape should be in world coordinates.
+             * @param shape A shape in world (pixel) coordinates
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have
+             * -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide on
+             * at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that
+             * have at least one interesting face. Default false.
+             * @param camera [description] Default main camera.
+             */
+            getTilesWithinShape(shape: Phaser.Geom.Circle | Phaser.Geom.Line | Phaser.Geom.Rectangle | Phaser.Geom.Triangle, filteringOptions?: object, camera?: Phaser.Cameras.Scene2D.Camera): Phaser.Tilemaps.Tile[];
+
+            /**
+             * Checks if there is a tile at the given location (in tile coordinates) in the given layer. Returns
+             * false if there is no tile or if the tile at that location has an index of -1.
+             * @param tileX [description]
+             * @param tileY [description]
+             */
+            hasTileAt(tileX: integer, tileY: integer): boolean;
+
+            /**
+             * Checks if there is a tile at the given location (in world coordinates) in the given layer. Returns
+             * false if there is no tile or if the tile at that location has an index of -1.
+             * @param worldX [description]
+             * @param worldY [description]
+             * @param camera [description] Default main camera.
+             */
+            hasTileAtWorldXY(worldX: number, worldY: number, camera?: Phaser.Cameras.Scene2D.Camera): boolean;
+
+            /**
+             * Draws a debug representation of the layer to the given Graphics. This is helpful when you want to
+             * get a quick idea of which of your tiles are colliding and which have interesting faces. The tiles
+             * are drawn starting at (0, 0) in the Graphics, allowing you to place the debug representation
+             * wherever you want on the screen.
+             * @param graphics The target Graphics object to draw upon.
+             * @param styleConfig An object specifying the colors to use for the debug drawing.
+             * @param styleConfig.tileColor Color to use for drawing a filled rectangle at
+             * non-colliding tile locations. If set to null, non-colliding tiles will not be drawn. Default blue.
+             * @param styleConfig.collidingTileColor Color to use for drawing a filled
+             * rectangle at colliding tile locations. If set to null, colliding tiles will not be drawn. Default orange.
+             * @param styleConfig.faceColor Color to use for drawing a line at interesting
+             * tile faces. If set to null, interesting tile faces will not be drawn. Default grey.
+             */
+            renderDebug(graphics: Phaser.GameObjects.Graphics, styleConfig: object): Phaser.Tilemaps.StaticTilemapLayer;
+
+            /**
+             * Sets collision on the given tile or tiles within a layer by index. You can pass in either a
+             * single numeric index or an array of indexes: [2, 3, 15, 20]. The `collides` parameter controls if
+             * collision will be enabled (true) or disabled (false).
+             * @param indexes Either a single tile index, or an array of tile indexes.
+             * @param collides If true it will enable collision. If false it will clear
+             * collision. Default true.
+             * @param recalculateFaces Whether or not to recalculate the tile faces after the
+             * update. Default true.
+             */
+            setCollision(indexes: integer | any[], collides?: boolean, recalculateFaces?: boolean): Phaser.Tilemaps.StaticTilemapLayer;
+
+            /**
+             * Sets collision on a range of tiles in a layer whose index is between the specified `start` and
+             * `stop` (inclusive). Calling this with a start value of 10 and a stop value of 14 would set
+             * collision for tiles 10, 11, 12, 13 and 14. The `collides` parameter controls if collision will be
+             * enabled (true) or disabled (false).
+             * @param start The first index of the tile to be set for collision.
+             * @param stop The last index of the tile to be set for collision.
+             * @param collides If true it will enable collision. If false it will clear
+             * collision. Default true.
+             * @param recalculateFaces Whether or not to recalculate the tile faces after the
+             * update. Default true.
+             */
+            setCollisionBetween(start: integer, stop: integer, collides?: boolean, recalculateFaces?: boolean): Phaser.Tilemaps.StaticTilemapLayer;
+
+            /**
+             * Sets collision on the tiles within a layer by checking tile properties. If a tile has a property
+             * that matches the given properties object, its collision flag will be set. The `collides`
+             * parameter controls if collision will be enabled (true) or disabled (false). Passing in
+             * `{ collides: true }` would update the collision flag on any tiles with a "collides" property that
+             * has a value of true. Any tile that doesn't have "collides" set to true will be ignored. You can
+             * also use an array of values, e.g. `{ types: ["stone", "lava", "sand" ] }`. If a tile has a
+             * "types" property that matches any of those values, its collision flag will be updated.
+             * @param properties An object with tile properties and corresponding values that should
+             * be checked.
+             * @param collides If true it will enable collision. If false it will clear
+             * collision. Default true.
+             * @param recalculateFaces Whether or not to recalculate the tile faces after the
+             * update. Default true.
+             */
+            setCollisionByProperty(properties: object, collides?: boolean, recalculateFaces?: boolean): Phaser.Tilemaps.StaticTilemapLayer;
+
+            /**
+             * Sets collision on all tiles in the given layer, except for tiles that have an index specified in
+             * the given array. The `collides` parameter controls if collision will be enabled (true) or
+             * disabled (false).
+             * @param indexes An array of the tile indexes to not be counted for collision.
+             * @param collides If true it will enable collision. If false it will clear
+             * collision. Default true.
+             * @param recalculateFaces Whether or not to recalculate the tile faces after the
+             * update. Default true.
+             */
+            setCollisionByExclusion(indexes: integer[], collides?: boolean, recalculateFaces?: boolean): Phaser.Tilemaps.StaticTilemapLayer;
+
+            /**
+             * Sets a global collision callback for the given tile index within the layer. This will affect all
+             * tiles on this layer that have the same index. If a callback is already set for the tile index it
+             * will be replaced. Set the callback to null to remove it. If you want to set a callback for a tile
+             * at a specific location on the map then see setTileLocationCallback.
+             * @param indexes Either a single tile index, or an array of tile indexes to have a
+             * collision callback set for.
+             * @param callback The callback that will be invoked when the tile is collided with.
+             * @param callbackContext The context under which the callback is called.
+             */
+            setTileIndexCallback(indexes: integer | any[], callback: Function, callbackContext: object): Phaser.Tilemaps.StaticTilemapLayer;
+
+            /**
+             * Sets collision on the tiles within a layer by checking each tiles collision group data
+             * (typically defined in Tiled within the tileset collision editor). If any objects are found within
+             * a tiles collision group, the tile's colliding information will be set. The `collides` parameter
+             * controls if collision will be enabled (true) or disabled (false).
+             * @param collides If true it will enable collision. If false it will clear
+             * collision. Default true.
+             * @param recalculateFaces Whether or not to recalculate the tile faces after the
+             * update. Default true.
+             */
+            setCollisionFromCollisionGroup(collides?: boolean, recalculateFaces?: boolean): Phaser.Tilemaps.StaticTilemapLayer;
+
+            /**
+             * Sets a collision callback for the given rectangular area (in tile coordinates) within the layer.
+             * If a callback is already set for the tile index it will be replaced. Set the callback to null to
+             * remove it.
+             * @param tileX [description]
+             * @param tileY [description]
+             * @param width [description]
+             * @param height [description]
+             * @param callback The callback that will be invoked when the tile is collided with.
+             * @param callbackContext The context under which the callback is called.
+             */
+            setTileLocationCallback(tileX: integer, tileY: integer, width: integer, height: integer, callback: Function, callbackContext?: object): Phaser.Tilemaps.StaticTilemapLayer;
+
+            /**
+             * Converts from tile X coordinates (tile units) to world X coordinates (pixels), factoring in the
+             * layers position, scale and scroll.
+             * @param tileX [description]
+             * @param camera [description] Default main camera.
+             */
+            tileToWorldX(tileX: integer, camera?: Phaser.Cameras.Scene2D.Camera): number;
+
+            /**
+             * Converts from tile Y coordinates (tile units) to world Y coordinates (pixels), factoring in the
+             * layers position, scale and scroll.
+             * @param tileY [description]
+             * @param camera [description] Default main camera.
+             */
+            tileToWorldY(tileY: integer, camera?: Phaser.Cameras.Scene2D.Camera): number;
+
+            /**
+             * Converts from tile XY coordinates (tile units) to world XY coordinates (pixels), factoring in the
+             * layers position, scale and scroll. This will return a new Vector2 object or update the given
+             * `point` object.
+             * @param tileX [description]
+             * @param tileY [description]
+             * @param point [description]
+             * @param camera [description] Default main camera.
+             */
+            tileToWorldXY(tileX: integer, tileY: integer, point?: Phaser.Math.Vector2, camera?: Phaser.Cameras.Scene2D.Camera): Phaser.Math.Vector2;
+
+            /**
+             * Converts from world X coordinates (pixels) to tile X coordinates (tile units), factoring in the
+             * layers position, scale and scroll.
+             * @param worldX [description]
+             * @param snapToFloor Whether or not to round the tile coordinate down to the
+             * nearest integer. Default true.
+             * @param camera [description] Default main camera.
+             */
+            worldToTileX(worldX: number, snapToFloor?: boolean, camera?: Phaser.Cameras.Scene2D.Camera): number;
+
+            /**
+             * Converts from world Y coordinates (pixels) to tile Y coordinates (tile units), factoring in the
+             * layers position, scale and scroll.
+             * @param worldY [description]
+             * @param snapToFloor Whether or not to round the tile coordinate down to the
+             * nearest integer. Default true.
+             * @param camera [description] Default main camera.
+             */
+            worldToTileY(worldY: number, snapToFloor?: boolean, camera?: Phaser.Cameras.Scene2D.Camera): number;
+
+            /**
+             * Converts from world XY coordinates (pixels) to tile XY coordinates (tile units), factoring in the
+             * layers position, scale and scroll. This will return a new Vector2 object or update the given
+             * `point` object.
+             * @param worldX [description]
+             * @param worldY [description]
+             * @param snapToFloor Whether or not to round the tile coordinate down to the
+             * nearest integer. Default true.
+             * @param point [description]
+             * @param camera [description] Default main camera.
+             */
+            worldToTileXY(worldX: number, worldY: number, snapToFloor?: boolean, point?: Phaser.Math.Vector2, camera?: Phaser.Cameras.Scene2D.Camera): Phaser.Math.Vector2;
+
+            /**
+             * Destroys this StaticTilemapLayer and removes its link to the associated LayerData.
+             */
+            destroy(): void;
+
+            /**
+             * Clears all alpha values associated with this Game Object.
+             *
+             * Immediately sets the alpha levels back to 1 (fully opaque).
+             */
+            clearAlpha(): this;
+
+            /**
+             * Set the Alpha level of this Game Object. The alpha controls the opacity of the Game Object as it renders.
+             * Alpha values are provided as a float between 0, fully transparent, and 1, fully opaque.
+             *
+             * If your game is running under WebGL you can optionally specify four different alpha values, each of which
+             * correspond to the four corners of the Game Object. Under Canvas only the `topLeft` value given is used.
+             * @param topLeft The alpha value used for the top-left of the Game Object. If this is the only value given it's applied across the whole Game Object. Default 1.
+             * @param topRight The alpha value used for the top-right of the Game Object. WebGL only.
+             * @param bottomLeft The alpha value used for the bottom-left of the Game Object. WebGL only.
+             * @param bottomRight The alpha value used for the bottom-right of the Game Object. WebGL only.
+             */
+            setAlpha(topLeft?: number, topRight?: number, bottomLeft?: number, bottomRight?: number): this;
+
+            /**
+             * The alpha value of the Game Object.
+             *
+             * This is a global value, impacting the entire Game Object, not just a region of it.
+             */
+            alpha: number;
+
+            /**
+             * The alpha value starting from the top-left of the Game Object.
+             * This value is interpolated from the corner to the center of the Game Object.
+             */
+            alphaTopLeft: number;
+
+            /**
+             * The alpha value starting from the top-right of the Game Object.
+             * This value is interpolated from the corner to the center of the Game Object.
+             */
+            alphaTopRight: number;
+
+            /**
+             * The alpha value starting from the bottom-left of the Game Object.
+             * This value is interpolated from the corner to the center of the Game Object.
+             */
+            alphaBottomLeft: number;
+
+            /**
+             * The alpha value starting from the bottom-right of the Game Object.
+             * This value is interpolated from the corner to the center of the Game Object.
+             */
+            alphaBottomRight: number;
+
+            /**
+             * Sets the Blend Mode being used by this Game Object.
+             *
+             * This can be a const, such as `Phaser.BlendModes.SCREEN`, or an integer, such as 4 (for Overlay)
+             *
+             * Under WebGL only the following Blend Modes are available:
+             *
+             * * ADD
+             * * MULTIPLY
+             * * SCREEN
+             *
+             * Canvas has more available depending on browser support.
+             *
+             * You can also create your own custom Blend Modes in WebGL.
+             *
+             * Blend modes have different effects under Canvas and WebGL, and from browser to browser, depending
+             * on support. Blend Modes also cause a WebGL batch flush should it encounter a new blend mode. For these
+             * reasons try to be careful about the construction of your Scene and the frequency of which blend modes
+             * are used.
+             */
+            blendMode: Phaser.BlendModes | string;
+
+            /**
+             * Sets the Blend Mode being used by this Game Object.
+             *
+             * This can be a const, such as `Phaser.BlendModes.SCREEN`, or an integer, such as 4 (for Overlay)
+             *
+             * Under WebGL only the following Blend Modes are available:
+             *
+             * * ADD
+             * * MULTIPLY
+             * * SCREEN
+             *
+             * Canvas has more available depending on browser support.
+             *
+             * You can also create your own custom Blend Modes in WebGL.
+             *
+             * Blend modes have different effects under Canvas and WebGL, and from browser to browser, depending
+             * on support. Blend Modes also cause a WebGL batch flush should it encounter a new blend mode. For these
+             * reasons try to be careful about the construction of your Scene and the frequency of which blend modes
+             * are used.
+             * @param value The BlendMode value. Either a string or a CONST.
+             */
+            setBlendMode(value: string | Phaser.BlendModes): this;
+
+            /**
+             * The native (un-scaled) width of this Game Object.
+             *
+             * Changing this value will not change the size that the Game Object is rendered in-game.
+             * For that you need to either set the scale of the Game Object (`setScale`) or use
+             * the `displayWidth` property.
+             */
+            width: number;
+
+            /**
+             * The native (un-scaled) height of this Game Object.
+             *
+             * Changing this value will not change the size that the Game Object is rendered in-game.
+             * For that you need to either set the scale of the Game Object (`setScale`) or use
+             * the `displayHeight` property.
+             */
+            height: number;
+
+            /**
+             * The displayed width of this Game Object.
+             *
+             * This value takes into account the scale factor.
+             *
+             * Setting this value will adjust the Game Object's scale property.
+             */
+            displayWidth: number;
+
+            /**
+             * The displayed height of this Game Object.
+             *
+             * This value takes into account the scale factor.
+             *
+             * Setting this value will adjust the Game Object's scale property.
+             */
+            displayHeight: number;
+
+            /**
+             * Sets the internal size of this Game Object, as used for frame or physics body creation.
+             *
+             * This will not change the size that the Game Object is rendered in-game.
+             * For that you need to either set the scale of the Game Object (`setScale`) or call the
+             * `setDisplaySize` method, which is the same thing as changing the scale but allows you
+             * to do so by giving pixel values.
+             *
+             * If you have enabled this Game Object for input, changing the size will _not_ change the
+             * size of the hit area. To do this you should adjust the `input.hitArea` object directly.
+             * @param width The width of this Game Object.
+             * @param height The height of this Game Object.
+             */
+            setSize(width: number, height: number): this;
+
+            /**
+             * Sets the display size of this Game Object.
+             *
+             * Calling this will adjust the scale.
+             * @param width The width of this Game Object.
+             * @param height The height of this Game Object.
+             */
+            setDisplaySize(width: number, height: number): this;
+
+            /**
+             * The depth of this Game Object within the Scene.
+             *
+             * The depth is also known as the 'z-index' in some environments, and allows you to change the rendering order
+             * of Game Objects, without actually moving their position in the display list.
+             *
+             * The depth starts from zero (the default value) and increases from that point. A Game Object with a higher depth
+             * value will always render in front of one with a lower value.
+             *
+             * Setting the depth will queue a depth sort event within the Scene.
+             */
+            depth: number;
+
+            /**
+             * The depth of this Game Object within the Scene.
+             *
+             * The depth is also known as the 'z-index' in some environments, and allows you to change the rendering order
+             * of Game Objects, without actually moving their position in the display list.
+             *
+             * The depth starts from zero (the default value) and increases from that point. A Game Object with a higher depth
+             * value will always render in front of one with a lower value.
+             *
+             * Setting the depth will queue a depth sort event within the Scene.
+             * @param value The depth of this Game Object.
+             */
+            setDepth(value: integer): this;
+
+            /**
+             * The horizontally flipped state of the Game Object.
+             * A Game Object that is flipped horizontally will render inversed on the horizontal axis.
+             * Flipping always takes place from the middle of the texture and does not impact the scale value.
+             */
+            flipX: boolean;
+
+            /**
+             * The vertically flipped state of the Game Object.
+             * A Game Object that is flipped vertically will render inversed on the vertical axis (i.e. upside down)
+             * Flipping always takes place from the middle of the texture and does not impact the scale value.
+             */
+            flipY: boolean;
+
+            /**
+             * Toggles the horizontal flipped state of this Game Object.
+             */
+            toggleFlipX(): this;
+
+            /**
+             * Toggles the vertical flipped state of this Game Object.
+             */
+            toggleFlipY(): this;
+
+            /**
+             * Sets the horizontal flipped state of this Game Object.
+             * @param value The flipped state. `false` for no flip, or `true` to be flipped.
+             */
+            setFlipX(value: boolean): this;
+
+            /**
+             * Sets the vertical flipped state of this Game Object.
+             * @param value The flipped state. `false` for no flip, or `true` to be flipped.
+             */
+            setFlipY(value: boolean): this;
+
+            /**
+             * Sets the horizontal and vertical flipped state of this Game Object.
+             * @param x The horizontal flipped state. `false` for no flip, or `true` to be flipped.
+             * @param y The horizontal flipped state. `false` for no flip, or `true` to be flipped.
+             */
+            setFlip(x: boolean, y: boolean): this;
+
+            /**
+             * Resets the horizontal and vertical flipped state of this Game Object back to their default un-flipped state.
+             */
+            resetFlip(): this;
+
+            /**
+             * Gets the center coordinate of this Game Object, regardless of origin.
+             * The returned point is calculated in local space and does not factor in any parent containers
+             * @param output An object to store the values in. If not provided a new Vector2 will be created.
+             */
+            getCenter<O extends Phaser.Math.Vector2>(output?: O): O;
+
+            /**
+             * Gets the top-left corner coordinate of this Game Object, regardless of origin.
+             * The returned point is calculated in local space and does not factor in any parent containers
+             * @param output An object to store the values in. If not provided a new Vector2 will be created.
+             * @param includeParent If this Game Object has a parent Container, include it (and all other ancestors) in the resulting vector? Default false.
+             */
+            getTopLeft<O extends Phaser.Math.Vector2>(output?: O, includeParent?: boolean): O;
+
+            /**
+             * Gets the top-right corner coordinate of this Game Object, regardless of origin.
+             * The returned point is calculated in local space and does not factor in any parent containers
+             * @param output An object to store the values in. If not provided a new Vector2 will be created.
+             * @param includeParent If this Game Object has a parent Container, include it (and all other ancestors) in the resulting vector? Default false.
+             */
+            getTopRight<O extends Phaser.Math.Vector2>(output?: O, includeParent?: boolean): O;
+
+            /**
+             * Gets the bottom-left corner coordinate of this Game Object, regardless of origin.
+             * The returned point is calculated in local space and does not factor in any parent containers
+             * @param output An object to store the values in. If not provided a new Vector2 will be created.
+             * @param includeParent If this Game Object has a parent Container, include it (and all other ancestors) in the resulting vector? Default false.
+             */
+            getBottomLeft<O extends Phaser.Math.Vector2>(output?: O, includeParent?: boolean): O;
+
+            /**
+             * Gets the bottom-right corner coordinate of this Game Object, regardless of origin.
+             * The returned point is calculated in local space and does not factor in any parent containers
+             * @param output An object to store the values in. If not provided a new Vector2 will be created.
+             * @param includeParent If this Game Object has a parent Container, include it (and all other ancestors) in the resulting vector? Default false.
+             */
+            getBottomRight<O extends Phaser.Math.Vector2>(output?: O, includeParent?: boolean): O;
+
+            /**
+             * Gets the bounds of this Game Object, regardless of origin.
+             * The values are stored and returned in a Rectangle, or Rectangle-like, object.
+             * @param output An object to store the values in. If not provided a new Rectangle will be created.
+             */
+            getBounds<O extends Phaser.Geom.Rectangle>(output?: O): O;
+
+            /**
+             * The horizontal origin of this Game Object.
+             * The origin maps the relationship between the size and position of the Game Object.
+             * The default value is 0.5, meaning all Game Objects are positioned based on their center.
+             * Setting the value to 0 means the position now relates to the left of the Game Object.
+             */
+            originX: number;
+
+            /**
+             * The vertical origin of this Game Object.
+             * The origin maps the relationship between the size and position of the Game Object.
+             * The default value is 0.5, meaning all Game Objects are positioned based on their center.
+             * Setting the value to 0 means the position now relates to the top of the Game Object.
+             */
+            originY: number;
+
+            /**
+             * The horizontal display origin of this Game Object.
+             * The origin is a normalized value between 0 and 1.
+             * The displayOrigin is a pixel value, based on the size of the Game Object combined with the origin.
+             */
+            displayOriginX: number;
+
+            /**
+             * The vertical display origin of this Game Object.
+             * The origin is a normalized value between 0 and 1.
+             * The displayOrigin is a pixel value, based on the size of the Game Object combined with the origin.
+             */
+            displayOriginY: number;
+
+            /**
+             * Sets the origin of this Game Object.
+             *
+             * The values are given in the range 0 to 1.
+             * @param x The horizontal origin value. Default 0.5.
+             * @param y The vertical origin value. If not defined it will be set to the value of `x`. Default x.
+             */
+            setOrigin(x?: number, y?: number): this;
+
+            /**
+             * Sets the origin of this Game Object based on the Pivot values in its Frame.
+             */
+            setOriginFromFrame(): this;
+
+            /**
+             * Sets the display origin of this Game Object.
+             * The difference between this and setting the origin is that you can use pixel values for setting the display origin.
+             * @param x The horizontal display origin value. Default 0.
+             * @param y The vertical display origin value. If not defined it will be set to the value of `x`. Default x.
+             */
+            setDisplayOrigin(x?: number, y?: number): this;
+
+            /**
+             * Updates the Display Origin cached values internally stored on this Game Object.
+             * You don't usually call this directly, but it is exposed for edge-cases where you may.
+             */
+            updateDisplayOrigin(): this;
+
+            /**
+             * The initial WebGL pipeline of this Game Object.
+             */
+            defaultPipeline: Phaser.Renderer.WebGL.WebGLPipeline;
+
+            /**
+             * The current WebGL pipeline of this Game Object.
+             */
+            pipeline: Phaser.Renderer.WebGL.WebGLPipeline;
+
+            /**
+             * Sets the initial WebGL Pipeline of this Game Object.
+             * This should only be called during the instantiation of the Game Object.
+             * @param pipelineName The name of the pipeline to set on this Game Object. Defaults to the Texture Tint Pipeline. Default TextureTintPipeline.
+             */
+            initPipeline(pipelineName?: string): boolean;
+
+            /**
+             * Sets the active WebGL Pipeline of this Game Object.
+             * @param pipelineName The name of the pipeline to set on this Game Object.
+             */
+            setPipeline(pipelineName: string): this;
+
+            /**
+             * Resets the WebGL Pipeline of this Game Object back to the default it was created with.
+             */
+            resetPipeline(): boolean;
+
+            /**
+             * Gets the name of the WebGL Pipeline this Game Object is currently using.
+             */
+            getPipelineName(): string;
+
+            /**
+             * The Scale Mode being used by this Game Object.
+             * Can be either `ScaleModes.LINEAR` or `ScaleModes.NEAREST`.
+             */
+            scaleMode: Phaser.ScaleModes;
+
+            /**
+             * Sets the Scale Mode being used by this Game Object.
+             * Can be either `ScaleModes.LINEAR` or `ScaleModes.NEAREST`.
+             * @param value The Scale Mode to be used by this Game Object.
+             */
+            setScaleMode(value: Phaser.ScaleModes): this;
+
+            /**
+             * The x position of this Game Object.
+             */
+            x: number;
+
+            /**
+             * The y position of this Game Object.
+             */
+            y: number;
+
+            /**
+             * The z position of this Game Object.
+             * Note: Do not use this value to set the z-index, instead see the `depth` property.
+             */
+            z: number;
+
+            /**
+             * The w position of this Game Object.
+             */
+            w: number;
+
+            /**
+             * The horizontal scale of this Game Object.
+             */
+            scaleX: number;
+
+            /**
+             * The vertical scale of this Game Object.
+             */
+            scaleY: number;
+
+            /**
+             * The angle of this Game Object as expressed in degrees.
+             *
+             * Where 0 is to the right, 90 is down, 180 is left.
+             *
+             * If you prefer to work in radians, see the `rotation` property instead.
+             */
+            angle: integer;
+
+            /**
+             * The angle of this Game Object in radians.
+             *
+             * If you prefer to work in degrees, see the `angle` property instead.
+             */
+            rotation: number;
+
+            /**
+             * Sets the position of this Game Object.
+             * @param x The x position of this Game Object. Default 0.
+             * @param y The y position of this Game Object. If not set it will use the `x` value. Default x.
+             * @param z The z position of this Game Object. Default 0.
+             * @param w The w position of this Game Object. Default 0.
+             */
+            setPosition(x?: number, y?: number, z?: number, w?: number): this;
+
+            /**
+             * Sets the position of this Game Object to be a random position within the confines of
+             * the given area.
+             *
+             * If no area is specified a random position between 0 x 0 and the game width x height is used instead.
+             *
+             * The position does not factor in the size of this Game Object, meaning that only the origin is
+             * guaranteed to be within the area.
+             * @param x The x position of the top-left of the random area. Default 0.
+             * @param y The y position of the top-left of the random area. Default 0.
+             * @param width The width of the random area.
+             * @param height The height of the random area.
+             */
+            setRandomPosition(x?: number, y?: number, width?: number, height?: number): this;
+
+            /**
+             * Sets the rotation of this Game Object.
+             * @param radians The rotation of this Game Object, in radians. Default 0.
+             */
+            setRotation(radians?: number): this;
+
+            /**
+             * Sets the angle of this Game Object.
+             * @param degrees The rotation of this Game Object, in degrees. Default 0.
+             */
+            setAngle(degrees?: number): this;
+
+            /**
+             * Sets the scale of this Game Object.
+             * @param x The horizontal scale of this Game Object.
+             * @param y The vertical scale of this Game Object. If not set it will use the `x` value. Default x.
+             */
+            setScale(x: number, y?: number): this;
+
+            /**
+             * Sets the x position of this Game Object.
+             * @param value The x position of this Game Object. Default 0.
+             */
+            setX(value?: number): this;
+
+            /**
+             * Sets the y position of this Game Object.
+             * @param value The y position of this Game Object. Default 0.
+             */
+            setY(value?: number): this;
+
+            /**
+             * Sets the z position of this Game Object.
+             * @param value The z position of this Game Object. Default 0.
+             */
+            setZ(value?: number): this;
+
+            /**
+             * Sets the w position of this Game Object.
+             * @param value The w position of this Game Object. Default 0.
+             */
+            setW(value?: number): this;
+
+            /**
+             * Gets the local transform matrix for this Game Object.
+             * @param tempMatrix The matrix to populate with the values from this Game Object.
+             */
+            getLocalTransformMatrix(tempMatrix?: Phaser.GameObjects.Components.TransformMatrix): Phaser.GameObjects.Components.TransformMatrix;
+
+            /**
+             * Gets the world transform matrix for this Game Object, factoring in any parent Containers.
+             * @param tempMatrix The matrix to populate with the values from this Game Object.
+             * @param parentMatrix A temporary matrix to hold parent values during the calculations.
+             */
+            getWorldTransformMatrix(tempMatrix?: Phaser.GameObjects.Components.TransformMatrix, parentMatrix?: Phaser.GameObjects.Components.TransformMatrix): Phaser.GameObjects.Components.TransformMatrix;
+
+            /**
+             * The visible state of the Game Object.
+             *
+             * An invisible Game Object will skip rendering, but will still process update logic.
+             */
+            visible: boolean;
+
+            /**
+             * Sets the visibility of this Game Object.
+             *
+             * An invisible Game Object will skip rendering, but will still process update logic.
+             * @param value The visible state of the Game Object.
+             */
+            setVisible(value: boolean): this;
+
+            /**
+             * The horizontal scroll factor of this Game Object.
+             *
+             * The scroll factor controls the influence of the movement of a Camera upon this Game Object.
+             *
+             * When a camera scrolls it will change the location at which this Game Object is rendered on-screen.
+             * It does not change the Game Objects actual position values.
+             *
+             * A value of 1 means it will move exactly in sync with a camera.
+             * A value of 0 means it will not move at all, even if the camera moves.
+             * Other values control the degree to which the camera movement is mapped to this Game Object.
+             *
+             * Please be aware that scroll factor values other than 1 are not taken in to consideration when
+             * calculating physics collisions. Bodies always collide based on their world position, but changing
+             * the scroll factor is a visual adjustment to where the textures are rendered, which can offset
+             * them from physics bodies if not accounted for in your code.
+             */
+            scrollFactorX: number;
+
+            /**
+             * The vertical scroll factor of this Game Object.
+             *
+             * The scroll factor controls the influence of the movement of a Camera upon this Game Object.
+             *
+             * When a camera scrolls it will change the location at which this Game Object is rendered on-screen.
+             * It does not change the Game Objects actual position values.
+             *
+             * A value of 1 means it will move exactly in sync with a camera.
+             * A value of 0 means it will not move at all, even if the camera moves.
+             * Other values control the degree to which the camera movement is mapped to this Game Object.
+             *
+             * Please be aware that scroll factor values other than 1 are not taken in to consideration when
+             * calculating physics collisions. Bodies always collide based on their world position, but changing
+             * the scroll factor is a visual adjustment to where the textures are rendered, which can offset
+             * them from physics bodies if not accounted for in your code.
+             */
+            scrollFactorY: number;
+
+            /**
+             * Sets the scroll factor of this Game Object.
+             *
+             * The scroll factor controls the influence of the movement of a Camera upon this Game Object.
+             *
+             * When a camera scrolls it will change the location at which this Game Object is rendered on-screen.
+             * It does not change the Game Objects actual position values.
+             *
+             * A value of 1 means it will move exactly in sync with a camera.
+             * A value of 0 means it will not move at all, even if the camera moves.
+             * Other values control the degree to which the camera movement is mapped to this Game Object.
+             *
+             * Please be aware that scroll factor values other than 1 are not taken in to consideration when
+             * calculating physics collisions. Bodies always collide based on their world position, but changing
+             * the scroll factor is a visual adjustment to where the textures are rendered, which can offset
+             * them from physics bodies if not accounted for in your code.
+             * @param x The horizontal scroll factor of this Game Object.
+             * @param y The vertical scroll factor of this Game Object. If not set it will use the `x` value. Default x.
+             */
+            setScrollFactor(x: number, y?: number): this;
+
+        }
+
+        /**
+         * A Tile is a representation of a single tile within the Tilemap. This is a lightweight data
+         * representation, so its position information is stored without factoring in scroll, layer
+         * scale or layer position.
+         */
+        class Tile implements Phaser.GameObjects.Components.Alpha, Phaser.GameObjects.Components.Flip, Phaser.GameObjects.Components.Visible {
+            /**
+             *
+             * @param layer The LayerData object in the Tilemap that this tile belongs to.
+             * @param index The unique index of this tile within the map.
+             * @param x The x coordinate of this tile in tile coordinates.
+             * @param y The y coordinate of this tile in tile coordinates.
+             * @param width Width of the tile in pixels.
+             * @param height Height of the tile in pixels.
+             * @param baseWidth The base width a tile in the map (in pixels). Tiled maps support
+             * multiple tileset sizes within one map, but they are still placed at intervals of the base
+             * tile width.
+             * @param baseHeight The base height of the tile in pixels (in pixels). Tiled maps
+             * support multiple tileset sizes within one map, but they are still placed at intervals of the
+             * base tile height.
+             */
+            constructor(layer: Phaser.Tilemaps.LayerData, index: integer, x: integer, y: integer, width: integer, height: integer, baseWidth: integer, baseHeight: integer);
+
+            /**
+             * The LayerData in the Tilemap data that this tile belongs to.
+             */
+            layer: Phaser.Tilemaps.LayerData;
+
+            /**
+             * The index of this tile within the map data corresponding to the tileset, or -1 if this
+             * represents a blank tile.
+             */
+            index: integer;
+
+            /**
+             * The x map coordinate of this tile in tile units.
+             */
+            x: integer;
+
+            /**
+             * The y map coordinate of this tile in tile units.
+             */
+            y: integer;
+
+            /**
+             * The width of the tile in pixels.
+             */
+            width: integer;
+
+            /**
+             * The height of the tile in pixels.
+             */
+            height: integer;
+
+            /**
+             * The map's base width of a tile in pixels. Tiled maps support multiple tileset sizes
+             * within one map, but they are still placed at intervals of the base tile size.
+             */
+            baseWidth: integer;
+
+            /**
+             * The map's base height of a tile in pixels. Tiled maps support multiple tileset sizes
+             * within one map, but they are still placed at intervals of the base tile size.
+             */
+            baseHeight: integer;
+
+            /**
+             * The x coordinate of the top left of this tile in pixels. This is relative to the top left
+             * of the layer this tile is being rendered within. This property does NOT factor in camera
+             * scroll, layer scale or layer position.
+             */
+            pixelX: number;
+
+            /**
+             * The y coordinate of the top left of this tile in pixels. This is relative to the top left
+             * of the layer this tile is being rendered within. This property does NOT factor in camera
+             * scroll, layer scale or layer position.
+             */
+            pixelY: number;
+
+            /**
+             * Tile specific properties. These usually come from Tiled.
+             */
+            properties: object;
+
+            /**
+             * The rotation angle of this tile.
+             */
+            rotation: number;
+
+            /**
+             * Whether the tile should collide with any object on the left side.
+             */
+            collideLeft: boolean;
+
+            /**
+             * Whether the tile should collide with any object on the right side.
+             */
+            collideRight: boolean;
+
+            /**
+             * Whether the tile should collide with any object on the top side.
+             */
+            collideUp: boolean;
+
+            /**
+             * Whether the tile should collide with any object on the bottom side.
+             */
+            collideDown: boolean;
+
+            /**
+             * Whether the tile's left edge is interesting for collisions.
+             */
+            faceLeft: boolean;
+
+            /**
+             * Whether the tile's right edge is interesting for collisions.
+             */
+            faceRight: boolean;
+
+            /**
+             * Whether the tile's top edge is interesting for collisions.
+             */
+            faceTop: boolean;
+
+            /**
+             * Whether the tile's bottom edge is interesting for collisions.
+             */
+            faceBottom: boolean;
+
+            /**
+             * Tile collision callback.
+             */
+            collisionCallback: Function;
+
+            /**
+             * The context in which the collision callback will be called.
+             */
+            collisionCallbackContext: object;
+
+            /**
+             * The tint to apply to this tile. Note: tint is currently a single color value instead of
+             * the 4 corner tint component on other GameObjects.
+             */
+            tint: number;
+
+            /**
+             * An empty object where physics-engine specific information (e.g. bodies) may be stored.
+             */
+            physics: object;
+
+            /**
+             * Check if the given x and y world coordinates are within this Tile. This does not factor in
+             * camera scroll, layer scale or layer position.
+             * @param x The x coordinate to test.
+             * @param y The y coordinate to test.
+             */
+            containsPoint(x: number, y: number): boolean;
+
+            /**
+             * Copies the tile data & properties from the given tile to this tile. This copies everything
+             * except for position and interesting faces.
+             * @param tile The tile to copy from.
+             */
+            copy(tile: Phaser.Tilemaps.Tile): Phaser.Tilemaps.Tile;
+
+            /**
+             * The collision group for this Tile, defined within the Tileset. This returns a reference to
+             * the collision group stored within the Tileset, so any modification of the returned object
+             * will impact all tiles that have the same index as this tile.
+             */
+            getCollisionGroup(): object;
+
+            /**
+             * The tile data for this Tile, defined within the Tileset. This typically contains Tiled
+             * collision data, tile animations and terrain information. This returns a reference to the tile
+             * data stored within the Tileset, so any modification of the returned object will impact all
+             * tiles that have the same index as this tile.
+             */
+            getTileData(): object;
+
+            /**
+             * Gets the world X position of the left side of the tile, factoring in the layers position,
+             * scale and scroll.
+             * @param camera The Camera to use to perform the check.
+             */
+            getLeft(camera?: Phaser.Cameras.Scene2D.Camera): number;
+
+            /**
+             * Gets the world X position of the right side of the tile, factoring in the layer's position,
+             * scale and scroll.
+             * @param camera The Camera to use to perform the check.
+             */
+            getRight(camera?: Phaser.Cameras.Scene2D.Camera): number;
+
+            /**
+             * Gets the world Y position of the top side of the tile, factoring in the layer's position,
+             * scale and scroll.
+             * @param camera The Camera to use to perform the check.
+             */
+            getTop(camera?: Phaser.Cameras.Scene2D.Camera): number;
+
+            /**
+             * Gets the world Y position of the bottom side of the tile, factoring in the layer's position,
+             * scale and scroll.
+             * @param camera The Camera to use to perform the check.
+             */
+            getBottom(camera?: Phaser.Cameras.Scene2D.Camera): number;
+
+            /**
+             * Gets the world rectangle bounding box for the tile, factoring in the layers position,
+             * scale and scroll.
+             * @param camera The Camera to use to perform the check.
+             * @param output [description]
+             */
+            getBounds(camera?: Phaser.Cameras.Scene2D.Camera, output?: object): Phaser.Geom.Rectangle | object;
+
+            /**
+             * Gets the world X position of the center of the tile, factoring in the layer's position,
+             * scale and scroll.
+             * @param camera The Camera to use to perform the check.
+             */
+            getCenterX(camera?: Phaser.Cameras.Scene2D.Camera): number;
+
+            /**
+             * Gets the world Y position of the center of the tile, factoring in the layer's position,
+             * scale and scroll.
+             * @param camera The Camera to use to perform the check.
+             */
+            getCenterY(camera?: Phaser.Cameras.Scene2D.Camera): number;
+
+            /**
+             * Clean up memory.
+             */
+            destroy(): void;
+
+            /**
+             * Check for intersection with this tile. This does not factor in camera scroll, layer scale or
+             * layer position.
+             * @param x The x axis in pixels.
+             * @param y The y axis in pixels.
+             * @param right The right point.
+             * @param bottom The bottom point.
+             */
+            intersects(x: number, y: number, right: number, bottom: number): boolean;
+
+            /**
+             * Checks if the tile is interesting.
+             * @param collides If true, will consider the tile interesting if it collides on any side.
+             * @param faces If true, will consider the tile interesting if it has an interesting face.
+             */
+            isInteresting(collides: boolean, faces: boolean): boolean;
+
+            /**
+             * Reset collision status flags.
+             * @param recalculateFaces Whether or not to recalculate interesting faces for this tile and its neighbors. Default true.
+             */
+            resetCollision(recalculateFaces?: boolean): Phaser.Tilemaps.Tile;
+
+            /**
+             * Reset faces.
+             */
+            resetFaces(): Phaser.Tilemaps.Tile;
+
+            /**
+             * Sets the collision flags for each side of this tile and updates the interesting faces list.
+             * @param left Indicating collide with any object on the left.
+             * @param right Indicating collide with any object on the right.
+             * @param up Indicating collide with any object on the top.
+             * @param down Indicating collide with any object on the bottom.
+             * @param recalculateFaces Whether or not to recalculate interesting faces
+             * for this tile and its neighbors. Default true.
+             */
+            setCollision(left: boolean, right?: boolean, up?: boolean, down?: boolean, recalculateFaces?: boolean): Phaser.Tilemaps.Tile;
+
+            /**
+             * Set a callback to be called when this tile is hit by an object. The callback must true for
+             * collision processing to take place.
+             * @param callback Callback function.
+             * @param context Callback will be called within this context.
+             */
+            setCollisionCallback(callback: Function, context: object): Phaser.Tilemaps.Tile;
+
+            /**
+             * Sets the size of the tile and updates its pixelX and pixelY.
+             * @param tileWidth The width of the tile in pixels.
+             * @param tileHeight The height of the tile in pixels.
+             * @param baseWidth The base width a tile in the map (in pixels).
+             * @param baseHeight The base height of the tile in pixels (in pixels).
+             */
+            setSize(tileWidth: integer, tileHeight: integer, baseWidth: integer, baseHeight: integer): Phaser.Tilemaps.Tile;
+
+            /**
+             * Used internally. Updates the tile's world XY position based on the current tile size.
+             */
+            updatePixelXY(): Phaser.Tilemaps.Tile;
+
+            /**
+             * True if this tile can collide on any of its faces or has a collision callback set.
+             */
+            readonly canCollide: boolean;
+
+            /**
+             * True if this tile can collide on any of its faces.
+             */
+            readonly collides: boolean;
+
+            /**
+             * True if this tile has any interesting faces.
+             */
+            readonly hasInterestingFace: boolean;
+
+            /**
+             * The tileset that contains this Tile. This will only return null if accessed from a LayerData
+             * instance before the tile is placed within a StaticTilemapLayer or DynamicTilemapLayer.
+             */
+            readonly tileset: Phaser.Tilemaps.Tileset;
+
+            /**
+             * The tilemap layer that contains this Tile. This will only return null if accessed from a
+             * LayerData instance before the tile is placed within a StaticTilemapLayer or
+             * DynamicTilemapLayer.
+             */
+            readonly tilemapLayer: Phaser.Tilemaps.StaticTilemapLayer | Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * The tilemap that contains this Tile. This will only return null if accessed from a LayerData
+             * instance before the tile is placed within a StaticTilemapLayer or DynamicTilemapLayer.
+             */
+            readonly tilemap: Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Clears all alpha values associated with this Game Object.
+             *
+             * Immediately sets the alpha levels back to 1 (fully opaque).
+             */
+            clearAlpha(): this;
+
+            /**
+             * Set the Alpha level of this Game Object. The alpha controls the opacity of the Game Object as it renders.
+             * Alpha values are provided as a float between 0, fully transparent, and 1, fully opaque.
+             *
+             * If your game is running under WebGL you can optionally specify four different alpha values, each of which
+             * correspond to the four corners of the Game Object. Under Canvas only the `topLeft` value given is used.
+             * @param topLeft The alpha value used for the top-left of the Game Object. If this is the only value given it's applied across the whole Game Object. Default 1.
+             * @param topRight The alpha value used for the top-right of the Game Object. WebGL only.
+             * @param bottomLeft The alpha value used for the bottom-left of the Game Object. WebGL only.
+             * @param bottomRight The alpha value used for the bottom-right of the Game Object. WebGL only.
+             */
+            setAlpha(topLeft?: number, topRight?: number, bottomLeft?: number, bottomRight?: number): this;
+
+            /**
+             * The alpha value of the Game Object.
+             *
+             * This is a global value, impacting the entire Game Object, not just a region of it.
+             */
+            alpha: number;
+
+            /**
+             * The alpha value starting from the top-left of the Game Object.
+             * This value is interpolated from the corner to the center of the Game Object.
+             */
+            alphaTopLeft: number;
+
+            /**
+             * The alpha value starting from the top-right of the Game Object.
+             * This value is interpolated from the corner to the center of the Game Object.
+             */
+            alphaTopRight: number;
+
+            /**
+             * The alpha value starting from the bottom-left of the Game Object.
+             * This value is interpolated from the corner to the center of the Game Object.
+             */
+            alphaBottomLeft: number;
+
+            /**
+             * The alpha value starting from the bottom-right of the Game Object.
+             * This value is interpolated from the corner to the center of the Game Object.
+             */
+            alphaBottomRight: number;
+
+            /**
+             * The horizontally flipped state of the Game Object.
+             * A Game Object that is flipped horizontally will render inversed on the horizontal axis.
+             * Flipping always takes place from the middle of the texture and does not impact the scale value.
+             */
+            flipX: boolean;
+
+            /**
+             * The vertically flipped state of the Game Object.
+             * A Game Object that is flipped vertically will render inversed on the vertical axis (i.e. upside down)
+             * Flipping always takes place from the middle of the texture and does not impact the scale value.
+             */
+            flipY: boolean;
+
+            /**
+             * Toggles the horizontal flipped state of this Game Object.
+             */
+            toggleFlipX(): this;
+
+            /**
+             * Toggles the vertical flipped state of this Game Object.
+             */
+            toggleFlipY(): this;
+
+            /**
+             * Sets the horizontal flipped state of this Game Object.
+             * @param value The flipped state. `false` for no flip, or `true` to be flipped.
+             */
+            setFlipX(value: boolean): this;
+
+            /**
+             * Sets the vertical flipped state of this Game Object.
+             * @param value The flipped state. `false` for no flip, or `true` to be flipped.
+             */
+            setFlipY(value: boolean): this;
+
+            /**
+             * Sets the horizontal and vertical flipped state of this Game Object.
+             * @param x The horizontal flipped state. `false` for no flip, or `true` to be flipped.
+             * @param y The horizontal flipped state. `false` for no flip, or `true` to be flipped.
+             */
+            setFlip(x: boolean, y: boolean): this;
+
+            /**
+             * Resets the horizontal and vertical flipped state of this Game Object back to their default un-flipped state.
+             */
+            resetFlip(): this;
+
+            /**
+             * The visible state of the Game Object.
+             *
+             * An invisible Game Object will skip rendering, but will still process update logic.
+             */
+            visible: boolean;
+
+            /**
+             * Sets the visibility of this Game Object.
+             *
+             * An invisible Game Object will skip rendering, but will still process update logic.
+             * @param value The visible state of the Game Object.
+             */
+            setVisible(value: boolean): this;
+
+        }
+
+        /**
+         * A Tilemap is a container for Tilemap data. This isn't a display object, rather, it holds data
+         * about the map and allows you to add tilesets and tilemap layers to it. A map can have one or
+         * more tilemap layers (StaticTilemapLayer or DynamicTilemapLayer), which are the display
+         * objects that actually render tiles.
+         *
+         * The Tilemap data be parsed from a Tiled JSON file, a CSV file or a 2D array. Tiled is a free
+         * software package specifically for creating tile maps, and is available from:
+         * http://www.mapeditor.org
+         *
+         * A Tilemap has handy methods for getting & manipulating the tiles within a layer. You can only
+         * use the methods that change tiles (e.g. removeTileAt) on a DynamicTilemapLayer.
+         *
+         * Note that all Tilemaps use a base tile size to calculate dimensions from, but that a
+         * StaticTilemapLayer or DynamicTilemapLayer may have its own unique tile size that overrides
+         * it.
+         */
+        class Tilemap {
+            /**
+             *
+             * @param scene The Scene to which this Tilemap belongs.
+             * @param mapData A MapData instance containing Tilemap data.
+             */
+            constructor(scene: Phaser.Scene, mapData: Phaser.Tilemaps.MapData);
+
+            scene: Phaser.Scene;
+
+            /**
+             * The base width of a tile in pixels. Note that individual layers may have a different tile
+             * width.
+             */
+            tileWidth: integer;
+
+            /**
+             * The base height of a tile in pixels. Note that individual layers may have a different
+             * tile height.
+             */
+            tileHeight: integer;
+
+            /**
+             * The width of the map (in tiles).
+             */
+            width: number;
+
+            /**
+             * The height of the map (in tiles).
+             */
+            height: number;
+
+            /**
+             * The orientation of the map data (as specified in Tiled), usually 'orthogonal'.
+             */
+            orientation: string;
+
+            /**
+             * The render (draw) order of the map data (as specified in Tiled), usually 'right-down'.
+             *
+             * The draw orders are:
+             *
+             * right-down
+             * left-down
+             * right-up
+             * left-up
+             *
+             * This can be changed via the `setRenderOrder` method.
+             */
+            renderOrder: string;
+
+            /**
+             * The format of the map data.
+             */
+            format: number;
+
+            /**
+             * The version of the map data (as specified in Tiled, usually 1).
+             */
+            version: number;
+
+            /**
+             * Map specific properties as specified in Tiled.
+             */
+            properties: object;
+
+            /**
+             * The width of the map in pixels based on width * tileWidth.
+             */
+            widthInPixels: number;
+
+            /**
+             * The height of the map in pixels based on height * tileHeight.
+             */
+            heightInPixels: number;
+
+            imageCollections: Phaser.Tilemaps.ImageCollection[];
+
+            /**
+             * An array of Tiled Image Layers.
+             */
+            images: any[];
+
+            /**
+             * An array of Tilemap layer data.
+             */
+            layers: Phaser.Tilemaps.LayerData[];
+
+            /**
+             * An array of Tilesets used in the map.
+             */
+            tilesets: Phaser.Tilemaps.Tileset[];
+
+            /**
+             * An array of ObjectLayer instances parsed from Tiled object layers.
+             */
+            objects: Phaser.Tilemaps.ObjectLayer[];
+
+            /**
+             * The index of the currently selected LayerData object.
+             */
+            currentLayerIndex: integer;
+
+            /**
+             * Sets the rendering (draw) order of the tiles in this map.
+             *
+             * The default is 'right-down', meaning it will order the tiles starting from the top-left,
+             * drawing to the right and then moving down to the next row.
+             *
+             * The draw orders are:
+             *
+             * 0 = right-down
+             * 1 = left-down
+             * 2 = right-up
+             * 3 = left-up
+             *
+             * Setting the render order does not change the tiles or how they are stored in the layer,
+             * it purely impacts the order in which they are rendered.
+             *
+             * You can provide either an integer (0 to 3), or the string version of the order.
+             *
+             * Calling this method _after_ creating Static or Dynamic Tilemap Layers will **not** automatically
+             * update them to use the new render order. If you call this method after creating layers, use their
+             * own `setRenderOrder` methods to change them as needed.
+             * @param renderOrder The render (draw) order value. Either an integer between 0 and 3, or a string: 'right-down', 'left-down', 'right-up' or 'left-up'.
+             */
+            setRenderOrder(renderOrder: integer | string): this;
+
+            /**
+             * Adds an image to the map to be used as a tileset. A single map may use multiple tilesets.
+             * Note that the tileset name can be found in the JSON file exported from Tiled, or in the Tiled
+             * editor.
+             * @param tilesetName The name of the tileset as specified in the map data.
+             * @param key The key of the Phaser.Cache image used for this tileset. If
+             * `undefined` or `null` it will look for an image with a key matching the tilesetName parameter.
+             * @param tileWidth The width of the tile (in pixels) in the Tileset Image. If not
+             * given it will default to the map's tileWidth value, or the tileWidth specified in the Tiled
+             * JSON file.
+             * @param tileHeight The height of the tiles (in pixels) in the Tileset Image. If
+             * not given it will default to the map's tileHeight value, or the tileHeight specified in the
+             * Tiled JSON file.
+             * @param tileMargin The margin around the tiles in the sheet (in pixels). If not
+             * specified, it will default to 0 or the value specified in the Tiled JSON file.
+             * @param tileSpacing The spacing between each the tile in the sheet (in pixels).
+             * If not specified, it will default to 0 or the value specified in the Tiled JSON file.
+             * @param gid If adding multiple tilesets to a blank map, specify the starting
+             * GID this set will use here. Default 0.
+             */
+            addTilesetImage(tilesetName: string, key?: string, tileWidth?: integer, tileHeight?: integer, tileMargin?: integer, tileSpacing?: integer, gid?: integer): Phaser.Tilemaps.Tileset;
+
+            /**
+             * Turns the StaticTilemapLayer associated with the given layer into a DynamicTilemapLayer. If
+             * no layer specified, the map's current layer is used. This is useful if you want to manipulate
+             * a map at the start of a scene, but then make it non-manipulable and optimize it for speed.
+             * Note: the DynamicTilemapLayer passed in is destroyed, so make sure to store the value
+             * returned from this method if you want to manipulate the new StaticTilemapLayer.
+             * @param layer The name of the layer from Tiled, the
+             * index of the layer in the map, or a DynamicTilemapLayer.
+             */
+            convertLayerToStatic(layer?: string | integer | Phaser.Tilemaps.DynamicTilemapLayer): Phaser.Tilemaps.StaticTilemapLayer;
+
+            /**
+             * Copies the tiles in the source rectangular area to a new destination (all specified in tile
+             * coordinates) within the layer. This copies all tile properties & recalculates collision
+             * information in the destination region.
+             *
+             * If no layer specified, the map's current layer is used. This cannot be applied to StaticTilemapLayers.
+             * @param srcTileX The x coordinate of the area to copy from, in tiles, not pixels.
+             * @param srcTileY The y coordinate of the area to copy from, in tiles, not pixels.
+             * @param width The width of the area to copy, in tiles, not pixels.
+             * @param height The height of the area to copy, in tiles, not pixels.
+             * @param destTileX The x coordinate of the area to copy to, in tiles, not pixels.
+             * @param destTileY The y coordinate of the area to copy to, in tiles, not pixels.
+             * @param recalculateFaces `true` if the faces data should be recalculated. Default true.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            copy(srcTileX: integer, srcTileY: integer, width: integer, height: integer, destTileX: integer, destTileY: integer, recalculateFaces?: boolean, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Creates a new and empty DynamicTilemapLayer. The currently selected layer in the map is set to this new layer.
+             * @param name The name of this layer. Must be unique within the map.
+             * @param tileset The tileset, or an array of tilesets, used to render this layer. Can be a string or a Tileset object.
+             * @param x The world x position where the top left of this layer will be placed. Default 0.
+             * @param y The world y position where the top left of this layer will be placed. Default 0.
+             * @param width The width of the layer in tiles. If not specified, it will default to the map's width.
+             * @param height The height of the layer in tiles. If not specified, it will default to the map's height.
+             * @param tileWidth The width of the tiles the layer uses for calculations. If not specified, it will default to the map's tileWidth.
+             * @param tileHeight The height of the tiles the layer uses for calculations. If not specified, it will default to the map's tileHeight.
+             */
+            createBlankDynamicLayer(name: string, tileset: string | string[] | Phaser.Tilemaps.Tileset | Phaser.Tilemaps.Tileset[], x?: number, y?: number, width?: integer, height?: integer, tileWidth?: integer, tileHeight?: integer): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Creates a new DynamicTilemapLayer that renders the LayerData associated with the given
+             * `layerID`. The currently selected layer in the map is set to this new layer.
+             *
+             * The `layerID` is important. If you've created your map in Tiled then you can get this by
+             * looking in Tiled and looking at the layer name. Or you can open the JSON file it exports and
+             * look at the layers[].name value. Either way it must match.
+             *
+             * Unlike a static layer, a dynamic layer can be modified. See DynamicTilemapLayer for more
+             * information.
+             * @param layerID The layer array index value, or if a string is given, the layer name from Tiled.
+             * @param tileset The tileset, or an array of tilesets, used to render this layer. Can be a string or a Tileset object.
+             * @param x The x position to place the layer in the world. If not specified, it will default to the layer offset from Tiled or 0.
+             * @param y The y position to place the layer in the world. If not specified, it will default to the layer offset from Tiled or 0.
+             */
+            createDynamicLayer(layerID: integer | string, tileset: string | string[] | Phaser.Tilemaps.Tileset | Phaser.Tilemaps.Tileset[], x: number, y: number): Phaser.Tilemaps.DynamicTilemapLayer;
+
+            /**
+             * Creates a Sprite for every object matching the given gid in the map data. All properties from
+             * the map data objectgroup are copied into the `spriteConfig`, so you can use this as an easy
+             * way to configure Sprite properties from within the map editor. For example giving an object a
+             * property of alpha: 0.5 in the map editor will duplicate that when the Sprite is created.
+             *
+             * Custom object properties not sharing names with the Sprite's own properties are copied to the
+             * Sprite's {@link Phaser.GameObjects.Sprite#data data store}.
+             * @param name The name of the object layer (from Tiled) to create Sprites from.
+             * @param id Either the id (object), gid (tile object) or name (object or
+             * tile object) from Tiled. Ids are unique in Tiled, but a gid is shared by all tile objects
+             * with the same graphic. The same name can be used on multiple objects.
+             * @param spriteConfig The config object to pass into the Sprite creator (i.e.
+             * scene.make.sprite).
+             * @param scene The Scene to create the Sprites within. Default the scene the map is within.
+             */
+            createFromObjects(name: string, id: integer | string, spriteConfig: SpriteConfig, scene?: Phaser.Scene): Phaser.GameObjects.Sprite[];
+
+            /**
+             * Creates a Sprite for every object matching the given tile indexes in the layer. You can
+             * optionally specify if each tile will be replaced with a new tile after the Sprite has been
+             * created. This is useful if you want to lay down special tiles in a level that are converted to
+             * Sprites, but want to replace the tile itself with a floor tile or similar once converted.
+             * @param indexes The tile index, or array of indexes, to create Sprites from.
+             * @param replacements The tile index, or array of indexes, to change a converted
+             * tile to. Set to `null` to leave the tiles unchanged. If an array is given, it is assumed to be a
+             * one-to-one mapping with the indexes array.
+             * @param spriteConfig The config object to pass into the Sprite creator (i.e. scene.make.sprite).
+             * @param scene The Scene to create the Sprites within. Default scene the map is within.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            createFromTiles(indexes: integer | any[], replacements: integer | any[], spriteConfig: SpriteConfig, scene?: Phaser.Scene, camera?: Phaser.Cameras.Scene2D.Camera, layer?: Phaser.Tilemaps.LayerData): Phaser.GameObjects.Sprite[];
+
+            /**
+             * Creates a new StaticTilemapLayer that renders the LayerData associated with the given
+             * `layerID`. The currently selected layer in the map is set to this new layer.
+             *
+             * The `layerID` is important. If you've created your map in Tiled then you can get this by
+             * looking in Tiled and looking at the layer name. Or you can open the JSON file it exports and
+             * look at the layers[].name value. Either way it must match.
+             *
+             * It's important to remember that a static layer cannot be modified. See StaticTilemapLayer for
+             * more information.
+             * @param layerID The layer array index value, or if a string is given, the layer name from Tiled.
+             * @param tileset The tileset, or an array of tilesets, used to render this layer. Can be a string or a Tileset object.
+             * @param x The x position to place the layer in the world. If not specified, it will default to the layer offset from Tiled or 0.
+             * @param y The y position to place the layer in the world. If not specified, it will default to the layer offset from Tiled or 0.
+             */
+            createStaticLayer(layerID: integer | string, tileset: string | string[] | Phaser.Tilemaps.Tileset | Phaser.Tilemaps.Tileset[], x: number, y: number): Phaser.Tilemaps.StaticTilemapLayer;
+
+            /**
+             * Removes all layer data from this Tilemap and nulls the scene reference. This will destroy any
+             * StaticTilemapLayers or DynamicTilemapLayers that have been linked to LayerData.
+             */
+            destroy(): void;
+
+            /**
+             * Sets the tiles in the given rectangular area (in tile coordinates) of the layer with the
+             * specified index. Tiles will be set to collide if the given index is a colliding index.
+             * Collision information in the region will be recalculated.
+             *
+             * If no layer specified, the map's current layer is used.
+             * This cannot be applied to StaticTilemapLayers.
+             * @param index The tile index to fill the area with.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param recalculateFaces `true` if the faces data should be recalculated. Default true.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            fill(index: integer, tileX?: integer, tileY?: integer, width?: integer, height?: integer, recalculateFaces?: boolean, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * For each object in the given object layer, run the given filter callback function. Any
+             * objects that pass the filter test (i.e. where the callback returns true) will returned as a
+             * new array. Similar to Array.prototype.Filter in vanilla JS.
+             * @param objectLayer The name of an object layer (from Tiled) or an ObjectLayer instance.
+             * @param callback The callback. Each object in the given area will be passed to this callback as the first and only parameter.
+             * @param context The context under which the callback should be run.
+             */
+            filterObjects(objectLayer: Phaser.Tilemaps.ObjectLayer | string, callback: TilemapFilterCallback, context?: object): Phaser.GameObjects.GameObject[];
+
+            /**
+             * For each tile in the given rectangular area (in tile coordinates) of the layer, run the given
+             * filter callback function. Any tiles that pass the filter test (i.e. where the callback returns
+             * true) will returned as a new array. Similar to Array.prototype.Filter in vanilla JS.
+             * If no layer specified, the map's current layer is used.
+             * @param callback The callback. Each tile in the given area will be passed to this
+             * callback as the first and only parameter. The callback should return true for tiles that pass the
+             * filter.
+             * @param context The context under which the callback should be run.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area to filter. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area to filter. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide on at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that have at least one interesting face. Default false.
+             * @param layer The Tile layer to apply the filter on. If not provided will use the current layer.
+             */
+            filterTiles(callback: Function, context?: object, tileX?: integer, tileY?: integer, width?: integer, height?: integer, filteringOptions?: object, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tile[];
+
+            /**
+             * Searches the entire map layer for the first tile matching the given index, then returns that Tile
+             * object. If no match is found, it returns null. The search starts from the top-left tile and
+             * continues horizontally until it hits the end of the row, then it drops down to the next column.
+             * If the reverse boolean is true, it scans starting from the bottom-right corner traveling up to
+             * the top-left.
+             * If no layer specified, the map's current layer is used.
+             * @param index The tile index value to search for.
+             * @param skip The number of times to skip a matching tile before returning. Default 0.
+             * @param reverse If true it will scan the layer in reverse, starting at the bottom-right. Otherwise it scans from the top-left. Default false.
+             * @param layer The Tile layer to run the search on. If not provided will use the current layer.
+             */
+            findByIndex(index: integer, skip?: integer, reverse?: boolean, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tile;
+
+            /**
+             * Find the first object in the given object layer that satisfies the provided testing function.
+             * I.e. finds the first object for which `callback` returns true. Similar to
+             * Array.prototype.find in vanilla JS.
+             * @param objectLayer The name of an object layer (from Tiled) or an ObjectLayer instance.
+             * @param callback The callback. Each object in the given area will be passed to this callback as the first and only parameter.
+             * @param context The context under which the callback should be run.
+             */
+            findObject(objectLayer: Phaser.Tilemaps.ObjectLayer | string, callback: TilemapFindCallback, context?: object): Phaser.GameObjects.GameObject;
+
+            /**
+             * Find the first tile in the given rectangular area (in tile coordinates) of the layer that
+             * satisfies the provided testing function. I.e. finds the first tile for which `callback` returns
+             * true. Similar to Array.prototype.find in vanilla JS.
+             * If no layer specified, the maps current layer is used.
+             * @param callback The callback. Each tile in the given area will be passed to this callback as the first and only parameter.
+             * @param context The context under which the callback should be run.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area to search. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area to search. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide on at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that have at least one interesting face. Default false.
+             * @param layer The Tile layer to run the search on. If not provided will use the current layer.
+             */
+            findTile(callback: FindTileCallback, context?: object, tileX?: integer, tileY?: integer, width?: integer, height?: integer, filteringOptions?: object, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tile;
+
+            /**
+             * For each tile in the given rectangular area (in tile coordinates) of the layer, run the given
+             * callback. Similar to Array.prototype.forEach in vanilla JS.
+             *
+             * If no layer specified, the map's current layer is used.
+             * @param callback The callback. Each tile in the given area will be passed to this callback as the first and only parameter.
+             * @param context The context under which the callback should be run.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area to search. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area to search. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide on at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that have at least one interesting face. Default false.
+             * @param layer The Tile layer to run the search on. If not provided will use the current layer.
+             */
+            forEachTile(callback: EachTileCallback, context?: object, tileX?: integer, tileY?: integer, width?: integer, height?: integer, filteringOptions?: object, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Gets the image layer index based on its name.
+             * @param name The name of the image to get.
+             */
+            getImageIndex(name: string): integer;
+
+            /**
+             * Internally used. Returns the index of the object in one of the Tilemaps arrays whose name
+             * property matches the given `name`.
+             * @param location The Tilemap array to search.
+             * @param name The name of the array element to get.
+             */
+            getIndex(location: any[], name: string): number;
+
+            /**
+             * Gets the LayerData from this.layers that is associated with `layer`, or null if an invalid
+             * `layer` is given.
+             * @param layer The name of the
+             * layer from Tiled, the index of the layer in the map, a DynamicTilemapLayer or a
+             * StaticTilemapLayer. If not given will default to the maps current layer index.
+             */
+            getLayer(layer?: string | integer | Phaser.Tilemaps.DynamicTilemapLayer | Phaser.Tilemaps.StaticTilemapLayer): Phaser.Tilemaps.LayerData;
+
+            /**
+             * Gets the ObjectLayer from this.objects that has the given `name`, or null if no ObjectLayer
+             * is found with that name.
+             * @param name The name of the object layer from Tiled.
+             */
+            getObjectLayer(name?: string): Phaser.Tilemaps.ObjectLayer;
+
+            /**
+             * Gets the LayerData index of the given `layer` within this.layers, or null if an invalid
+             * `layer` is given.
+             * @param layer The name of the
+             * layer from Tiled, the index of the layer in the map, a DynamicTilemapLayer or a
+             * StaticTilemapLayer. If not given will default to the map's current layer index.
+             */
+            getLayerIndex(layer?: string | integer | Phaser.Tilemaps.DynamicTilemapLayer | Phaser.Tilemaps.StaticTilemapLayer): integer;
+
+            /**
+             * Gets the index of the LayerData within this.layers that has the given `name`, or null if an
+             * invalid `name` is given.
+             * @param name The name of the layer to get.
+             */
+            getLayerIndexByName(name: string): integer;
+
+            /**
+             * Gets a tile at the given tile coordinates from the given layer.
+             * If no layer specified, the map's current layer is used.
+             * @param tileX X position to get the tile from (given in tile units, not pixels).
+             * @param tileY Y position to get the tile from (given in tile units, not pixels).
+             * @param nonNull If true getTile won't return null for empty tiles, but a Tile object with an index of -1. Default false.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            getTileAt(tileX: integer, tileY: integer, nonNull?: boolean, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tile;
+
+            /**
+             * Gets a tile at the given world coordinates from the given layer.
+             * If no layer specified, the map's current layer is used.
+             * @param worldX X position to get the tile from (given in pixels)
+             * @param worldY Y position to get the tile from (given in pixels)
+             * @param nonNull If true, function won't return null for empty tiles, but a Tile object with an index of -1. Default false.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            getTileAtWorldXY(worldX: number, worldY: number, nonNull?: boolean, camera?: Phaser.Cameras.Scene2D.Camera, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tile;
+
+            /**
+             * Gets the tiles in the given rectangular area (in tile coordinates) of the layer.
+             * If no layer specified, the maps current layer is used.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide on at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that have at least one interesting face. Default false.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            getTilesWithin(tileX?: integer, tileY?: integer, width?: integer, height?: integer, filteringOptions?: object, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tile[];
+
+            /**
+             * Gets the tiles that overlap with the given shape in the given layer. The shape must be a Circle,
+             * Line, Rectangle or Triangle. The shape should be in world coordinates.
+             * If no layer specified, the maps current layer is used.
+             * @param shape A shape in world (pixel) coordinates
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide on at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that have at least one interesting face. Default false.
+             * @param camera The Camera to use when factoring in which tiles to return. Default main camera.
+             * @param layer The tile layer to search. If not given the current layer is used.
+             */
+            getTilesWithinShape(shape: Phaser.Geom.Circle | Phaser.Geom.Line | Phaser.Geom.Rectangle | Phaser.Geom.Triangle, filteringOptions?: object, camera?: Phaser.Cameras.Scene2D.Camera, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tile[];
+
+            /**
+             * Gets the tiles in the given rectangular area (in world coordinates) of the layer.
+             * If no layer specified, the maps current layer is used.
+             * @param worldX The world x coordinate for the top-left of the area.
+             * @param worldY The world y coordinate for the top-left of the area.
+             * @param width The width of the area.
+             * @param height The height of the area.
+             * @param filteringOptions Optional filters to apply when getting the tiles.
+             * @param filteringOptions.isNotEmpty If true, only return tiles that don't have -1 for an index. Default false.
+             * @param filteringOptions.isColliding If true, only return tiles that collide on at least one side. Default false.
+             * @param filteringOptions.hasInterestingFace If true, only return tiles that have at least one interesting face. Default false.
+             * @param camera The Camera to use when factoring in which tiles to return. Default main camera.
+             * @param layer The tile layer to search. If not given the current layer is used.
+             */
+            getTilesWithinWorldXY(worldX: number, worldY: number, width: number, height: number, filteringOptions?: object, camera?: Phaser.Cameras.Scene2D.Camera, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tile[];
+
+            /**
+             * Gets the Tileset that has the given `name`, or null if an invalid `name` is given.
+             * @param name The name of the Tileset to get.
+             */
+            getTileset(name: string): Phaser.Tilemaps.Tileset;
+
+            /**
+             * Gets the index of the Tileset within this.tilesets that has the given `name`, or null if an
+             * invalid `name` is given.
+             * @param name The name of the Tileset to get.
+             */
+            getTilesetIndex(name: string): integer;
+
+            /**
+             * Checks if there is a tile at the given location (in tile coordinates) in the given layer. Returns
+             * false if there is no tile or if the tile at that location has an index of -1.
+             *
+             * If no layer specified, the map's current layer is used.
+             * @param tileX The x coordinate, in tiles, not pixels.
+             * @param tileY The y coordinate, in tiles, not pixels.
+             * @param layer The tile layer to search. If not given the current layer is used.
+             */
+            hasTileAt(tileX: integer, tileY: integer, layer?: Phaser.Tilemaps.LayerData): boolean;
+
+            /**
+             * Checks if there is a tile at the given location (in world coordinates) in the given layer. Returns
+             * false if there is no tile or if the tile at that location has an index of -1.
+             *
+             * If no layer specified, the maps current layer is used.
+             * @param worldX The x coordinate, in pixels.
+             * @param worldY The y coordinate, in pixels.
+             * @param camera The Camera to use when factoring in which tiles to return. Default main camera.
+             * @param layer The tile layer to search. If not given the current layer is used.
+             */
+            hasTileAtWorldXY(worldX: number, worldY: number, camera?: Phaser.Cameras.Scene2D.Camera, layer?: Phaser.Tilemaps.LayerData): boolean;
+
+            /**
+             * The LayerData object that is currently selected in the map. You can set this property using
+             * any type supported by setLayer.
+             */
+            layer: Phaser.Tilemaps.LayerData;
+
+            /**
+             * Puts a tile at the given tile coordinates in the specified layer. You can pass in either an index
+             * or a Tile object. If you pass in a Tile, all attributes will be copied over to the specified
+             * location. If you pass in an index, only the index at the specified location will be changed.
+             * Collision information will be recalculated at the specified location.
+             *
+             * If no layer specified, the maps current layer is used.
+             *
+             * This cannot be applied to StaticTilemapLayers.
+             * @param tile The index of this tile to set or a Tile object.
+             * @param tileX The x coordinate, in tiles, not pixels.
+             * @param tileY The y coordinate, in tiles, not pixels.
+             * @param recalculateFaces `true` if the faces data should be recalculated. Default true.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            putTileAt(tile: integer | Phaser.Tilemaps.Tile, tileX: integer, tileY: integer, recalculateFaces?: boolean, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tile;
+
+            /**
+             * Puts a tile at the given world coordinates (pixels) in the specified layer. You can pass in either
+             * an index or a Tile object. If you pass in a Tile, all attributes will be copied over to the
+             * specified location. If you pass in an index, only the index at the specified location will be
+             * changed. Collision information will be recalculated at the specified location.
+             *
+             * If no layer specified, the maps current layer is used. This
+             * cannot be applied to StaticTilemapLayers.
+             * @param tile The index of this tile to set or a Tile object.
+             * @param worldX The x coordinate, in pixels.
+             * @param worldY The y coordinate, in pixels.
+             * @param recalculateFaces `true` if the faces data should be recalculated. Default true.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            putTileAtWorldXY(tile: integer | Phaser.Tilemaps.Tile, worldX: number, worldY: number, recalculateFaces?: boolean, camera?: Phaser.Cameras.Scene2D.Camera, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tile;
+
+            /**
+             * Puts an array of tiles or a 2D array of tiles at the given tile coordinates in the specified
+             * layer. The array can be composed of either tile indexes or Tile objects. If you pass in a Tile,
+             * all attributes will be copied over to the specified location. If you pass in an index, only the
+             * index at the specified location will be changed. Collision information will be recalculated
+             * within the region tiles were changed.
+             *
+             * If no layer specified, the maps current layer is used.
+             * This cannot be applied to StaticTilemapLayers.
+             * @param tile A row (array) or grid (2D array) of Tiles or tile indexes to place.
+             * @param tileX The x coordinate, in tiles, not pixels.
+             * @param tileY The y coordinate, in tiles, not pixels.
+             * @param recalculateFaces `true` if the faces data should be recalculated. Default true.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            putTilesAt(tile: integer[] | integer[][] | Phaser.Tilemaps.Tile[] | Phaser.Tilemaps.Tile[][], tileX: integer, tileY: integer, recalculateFaces?: boolean, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Randomizes the indexes of a rectangular region of tiles (in tile coordinates) within the
+             * specified layer. Each tile will recieve a new index. If an array of indexes is passed in, then
+             * those will be used for randomly assigning new tile indexes. If an array is not provided, the
+             * indexes found within the region (excluding -1) will be used for randomly assigning new tile
+             * indexes. This method only modifies tile indexes and does not change collision information.
+             *
+             * If no layer specified, the maps current layer is used.
+             * This cannot be applied to StaticTilemapLayers.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param indexes An array of indexes to randomly draw from during randomization.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            randomize(tileX?: integer, tileY?: integer, width?: integer, height?: integer, indexes?: integer[], layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Calculates interesting faces at the given tile coordinates of the specified layer. Interesting
+             * faces are used internally for optimizing collisions against tiles. This method is mostly used
+             * internally to optimize recalculating faces when only one tile has been changed.
+             *
+             * If no layer specified, the maps current layer is used.
+             * @param tileX The x coordinate, in tiles, not pixels.
+             * @param tileY The y coordinate, in tiles, not pixels.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            calculateFacesAt(tileX: integer, tileY: integer, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Calculates interesting faces within the rectangular area specified (in tile coordinates) of the
+             * layer. Interesting faces are used internally for optimizing collisions against tiles. This method
+             * is mostly used internally.
+             *
+             * If no layer specified, the map's current layer is used.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            calculateFacesWithin(tileX?: integer, tileY?: integer, width?: integer, height?: integer, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Removes all layers from this Tilemap and destroys any associated StaticTilemapLayers or
+             * DynamicTilemapLayers.
+             */
+            removeAllLayers(): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Removes the tile at the given tile coordinates in the specified layer and updates the layer's
+             * collision information.
+             *
+             * If no layer specified, the maps current layer is used.
+             * This cannot be applied to StaticTilemapLayers.
+             * @param tileX The x coordinate, in tiles, not pixels.
+             * @param tileY The y coordinate, in tiles, not pixels.
+             * @param replaceWithNull If true, this will replace the tile at the specified location with null instead of a Tile with an index of -1. Default true.
+             * @param recalculateFaces `true` if the faces data should be recalculated. Default true.
+             * @param layer The tile layer to search. If not given the current layer is used.
+             */
+            removeTileAt(tileX: integer, tileY: integer, replaceWithNull?: boolean, recalculateFaces?: boolean, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tile;
+
+            /**
+             * Removes the tile at the given world coordinates in the specified layer and updates the layer's
+             * collision information.
+             *
+             * If no layer specified, the maps current layer is used.
+             * This cannot be applied to StaticTilemapLayers.
+             * @param worldX The x coordinate, in pixels.
+             * @param worldY The y coordinate, in pixels.
+             * @param replaceWithNull If true, this will replace the tile at the specified location with null instead of a Tile with an index of -1. Default true.
+             * @param recalculateFaces `true` if the faces data should be recalculated. Default true.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            removeTileAtWorldXY(worldX: number, worldY: number, replaceWithNull?: boolean, recalculateFaces?: boolean, camera?: Phaser.Cameras.Scene2D.Camera, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tile;
+
+            /**
+             * Draws a debug representation of the layer to the given Graphics. This is helpful when you want to
+             * get a quick idea of which of your tiles are colliding and which have interesting faces. The tiles
+             * are drawn starting at (0, 0) in the Graphics, allowing you to place the debug representation
+             * wherever you want on the screen.
+             *
+             * If no layer specified, the maps current layer is used.
+             * @param graphics The target Graphics object to draw upon.
+             * @param styleConfig An object specifying the colors to use for the debug drawing.
+             * @param styleConfig.tileColor Color to use for drawing a filled rectangle at non-colliding tile locations. If set to null, non-colliding tiles will not be drawn. Default blue.
+             * @param styleConfig.collidingTileColor Color to use for drawing a filled rectangle at colliding tile locations. If set to null, colliding tiles will not be drawn. Default orange.
+             * @param styleConfig.faceColor Color to use for drawing a line at interesting tile faces. If set to null, interesting tile faces will not be drawn. Default grey.
+             * @param layer The tile layer to search. If not given the current layer is used.
+             */
+            renderDebug(graphics: Phaser.GameObjects.Graphics, styleConfig: object, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Scans the given rectangular area (given in tile coordinates) for tiles with an index matching
+             * `findIndex` and updates their index to match `newIndex`. This only modifies the index and does
+             * not change collision information.
+             *
+             * If no layer specified, the maps current layer is used.
+             * This cannot be applied to StaticTilemapLayers.
+             * @param findIndex The index of the tile to search for.
+             * @param newIndex The index of the tile to replace it with.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            replaceByIndex(findIndex: integer, newIndex: integer, tileX?: integer, tileY?: integer, width?: integer, height?: integer, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Sets collision on the given tile or tiles within a layer by index. You can pass in either a
+             * single numeric index or an array of indexes: [2, 3, 15, 20]. The `collides` parameter controls if
+             * collision will be enabled (true) or disabled (false).
+             *
+             * If no layer specified, the map's current layer is used.
+             * @param indexes Either a single tile index, or an array of tile indexes.
+             * @param collides If true it will enable collision. If false it will clear collision. Default true.
+             * @param recalculateFaces Whether or not to recalculate the tile faces after the update. Default true.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            setCollision(indexes: integer | any[], collides?: boolean, recalculateFaces?: boolean, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Sets collision on a range of tiles in a layer whose index is between the specified `start` and
+             * `stop` (inclusive). Calling this with a start value of 10 and a stop value of 14 would set
+             * collision for tiles 10, 11, 12, 13 and 14. The `collides` parameter controls if collision will be
+             * enabled (true) or disabled (false).
+             *
+             * If no layer specified, the map's current layer is used.
+             * @param start The first index of the tile to be set for collision.
+             * @param stop The last index of the tile to be set for collision.
+             * @param collides If true it will enable collision. If false it will clear collision. Default true.
+             * @param recalculateFaces Whether or not to recalculate the tile faces after the update. Default true.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            setCollisionBetween(start: integer, stop: integer, collides?: boolean, recalculateFaces?: boolean, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Sets collision on the tiles within a layer by checking tile properties. If a tile has a property
+             * that matches the given properties object, its collision flag will be set. The `collides`
+             * parameter controls if collision will be enabled (true) or disabled (false). Passing in
+             * `{ collides: true }` would update the collision flag on any tiles with a "collides" property that
+             * has a value of true. Any tile that doesn't have "collides" set to true will be ignored. You can
+             * also use an array of values, e.g. `{ types: ["stone", "lava", "sand" ] }`. If a tile has a
+             * "types" property that matches any of those values, its collision flag will be updated.
+             *
+             * If no layer specified, the map's current layer is used.
+             * @param properties An object with tile properties and corresponding values that should be checked.
+             * @param collides If true it will enable collision. If false it will clear collision. Default true.
+             * @param recalculateFaces Whether or not to recalculate the tile faces after the update. Default true.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            setCollisionByProperty(properties: object, collides?: boolean, recalculateFaces?: boolean, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Sets collision on all tiles in the given layer, except for tiles that have an index specified in
+             * the given array. The `collides` parameter controls if collision will be enabled (true) or
+             * disabled (false).
+             *
+             * If no layer specified, the map's current layer is used.
+             * @param indexes An array of the tile indexes to not be counted for collision.
+             * @param collides If true it will enable collision. If false it will clear collision. Default true.
+             * @param recalculateFaces Whether or not to recalculate the tile faces after the update. Default true.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            setCollisionByExclusion(indexes: integer[], collides?: boolean, recalculateFaces?: boolean, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Sets collision on the tiles within a layer by checking each tile's collision group data
+             * (typically defined in Tiled within the tileset collision editor). If any objects are found within
+             * a tile's collision group, the tile's colliding information will be set. The `collides` parameter
+             * controls if collision will be enabled (true) or disabled (false).
+             *
+             * If no layer specified, the map's current layer is used.
+             * @param collides If true it will enable collision. If false it will clear collision. Default true.
+             * @param recalculateFaces Whether or not to recalculate the tile faces after the update. Default true.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            setCollisionFromCollisionGroup(collides?: boolean, recalculateFaces?: boolean, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Sets a global collision callback for the given tile index within the layer. This will affect all
+             * tiles on this layer that have the same index. If a callback is already set for the tile index it
+             * will be replaced. Set the callback to null to remove it. If you want to set a callback for a tile
+             * at a specific location on the map then see setTileLocationCallback.
+             *
+             * If no layer specified, the map's current layer is used.
+             * @param indexes Either a single tile index, or an array of tile indexes to have a collision callback set for.
+             * @param callback The callback that will be invoked when the tile is collided with.
+             * @param callbackContext The context under which the callback is called.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            setTileIndexCallback(indexes: integer | any[], callback: Function, callbackContext: object, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Sets a collision callback for the given rectangular area (in tile coordindates) within the layer.
+             * If a callback is already set for the tile index it will be replaced. Set the callback to null to
+             * remove it.
+             *
+             * If no layer specified, the map's current layer is used.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area.
+             * @param width How many tiles wide from the `tileX` index the area will be.
+             * @param height How many tiles tall from the `tileY` index the area will be.
+             * @param callback The callback that will be invoked when the tile is collided with.
+             * @param callbackContext The context under which the callback is called.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            setTileLocationCallback(tileX: integer, tileY: integer, width: integer, height: integer, callback: Function, callbackContext?: object, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Sets the current layer to the LayerData associated with `layer`.
+             * @param layer The name of the
+             * layer from Tiled, the index of the layer in the map, a DynamicTilemapLayer or a
+             * StaticTilemapLayer. If not given will default to the map's current layer index.
+             */
+            setLayer(layer?: string | integer | Phaser.Tilemaps.DynamicTilemapLayer | Phaser.Tilemaps.StaticTilemapLayer): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Sets the base tile size for the map. Note: this does not necessarily match the tileWidth and
+             * tileHeight for all layers. This also updates the base size on all tiles across all layers.
+             * @param tileWidth The width of the tiles the map uses for calculations.
+             * @param tileHeight The height of the tiles the map uses for calculations.
+             */
+            setBaseTileSize(tileWidth: integer, tileHeight: integer): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Sets the tile size for a specific `layer`. Note: this does not necessarily match the map's
+             * tileWidth and tileHeight for all layers. This will set the tile size for the layer and any
+             * tiles the layer has.
+             * @param tileWidth The width of the tiles (in pixels) in the layer.
+             * @param tileHeight The height of the tiles (in pixels) in the layer.
+             * @param layer The name of the
+             * layer from Tiled, the index of the layer in the map, a DynamicTilemapLayer or a
+             * StaticTilemapLayer. If not given will default to the map's current layer index.
+             */
+            setLayerTileSize(tileWidth: integer, tileHeight: integer, layer?: string | integer | Phaser.Tilemaps.DynamicTilemapLayer | Phaser.Tilemaps.StaticTilemapLayer): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Shuffles the tiles in a rectangular region (specified in tile coordinates) within the given
+             * layer. It will only randomize the tiles in that area, so if they're all the same nothing will
+             * appear to have changed! This method only modifies tile indexes and does not change collision
+             * information.
+             *
+             * If no layer specified, the maps current layer is used.
+             * This cannot be applied to StaticTilemapLayers.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            shuffle(tileX?: integer, tileY?: integer, width?: integer, height?: integer, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Scans the given rectangular area (given in tile coordinates) for tiles with an index matching
+             * `indexA` and swaps then with `indexB`. This only modifies the index and does not change collision
+             * information.
+             *
+             * If no layer specified, the maps current layer is used.
+             * This cannot be applied to StaticTilemapLayers.
+             * @param tileA First tile index.
+             * @param tileB Second tile index.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            swapByIndex(tileA: integer, tileB: integer, tileX?: integer, tileY?: integer, width?: integer, height?: integer, layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Converts from tile X coordinates (tile units) to world X coordinates (pixels), factoring in the
+             * layers position, scale and scroll.
+             *
+             * If no layer specified, the maps current layer is used.
+             * @param tileX The x coordinate, in tiles, not pixels.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            tileToWorldX(tileX: integer, camera?: Phaser.Cameras.Scene2D.Camera, layer?: Phaser.Tilemaps.LayerData): number;
+
+            /**
+             * Converts from tile Y coordinates (tile units) to world Y coordinates (pixels), factoring in the
+             * layers position, scale and scroll.
+             *
+             * If no layer specified, the maps current layer is used.
+             * @param tileY The y coordinate, in tiles, not pixels.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            tileToWorldY(tileY: integer, camera?: Phaser.Cameras.Scene2D.Camera, layer?: Phaser.Tilemaps.LayerData): number;
+
+            /**
+             * Converts from tile XY coordinates (tile units) to world XY coordinates (pixels), factoring in the
+             * layers position, scale and scroll. This will return a new Vector2 object or update the given
+             * `point` object.
+             *
+             * If no layer specified, the maps current layer is used.
+             * @param tileX The x coordinate, in tiles, not pixels.
+             * @param tileY The y coordinate, in tiles, not pixels.
+             * @param point A Vector2 to store the coordinates in. If not given a new Vector2 is created.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            tileToWorldXY(tileX: integer, tileY: integer, point?: Phaser.Math.Vector2, camera?: Phaser.Cameras.Scene2D.Camera, layer?: Phaser.Tilemaps.LayerData): Phaser.Math.Vector2;
+
+            /**
+             * Randomizes the indexes of a rectangular region of tiles (in tile coordinates) within the
+             * specified layer. Each tile will receive a new index. New indexes are drawn from the given
+             * weightedIndexes array. An example weighted array:
+             *
+             * [
+             *  { index: 6, weight: 4 },    // Probability of index 6 is 4 / 8
+             *  { index: 7, weight: 2 },    // Probability of index 7 would be 2 / 8
+             *  { index: 8, weight: 1.5 },  // Probability of index 8 would be 1.5 / 8
+             *  { index: 26, weight: 0.5 }  // Probability of index 27 would be 0.5 / 8
+             * ]
+             *
+             * The probability of any index being choose is (the index's weight) / (sum of all weights). This
+             * method only modifies tile indexes and does not change collision information.
+             *
+             * If no layer specified, the map's current layer is used. This
+             * cannot be applied to StaticTilemapLayers.
+             * @param tileX The left most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param tileY The top most tile index (in tile coordinates) to use as the origin of the area. Default 0.
+             * @param width How many tiles wide from the `tileX` index the area will be. Default max width based on tileX.
+             * @param height How many tiles tall from the `tileY` index the area will be. Default max height based on tileY.
+             * @param weightedIndexes An array of objects to randomly draw from during
+             * randomization. They should be in the form: { index: 0, weight: 4 } or
+             * { index: [0, 1], weight: 4 } if you wish to draw from multiple tile indexes.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            weightedRandomize(tileX?: integer, tileY?: integer, width?: integer, height?: integer, weightedIndexes?: object[], layer?: Phaser.Tilemaps.LayerData): Phaser.Tilemaps.Tilemap;
+
+            /**
+             * Converts from world X coordinates (pixels) to tile X coordinates (tile units), factoring in the
+             * layers position, scale and scroll.
+             *
+             * If no layer specified, the maps current layer is used.
+             * @param worldX The x coordinate to be converted, in pixels, not tiles.
+             * @param snapToFloor Whether or not to round the tile coordinate down to the nearest integer. Default true.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            worldToTileX(worldX: number, snapToFloor?: boolean, camera?: Phaser.Cameras.Scene2D.Camera, layer?: Phaser.Tilemaps.LayerData): number;
+
+            /**
+             * Converts from world Y coordinates (pixels) to tile Y coordinates (tile units), factoring in the
+             * layers position, scale and scroll.
+             *
+             * If no layer specified, the maps current layer is used.
+             * @param worldY The y coordinate to be converted, in pixels, not tiles.
+             * @param snapToFloor Whether or not to round the tile coordinate down to the nearest integer. Default true.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            worldToTileY(worldY: number, snapToFloor?: boolean, camera?: Phaser.Cameras.Scene2D.Camera, layer?: Phaser.Tilemaps.LayerData): number;
+
+            /**
+             * Converts from world XY coordinates (pixels) to tile XY coordinates (tile units), factoring in the
+             * layers position, scale and scroll. This will return a new Vector2 object or update the given
+             * `point` object.
+             *
+             * If no layer specified, the maps current layer is used.
+             * @param worldX The x coordinate to be converted, in pixels, not tiles.
+             * @param worldY The y coordinate to be converted, in pixels, not tiles.
+             * @param snapToFloor Whether or not to round the tile coordinate down to the nearest integer. Default true.
+             * @param point A Vector2 to store the coordinates in. If not given a new Vector2 is created.
+             * @param camera The Camera to use when calculating the tile index from the world values. Default main camera.
+             * @param layer The tile layer to use. If not given the current layer is used.
+             */
+            worldToTileXY(worldX: number, worldY: number, snapToFloor?: boolean, point?: Phaser.Math.Vector2, camera?: Phaser.Cameras.Scene2D.Camera, layer?: Phaser.Tilemaps.LayerData): Phaser.Math.Vector2;
+
+        }
+
+        /**
+         * A Tileset is a combination of an image containing the tiles and a container for data about
+         * each tile.
+         */
+        class Tileset {
+            /**
+             *
+             * @param name The name of the tileset in the map data.
+             * @param firstgid The first tile index this tileset contains.
+             * @param tileWidth Width of each tile (in pixels). Default 32.
+             * @param tileHeight Height of each tile (in pixels). Default 32.
+             * @param tileMargin The margin around all tiles in the sheet (in pixels). Default 0.
+             * @param tileSpacing The spacing between each tile in the sheet (in pixels). Default 0.
+             * @param tileProperties Custom properties defined per tile in the Tileset.
+             * These typically are custom properties created in Tiled when editing a tileset. Default {}.
+             * @param tileData Data stored per tile. These typically are created in Tiled
+             * when editing a tileset, e.g. from Tiled's tile collision editor or terrain editor. Default {}.
+             */
+            constructor(name: string, firstgid: integer, tileWidth?: integer, tileHeight?: integer, tileMargin?: integer, tileSpacing?: integer, tileProperties?: object, tileData?: object);
+
+            /**
+             * The name of the Tileset.
+             */
+            name: string;
+
+            /**
+             * The starting index of the first tile index this Tileset contains.
+             */
+            firstgid: integer;
+
+            /**
+             * The width of each tile (in pixels). Use setTileSize to change.
+             */
+            readonly tileWidth: integer;
+
+            /**
+             * The height of each tile (in pixels). Use setTileSize to change.
+             */
+            readonly tileHeight: integer;
+
+            /**
+             * The margin around the tiles in the sheet (in pixels). Use `setSpacing` to change.
+             */
+            readonly tileMargin: integer;
+
+            /**
+             * The spacing between each the tile in the sheet (in pixels). Use `setSpacing` to change.
+             */
+            readonly tileSpacing: integer;
+
+            /**
+             * Tileset-specific properties per tile that are typically defined in the Tiled editor in the
+             * Tileset editor.
+             */
+            tileProperties: object;
+
+            /**
+             * Tileset-specific data per tile that are typically defined in the Tiled editor, e.g. within
+             * the Tileset collision editor. This is where collision objects and terrain are stored.
+             */
+            tileData: object;
+
+            /**
+             * The cached image that contains the individual tiles. Use setImage to set.
+             */
+            readonly image: Phaser.Textures.Texture;
+
+            /**
+             * The gl texture used by the WebGL renderer.
+             */
+            readonly glTexture: WebGLTexture;
+
+            /**
+             * The number of tile rows in the the tileset.
+             */
+            readonly rows: integer;
+
+            /**
+             * The number of tile columns in the tileset.
+             */
+            readonly columns: integer;
+
+            /**
+             * The total number of tiles in the tileset.
+             */
+            readonly total: integer;
+
+            /**
+             * The look-up table to specific tile image texture coordinates (UV in pixels). Each element
+             * contains the coordinates for a tile in an object of the form {x, y}.
+             */
+            readonly texCoordinates: object[];
+
+            /**
+             * Get a tiles properties that are stored in the Tileset. Returns null if tile index is not
+             * contained in this Tileset. This is typically defined in Tiled under the Tileset editor.
+             * @param tileIndex The unique id of the tile across all tilesets in the map.
+             */
+            getTileProperties(tileIndex: integer): object | undefined;
+
+            /**
+             * Get a tile's data that is stored in the Tileset. Returns null if tile index is not contained
+             * in this Tileset. This is typically defined in Tiled and will contain both Tileset collision
+             * info and terrain mapping.
+             * @param tileIndex The unique id of the tile across all tilesets in the map.
+             */
+            getTileData(tileIndex: integer): object | undefined;
+
+            /**
+             * Get a tile's collision group that is stored in the Tileset. Returns null if tile index is not
+             * contained in this Tileset. This is typically defined within Tiled's tileset collision editor.
+             * @param tileIndex The unique id of the tile across all tilesets in the map.
+             */
+            getTileCollisionGroup(tileIndex: integer): object;
+
+            /**
+             * Returns true if and only if this Tileset contains the given tile index.
+             * @param tileIndex The unique id of the tile across all tilesets in the map.
+             */
+            containsTileIndex(tileIndex: integer): boolean;
+
+            /**
+             * Returns the texture coordinates (UV in pixels) in the Tileset image for the given tile index.
+             * Returns null if tile index is not contained in this Tileset.
+             * @param tileIndex The unique id of the tile across all tilesets in the map.
+             */
+            getTileTextureCoordinates(tileIndex: integer): object;
+
+            /**
+             * Sets the image associated with this Tileset and updates the tile data (rows, columns, etc.).
+             * @param texture The image that contains the tiles.
+             */
+            setImage(texture: Phaser.Textures.Texture): Phaser.Tilemaps.Tileset;
+
+            /**
+             * Sets the tile width & height and updates the tile data (rows, columns, etc.).
+             * @param tileWidth The width of a tile in pixels.
+             * @param tileHeight The height of a tile in pixels.
+             */
+            setTileSize(tileWidth?: integer, tileHeight?: integer): Phaser.Tilemaps.Tileset;
+
+            /**
+             * Sets the tile margin & spacing and updates the tile data (rows, columns, etc.).
+             * @param margin The margin around the tiles in the sheet (in pixels).
+             * @param spacing The spacing between the tiles in the sheet (in pixels).
+             */
+            setSpacing(margin?: integer, spacing?: integer): Phaser.Tilemaps.Tileset;
+
+            /**
+             * Updates tile texture coordinates and tileset data.
+             * @param imageWidth The (expected) width of the image to slice.
+             * @param imageHeight The (expected) height of the image to slice.
+             */
+            updateTileData(imageWidth: integer, imageHeight: integer): Phaser.Tilemaps.Tileset;
+
+        }
+
+    }
+
+    namespace Time {
+        /**
+         * [description]
+         */
+        class Clock {
+            /**
+             *
+             * @param scene [description]
+             */
+            constructor(scene: Phaser.Scene);
+
+            /**
+             * [description]
+             */
+            scene: Phaser.Scene;
+
+            /**
+             * [description]
+             */
+            systems: Phaser.Scenes.Systems;
+
+            /**
+             * [description]
+             */
+            now: number;
+
+            /**
+             * [description]
+             */
+            timeScale: number;
+
+            /**
+             * [description]
+             */
+            paused: boolean;
+
+            /**
+             * [description]
+             * @param config [description]
+             */
+            addEvent(config: TimerEventConfig): Phaser.Time.TimerEvent;
+
+            /**
+             * [description]
+             * @param delay [description]
+             * @param callback [description]
+             * @param args [description]
+             * @param callbackScope [description]
+             */
+            delayedCall(delay: number, callback: Function, args: any[], callbackScope: any): Phaser.Time.TimerEvent;
+
+            /**
+             * [description]
+             */
+            clearPendingEvents(): Phaser.Time.Clock;
+
+            /**
+             * [description]
+             */
+            removeAllEvents(): Phaser.Time.Clock;
+
+            /**
+             * [description]
+             * @param time The current time. Either a High Resolution Timer value if it comes from Request Animation Frame, or Date.now if using SetTimeout.
+             * @param delta The delta time in ms since the last frame. This is a smoothed and capped value based on the FPS rate.
+             */
+            preUpdate(time: number, delta: number): void;
+
+            /**
+             * [description]
+             * @param time The current time. Either a High Resolution Timer value if it comes from Request Animation Frame, or Date.now if using SetTimeout.
+             * @param delta The delta time in ms since the last frame. This is a smoothed and capped value based on the FPS rate.
+             */
+            update(time: number, delta: number): void;
+
+        }
+
+        /**
+         * [description]
+         */
+        class TimerEvent {
+            /**
+             *
+             * @param config [description]
+             */
+            constructor(config: TimerEventConfig);
+
+            /**
+             * The delay in ms at which this TimerEvent fires.
+             */
+            readonly delay: number;
+
+            /**
+             * The total number of times this TimerEvent will repeat before finishing.
+             */
+            readonly repeat: number;
+
+            /**
+             * If repeating this contains the current repeat count.
+             */
+            repeatCount: number;
+
+            /**
+             * True if this TimerEvent loops, otherwise false.
+             */
+            readonly loop: boolean;
+
+            /**
+             * The callback that will be called when the TimerEvent occurs.
+             */
+            callback: Function;
+
+            /**
+             * The scope in which the callback will be called.
+             */
+            callbackScope: object;
+
+            /**
+             * Additional arguments to be passed to the callback.
+             */
+            args: any[];
+
+            /**
+             * Scale the time causing this TimerEvent to update.
+             */
+            timeScale: number;
+
+            /**
+             * Start this many MS into the elapsed (useful if you want a long duration with repeat, but for the first loop to fire quickly)
+             */
+            startAt: number;
+
+            /**
+             * [description]
+             */
+            elapsed: number;
+
+            /**
+             * [description]
+             */
+            paused: boolean;
+
+            /**
+             * [description]
+             */
+            hasDispatched: boolean;
+
+            /**
+             * [description]
+             * @param config [description]
+             */
+            reset(config: TimerEventConfig): Phaser.Time.TimerEvent;
+
+            /**
+             * Gets the progress of the current iteration, not factoring in repeats.
+             */
+            getProgress(): number;
+
+            /**
+             * Gets the progress of the timer overall, factoring in repeats.
+             */
+            getOverallProgress(): number;
+
+            /**
+             * [description]
+             */
+            getRepeatCount(): number;
+
+            /**
+             * [description]
+             */
+            getElapsed(): number;
+
+            /**
+             * [description]
+             */
+            getElapsedSeconds(): number;
+
+            /**
+             * [description]
+             * @param dispatchCallback [description]
+             */
+            remove(dispatchCallback: Function): void;
+
+            /**
+             * [description]
+             */
+            destroy(): void;
+
+        }
+
+    }
+
+    namespace Tweens {
+        namespace Builders {
+            /**
+             * Retrieves the value of the given key from an object.
+             * @param source The object to retrieve the value from.
+             * @param key The key to look for in the `source` object.
+             * @param defaultValue The default value to return if the `key` doesn't exist or if no `source` object is provided.
+             */
+            function GetBoolean(source: object, key: string, defaultValue: any): any;
+
+            /**
+             * [description]
+             * @param ease [description]
+             * @param easeParams [description]
+             */
+            function GetEaseFunction(ease: string | Function, easeParams: any[]): Function;
+
+            /**
+             * [description]
+             * @param source [description]
+             * @param key [description]
+             * @param defaultValue [description]
+             */
+            function GetNewValue(source: object, key: string, defaultValue: any): Function;
+
+            /**
+             * [description]
+             * @param config The configuration object of the tween to get the target(s) from.
+             */
+            function GetProps(config: object): any[];
+
+            /**
+             * [description]
+             * @param config [description]
+             */
+            function GetTargets(config: object): any[];
+
+            /**
+             * [description]
+             * @param config [description]
+             */
+            function GetTweens(config: object): any[];
+
+            /**
+             * [description]
+             * @param key [description]
+             * @param propertyValue [description]
+             */
+            function GetValueOp(key: string, propertyValue: any): Function;
+
+            /**
+             * [description]
+             * @param parent [description]
+             * @param config [description]
+             * @param defaults [description]
+             */
+            function NumberTweenBuilder(parent: Phaser.Tweens.TweenManager | Phaser.Tweens.Timeline, config: object, defaults: Phaser.Tweens.TweenConfigDefaults): Phaser.Tweens.Tween;
+
+            /**
+             * [description]
+             * @param manager [description]
+             * @param config [description]
+             */
+            function TimelineBuilder(manager: Phaser.Tweens.TweenManager, config: object): Phaser.Tweens.Timeline;
+
+            /**
+             * [description]
+             * @param parent [description]
+             * @param config [description]
+             * @param defaults [description]
+             */
+            function TweenBuilder(parent: Phaser.Tweens.TweenManager | Phaser.Tweens.Timeline, config: object, defaults: Phaser.Tweens.TweenConfigDefaults): Phaser.Tweens.Tween;
+
+        }
+
+        /**
+         * [description]
+         */
+        class Timeline extends Phaser.Events.EventEmitter {
+            /**
+             *
+             * @param manager [description]
+             */
+            constructor(manager: Phaser.Tweens.TweenManager);
+
+            /**
+             * [description]
+             */
+            manager: Phaser.Tweens.TweenManager;
+
+            /**
+             * [description]
+             */
+            isTimeline: boolean;
+
+            /**
+             * An array of Tween objects, each containing a unique property and target being tweened.
+             */
+            data: any[];
+
+            /**
+             * data array doesn't usually change, so we can cache the length
+             */
+            totalData: number;
+
+            /**
+             * If true then duration, delay, etc values are all frame totals.
+             */
+            useFrames: boolean;
+
+            /**
+             * Scales the time applied to this Tween. A value of 1 runs in real-time. A value of 0.5 runs 50% slower, and so on.
+             * Value isn't used when calculating total duration of the tween, it's a run-time delta adjustment only.
+             */
+            timeScale: number;
+
+            /**
+             * Loop this tween? Can be -1 for an infinite loop, or an integer.
+             * When enabled it will play through ALL TweenDatas again (use TweenData.repeat to loop a single TD)
+             */
+            loop: number;
+
+            /**
+             * Time in ms/frames before the tween loops.
+             */
+            loopDelay: number;
+
+            /**
+             * How many loops are left to run?
+             */
+            loopCounter: number;
+
+            /**
+             * Time in ms/frames before the 'onComplete' event fires. This never fires if loop = true (as it never completes)
+             */
+            completeDelay: number;
+
+            /**
+             * Countdown timer (used by loopDelay and completeDelay)
+             */
+            countdown: number;
+
+            /**
+             * The current state of the tween
+             */
+            state: integer;
+
+            /**
+             * Does the Tween start off paused? (if so it needs to be started with Tween.play)
+             */
+            paused: boolean;
+
+            /**
+             * Elapsed time in ms/frames of this run through the Tween.
+             */
+            elapsed: number;
+
+            /**
+             * Total elapsed time in ms/frames of the entire Tween, including looping.
+             */
+            totalElapsed: number;
+
+            /**
+             * Time in ms/frames for the whole Tween to play through once, excluding loop amounts and loop delays.
+             */
+            duration: number;
+
+            /**
+             * Value between 0 and 1. The amount through the Tween, excluding loops.
+             */
+            progress: number;
+
+            /**
+             * Time in ms/frames for all Tweens to complete (including looping)
+             */
+            totalDuration: number;
+
+            /**
+             * Value between 0 and 1. The amount through the entire Tween, including looping.
+             */
+            totalProgress: number;
+
+            /**
+             * Sets the value of the time scale applied to this Timeline. A value of 1 runs in real-time. A value of 0.5 runs 50% slower, and so on.
+             * Value isn't used when calculating total duration of the tween, it's a run-time delta adjustment only.
+             * @param value The time scale value to set.
+             */
+            setTimeScale(value: number): Phaser.Tweens.Timeline;
+
+            /**
+             * Gets the value of the time scale applied to this Timeline. A value of 1 runs in real-time. A value of 0.5 runs 50% slower, and so on.
+             */
+            getTimeScale(): number;
+
+            /**
+             * Check whether or not the Timeline is playing.
+             */
+            isPlaying(): boolean;
+
+            /**
+             * [description]
+             * @param config [description]
+             */
+            add(config: object): Phaser.Tweens.Timeline;
+
+            /**
+             * [description]
+             * @param tween [description]
+             */
+            queue(tween: Phaser.Tweens.Tween): Phaser.Tweens.Timeline;
+
+            /**
+             * [description]
+             * @param tween [description]
+             */
+            hasOffset(tween: Phaser.Tweens.Tween): boolean;
+
+            /**
+             * [description]
+             * @param value [description]
+             */
+            isOffsetAbsolute(value: number): boolean;
+
+            /**
+             * [description]
+             * @param value [description]
+             */
+            isOffsetRelative(value: string): boolean;
+
+            /**
+             * [description]
+             * @param value [description]
+             * @param base [description]
+             */
+            getRelativeOffset(value: string, base: number): number;
+
+            /**
+             * [description]
+             */
+            calcDuration(): void;
+
+            /**
+             * [description]
+             */
+            init(): boolean;
+
+            /**
+             * [description]
+             * @param resetFromLoop [description]
+             */
+            resetTweens(resetFromLoop: boolean): void;
+
+            /**
+             * Sets a callback for the Tween Manager.
+             * @param type [description]
+             * @param callback [description]
+             * @param params [description]
+             * @param scope [description]
+             */
+            setCallback(type: string, callback: Function, params?: any[], scope?: object): Phaser.Tweens.Timeline;
+
+            /**
+             * Delegates #makeActive to the Tween manager.
+             * @param tween The tween object to make active.
+             */
+            makeActive(tween: Phaser.Tweens.Tween): Phaser.Tweens.TweenManager;
+
+            /**
+             * [description]
+             */
+            play(): void;
+
+            /**
+             * [description]
+             */
+            nextState(): void;
+
+            /**
+             * Returns 'true' if this Timeline has finished and should be removed from the Tween Manager.
+             * Otherwise, returns false.
+             * @param timestamp [description]
+             * @param delta The delta time in ms since the last frame. This is a smoothed and capped value based on the FPS rate.
+             */
+            update(timestamp: number, delta: number): boolean;
+
+            /**
+             * Stops the Tween immediately, whatever stage of progress it is at and flags it for removal by the TweenManager.
+             */
+            stop(): void;
+
+            /**
+             * [description]
+             */
+            pause(): Phaser.Tweens.Timeline;
+
+            /**
+             * [description]
+             */
+            resume(): Phaser.Tweens.Timeline;
+
+            /**
+             * [description]
+             * @param target [description]
+             */
+            hasTarget(target: object): boolean;
+
+            /**
+             * Stops all the Tweens in the Timeline immediately, whatever stage of progress they are at and flags them for removal by the TweenManager.
+             */
+            destroy(): void;
+
+        }
+
+        /**
+         * TweenData state.
+         */
+        var CREATED: integer;
+
+        /**
+         * TweenData state.
+         */
+        var INIT: integer;
+
+        /**
+         * TweenData state.
+         */
+        var DELAY: integer;
+
+        /**
+         * TweenData state.
+         */
+        var OFFSET_DELAY: integer;
+
+        /**
+         * TweenData state.
+         */
+        var PENDING_RENDER: integer;
+
+        /**
+         * TweenData state.
+         */
+        var PLAYING_FORWARD: integer;
+
+        /**
+         * TweenData state.
+         */
+        var PLAYING_BACKWARD: integer;
+
+        /**
+         * TweenData state.
+         */
+        var HOLD_DELAY: integer;
+
+        /**
+         * TweenData state.
+         */
+        var REPEAT_DELAY: integer;
+
+        /**
+         * TweenData state.
+         */
+        var COMPLETE: integer;
+
+        /**
+         * Tween state.
+         */
+        var PENDING_ADD: integer;
+
+        /**
+         * Tween state.
+         */
+        var PAUSED: integer;
+
+        /**
+         * Tween state.
+         */
+        var LOOP_DELAY: integer;
+
+        /**
+         * Tween state.
+         */
+        var ACTIVE: integer;
+
+        /**
+         * Tween state.
+         */
+        var COMPLETE_DELAY: integer;
+
+        /**
+         * Tween state.
+         */
+        var PENDING_REMOVE: integer;
+
+        /**
+         * Tween state.
+         */
+        var REMOVED: integer;
+
+        type TweenConfigDefaults = {
+            /**
+             * The object, or an array of objects, to run the tween on.
+             */
+            targets: object | object[];
+            /**
+             * The number of milliseconds to delay before the tween will start.
+             */
+            delay?: number;
+            /**
+             * The duration of the tween in milliseconds.
+             */
+            duration?: number;
+            /**
+             * The easing equation to use for the tween.
+             */
+            ease?: string;
+            /**
+             * Optional easing parameters.
+             */
+            easeParams?: any[];
+            /**
+             * The number of milliseconds to hold the tween for before yoyo'ing.
+             */
+            hold?: number;
+            /**
+             * The number of times to repeat the tween.
+             */
+            repeat?: number;
+            /**
+             * The number of milliseconds to pause before a tween will repeat.
+             */
+            repeatDelay?: number;
+            /**
+             * Should the tween complete, then reverse the values incrementally to get back to the starting tween values? The reverse tweening will also take `duration` milliseconds to complete.
+             */
+            yoyo?: boolean;
+            /**
+             * Horizontally flip the target of the Tween when it completes (before it yoyos, if set to do so). Only works for targets that support the `flipX` property.
+             */
+            flipX?: boolean;
+            /**
+             * Vertically flip the target of the Tween when it completes (before it yoyos, if set to do so). Only works for targets that support the `flipY` property.
+             */
+            flipY?: boolean;
+        };
+
+        /**
+         * [description]
+         */
+        class Tween {
+            /**
+             *
+             * @param parent [description]
+             * @param data [description]
+             * @param targets [description]
+             */
+            constructor(parent: Phaser.Tweens.TweenManager | Phaser.Tweens.Timeline, data: Phaser.Tweens.TweenDataConfig[], targets: any[]);
+
+            /**
+             * [description]
+             */
+            parent: Phaser.Tweens.TweenManager | Phaser.Tweens.Timeline;
+
+            /**
+             * Is the parent of this Tween a Timeline?
+             */
+            parentIsTimeline: boolean;
+
+            /**
+             * An array of TweenData objects, each containing a unique property and target being tweened.
+             */
+            data: Phaser.Tweens.TweenDataConfig[];
+
+            /**
+             * data array doesn't change, so we can cache the length
+             */
+            totalData: integer;
+
+            /**
+             * An array of references to the target/s this Tween is operating on
+             */
+            targets: object[];
+
+            /**
+             * Cached target total (not necessarily the same as the data total)
+             */
+            totalTargets: integer;
+
+            /**
+             * If true then duration, delay, etc values are all frame totals.
+             */
+            useFrames: boolean;
+
+            /**
+             * Scales the time applied to this Tween. A value of 1 runs in real-time. A value of 0.5 runs 50% slower, and so on.
+             * Value isn't used when calculating total duration of the tween, it's a run-time delta adjustment only.
+             */
+            timeScale: number;
+
+            /**
+             * Loop this tween? Can be -1 for an infinite loop, or an integer.
+             * When enabled it will play through ALL TweenDatas again (use TweenData.repeat to loop a single TD)
+             */
+            loop: number;
+
+            /**
+             * Time in ms/frames before the tween loops.
+             */
+            loopDelay: number;
+
+            /**
+             * How many loops are left to run?
+             */
+            loopCounter: number;
+
+            /**
+             * Time in ms/frames before the 'onComplete' event fires. This never fires if loop = -1 (as it never completes)
+             */
+            completeDelay: number;
+
+            /**
+             * Countdown timer (used by timeline offset, loopDelay and completeDelay)
+             */
+            countdown: number;
+
+            /**
+             * Set only if this Tween is part of a Timeline.
+             */
+            offset: number;
+
+            /**
+             * Set only if this Tween is part of a Timeline. The calculated offset amount.
+             */
+            calculatedOffset: number;
+
+            /**
+             * The current state of the tween
+             */
+            state: integer;
+
+            /**
+             * Does the Tween start off paused? (if so it needs to be started with Tween.play)
+             */
+            paused: boolean;
+
+            /**
+             * Elapsed time in ms/frames of this run through the Tween.
+             */
+            elapsed: number;
+
+            /**
+             * Total elapsed time in ms/frames of the entire Tween, including looping.
+             */
+            totalElapsed: number;
+
+            /**
+             * Time in ms/frames for the whole Tween to play through once, excluding loop amounts and loop delays.
+             */
+            duration: number;
+
+            /**
+             * Value between 0 and 1. The amount through the Tween, excluding loops.
+             */
+            progress: number;
+
+            /**
+             * Time in ms/frames for the Tween to complete (including looping)
+             */
+            totalDuration: number;
+
+            /**
+             * Value between 0 and 1. The amount through the entire Tween, including looping.
+             */
+            totalProgress: number;
+
+            /**
+             * An object containing the various Tween callback references.
+             */
+            callbacks: object;
+
+            /**
+             * [description]
+             */
+            getValue(): number;
+
+            /**
+             * [description]
+             * @param value [description]
+             */
+            setTimeScale(value: number): Phaser.Tweens.Tween;
+
+            /**
+             * [description]
+             */
+            getTimeScale(): number;
+
+            /**
+             * Checks if the Tween is currently active.
+             */
+            isPlaying(): boolean;
+
+            /**
+             * Checks if the Tween is currently paused.
+             */
+            isPaused(): boolean;
+
+            /**
+             * [description]
+             * @param target [description]
+             */
+            hasTarget(target: object): boolean;
+
+            /**
+             * [description]
+             * @param key [description]
+             * @param value [description]
+             * @param startToCurrent [description]
+             */
+            updateTo(key: string, value: any, startToCurrent: boolean): Phaser.Tweens.Tween;
+
+            /**
+             * [description]
+             */
+            restart(): void;
+
+            /**
+             * [description]
+             */
+            calcDuration(): void;
+
+            /**
+             * Called by TweenManager.preUpdate as part of its loop to check pending and active tweens.
+             * Should not be called directly.
+             */
+            init(): boolean;
+
+            /**
+             * [description]
+             */
+            nextState(): void;
+
+            /**
+             * [description]
+             */
+            pause(): Phaser.Tweens.Tween;
+
+            /**
+             * [description]
+             * @param resetFromTimeline [description]
+             */
+            play(resetFromTimeline: boolean): void;
+
+            /**
+             * [description]
+             * @param resetFromLoop [description]
+             */
+            resetTweenData(resetFromLoop: boolean): void;
+
+            /**
+             * Resumes the playback of a previously paused Tween.
+             */
+            resume(): Phaser.Tweens.Tween;
+
+            /**
+             * [description]
+             * @param toPosition A value between 0 and 1.
+             */
+            seek(toPosition: number): void;
+
+            /**
+             * [description]
+             * @param type [description]
+             * @param callback [description]
+             * @param params [description]
+             * @param scope [description]
+             */
+            setCallback(type: string, callback: Function, params?: any[], scope?: object): Phaser.Tweens.Tween;
+
+            /**
+             * Flags the Tween as being complete, whatever stage of progress it is at.
+             *
+             * If an onComplete callback has been defined it will automatically invoke it, unless a `delay`
+             * argument is provided, in which case the Tween will delay for that period of time before calling the callback.
+             *
+             * If you don't need a delay, or have an onComplete callback, then call `Tween.stop` instead.
+             * @param delay The time to wait before invoking the complete callback. If zero it will fire immediately. Default 0.
+             */
+            complete(delay?: number): void;
+
+            /**
+             * Stops the Tween immediately, whatever stage of progress it is at and flags it for removal by the TweenManager.
+             * @param resetTo A value between 0 and 1.
+             */
+            stop(resetTo?: number): void;
+
+            /**
+             * [description]
+             * @param timestamp [description]
+             * @param delta The delta time in ms since the last frame. This is a smoothed and capped value based on the FPS rate.
+             */
+            update(timestamp: number, delta: number): boolean;
+
+            /**
+             * [description]
+             * @param tween [description]
+             * @param tweenData [description]
+             * @param diff [description]
+             */
+            setStateFromEnd(tween: Phaser.Tweens.Tween, tweenData: Phaser.Tweens.TweenDataConfig, diff: number): integer;
+
+            /**
+             * Was PLAYING_BACKWARD and has hit the start.
+             * @param tween [description]
+             * @param tweenData [description]
+             * @param diff [description]
+             */
+            setStateFromStart(tween: Phaser.Tweens.Tween, tweenData: Phaser.Tweens.TweenDataConfig, diff: number): integer;
+
+            /**
+             * [description]
+             * @param tween [description]
+             * @param tweenData [description]
+             * @param delta Either a value in ms, or 1 if Tween.useFrames is true
+             */
+            updateTweenData(tween: Phaser.Tweens.Tween, tweenData: Phaser.Tweens.TweenDataConfig, delta: number): boolean;
+
+        }
+
+        type TweenDataConfig = {
+            /**
+             * The target to tween.
+             */
+            target: object;
+            /**
+             * The property of the target being tweened.
+             */
+            key: string;
+            /**
+             * The returned value sets what the property will be at the END of the Tween.
+             */
+            getEndValue: Function;
+            /**
+             * The returned value sets what the property will be at the START of the Tween.
+             */
+            getStartValue: Function;
+            /**
+             * The ease function this tween uses.
+             */
+            ease: Function;
+            /**
+             * Duration of the tween in ms/frames, excludes time for yoyo or repeats.
+             */
+            duration?: number;
+            /**
+             * The total calculated duration of this TweenData (based on duration, repeat, delay and yoyo)
+             */
+            totalDuration?: number;
+            /**
+             * Time in ms/frames before tween will start.
+             */
+            delay?: number;
+            /**
+             * Cause the tween to return back to its start value after hold has expired.
+             */
+            yoyo?: boolean;
+            /**
+             * Time in ms/frames the tween will pause before running the yoyo or starting a repeat.
+             */
+            hold?: number;
+            /**
+             * Number of times to repeat the tween. The tween will always run once regardless, so a repeat value of '1' will play the tween twice.
+             */
+            repeat?: integer;
+            /**
+             * Time in ms/frames before the repeat will start.
+             */
+            repeatDelay?: number;
+            /**
+             * Automatically call toggleFlipX when the TweenData yoyos or repeats
+             */
+            flipX?: boolean;
+            /**
+             * Automatically call toggleFlipY when the TweenData yoyos or repeats
+             */
+            flipY?: boolean;
+            /**
+             * Between 0 and 1 showing completion of this TweenData.
+             */
+            progress?: number;
+            /**
+             * Delta counter
+             */
+            elapsed?: number;
+            /**
+             * How many repeats are left to run?
+             */
+            repeatCounter?: integer;
+            /**
+             * Ease value data.
+             */
+            start?: number;
+            /**
+             * Ease value data.
+             */
+            current?: number;
+            /**
+             * Ease value data.
+             */
+            end?: number;
+            /**
+             * Time duration 1.
+             */
+            t1?: number;
+            /**
+             * Time duration 2.
+             */
+            t2?: number;
+            /**
+             * LoadValue generation functions.
+             */
+            gen?: TweenDataGenConfig;
+            /**
+             * TWEEN_CONST.CREATED
+             */
+            state?: integer;
+        };
+
+        /**
+         * [description]
+         * @param target [description]
+         * @param key [description]
+         * @param getEnd [description]
+         * @param getStart [description]
+         * @param ease [description]
+         * @param delay [description]
+         * @param duration [description]
+         * @param yoyo [description]
+         * @param hold [description]
+         * @param repeat [description]
+         * @param repeatDelay [description]
+         * @param flipX [description]
+         * @param flipY [description]
+         */
+        function TweenData(target: object, key: string, getEnd: Function, getStart: Function, ease: Function, delay: number, duration: number, yoyo: boolean, hold: number, repeat: number, repeatDelay: number, flipX: boolean, flipY: boolean): TweenDataConfig;
+
+        /**
+         * [description]
+         */
+        class TweenManager {
+            /**
+             *
+             * @param scene [description]
+             */
+            constructor(scene: Phaser.Scene);
+
+            /**
+             * [description]
+             */
+            scene: Phaser.Scene;
+
+            /**
+             * [description]
+             */
+            systems: Phaser.Scenes.Systems;
+
+            /**
+             * [description]
+             */
+            timeScale: number;
+
+            /**
+             * Create a Tween Timeline and return it, but do NOT add it to the active or pending Tween lists.
+             * @param config [description]
+             */
+            createTimeline(config: object): Phaser.Tweens.Timeline;
+
+            /**
+             * Create a Tween Timeline and add it to the active Tween list/
+             * @param config [description]
+             */
+            timeline(config: object): Phaser.Tweens.Timeline;
+
+            /**
+             * Create a Tween and return it, but do NOT add it to the active or pending Tween lists.
+             * @param config [description]
+             */
+            create(config: object): Phaser.Tweens.Tween;
+
+            /**
+             * Create a Tween and add it to the active Tween list.
+             * @param config [description]
+             */
+            add(config: object): Phaser.Tweens.Tween;
+
+            /**
+             * Add an existing tween into the active Tween list.
+             * @param tween [description]
+             */
+            existing(tween: Phaser.Tweens.Tween): Phaser.Tweens.TweenManager;
+
+            /**
+             * Create a Tween and add it to the active Tween list.
+             * @param config [description]
+             */
+            addCounter(config: object): Phaser.Tweens.Tween;
+
+            /**
+             * [description]
+             */
+            preUpdate(): void;
+
+            /**
+             * [description]
+             * @param timestamp [description]
+             * @param delta The delta time in ms since the last frame. This is a smoothed and capped value based on the FPS rate.
+             */
+            update(timestamp: number, delta: number): void;
+
+            /**
+             * [description]
+             * @param tween [description]
+             */
+            makeActive(tween: Phaser.Tweens.Tween): Phaser.Tweens.TweenManager;
+
+            /**
+             * Passes all Tweens to the given callback.
+             * @param callback [description]
+             * @param scope [description]
+             * @param args [description]
+             */
+            each(callback: Function, scope?: object, ...args: any[]): void;
+
+            /**
+             * [description]
+             */
+            getAllTweens(): Phaser.Tweens.Tween[];
+
+            /**
+             * [description]
+             */
+            getGlobalTimeScale(): number;
+
+            /**
+             * [description]
+             * @param target [description]
+             */
+            getTweensOf(target: object | any[]): Phaser.Tweens.Tween[];
+
+            /**
+             * [description]
+             * @param target [description]
+             */
+            isTweening(target: object): boolean;
+
+            /**
+             * [description]
+             */
+            killAll(): Phaser.Tweens.TweenManager;
+
+            /**
+             * [description]
+             * @param target [description]
+             */
+            killTweensOf(target: object | any[]): Phaser.Tweens.TweenManager;
+
+            /**
+             * [description]
+             */
+            pauseAll(): Phaser.Tweens.TweenManager;
+
+            /**
+             * [description]
+             */
+            resumeAll(): Phaser.Tweens.TweenManager;
+
+            /**
+             * [description]
+             * @param value [description]
+             */
+            setGlobalTimeScale(value: number): Phaser.Tweens.TweenManager;
+
+            /**
+             * The Scene that owns this plugin is shutting down.
+             * We need to kill and reset all internal properties as well as stop listening to Scene events.
+             */
+            shutdown(): void;
+
+            /**
+             * The Scene that owns this plugin is being destroyed.
+             * We need to shutdown and then kill off all external references.
+             */
+            destroy(): void;
+
+        }
+
+    }
+
+    namespace Utils {
+        namespace Array {
+            /**
+             * Adds the given item, or array of items, to the array.
+             *
+             * Each item must be unique within the array.
+             *
+             * The array is modified in-place and returned.
+             *
+             * You can optionally specify a limit to the maximum size of the array. If the quantity of items being
+             * added will take the array length over this limit, it will stop adding once the limit is reached.
+             *
+             * You can optionally specify a callback to be invoked for each item successfully added to the array.
+             * @param array The array to be added to.
+             * @param item The item, or array of items, to add to the array. Each item must be unique within the array.
+             * @param limit Optional limit which caps the size of the array.
+             * @param callback A callback to be invoked for each item successfully added to the array.
+             * @param context The context in which the callback is invoked.
+             */
+            function Add(array: any[], item: any | any[], limit?: integer, callback?: Function, context?: object): any[];
+
+            /**
+             * Adds the given item, or array of items, to the array starting at the index specified.
+             *
+             * Each item must be unique within the array.
+             *
+             * Existing elements in the array are shifted up.
+             *
+             * The array is modified in-place and returned.
+             *
+             * You can optionally specify a limit to the maximum size of the array. If the quantity of items being
+             * added will take the array length over this limit, it will stop adding once the limit is reached.
+             *
+             * You can optionally specify a callback to be invoked for each item successfully added to the array.
+             * @param array The array to be added to.
+             * @param item The item, or array of items, to add to the array.
+             * @param index The index in the array where the item will be inserted. Default 0.
+             * @param limit Optional limit which caps the size of the array.
+             * @param callback A callback to be invoked for each item successfully added to the array.
+             * @param context The context in which the callback is invoked.
+             */
+            function AddAt(array: any[], item: any | any[], index?: integer, limit?: integer, callback?: Function, context?: object): any[];
+
+            /**
+             * Moves the given element to the top of the array.
+             * The array is modified in-place.
+             * @param array The array.
+             * @param item The element to move.
+             */
+            function BringToTop(array: any[], item: any): any;
+
+            /**
+             * Returns the total number of elements in the array which have a property matching the given value.
+             * @param array The array to search.
+             * @param property The property to test on each array element.
+             * @param value The value to test the property against. Must pass a strict (`===`) comparison check.
+             * @param startIndex An optional start index to search from.
+             * @param endIndex An optional end index to search to.
+             */
+            function CountAllMatching(array: any[], property: string, value: any, startIndex?: integer, endIndex?: integer): integer;
+
+            /**
+             * Passes each element in the array to the given callback.
+             * @param array The array to search.
+             * @param callback A callback to be invoked for each item in the array.
+             * @param context The context in which the callback is invoked.
+             * @param args Additional arguments that will be passed to the callback, after the current array item.
+             */
+            function Each(array: any[], callback: Function, context: object, ...args: any[]): any[];
+
+            /**
+             * Passes each element in the array, between the start and end indexes, to the given callback.
+             * @param array The array to search.
+             * @param callback A callback to be invoked for each item in the array.
+             * @param context The context in which the callback is invoked.
+             * @param startIndex The start index to search from.
+             * @param endIndex The end index to search to.
+             * @param args Additional arguments that will be passed to the callback, after the child.
+             */
+            function EachInRange(array: any[], callback: Function, context: object, startIndex: integer, endIndex: integer, ...args: any[]): any[];
+
+            /**
+             * [description]
+             * @param value The value to search for in the array.
+             * @param array The array to search, which must be sorted.
+             * @param key An optional property key. If specified the array elements property will be checked against value.
+             */
+            function FindClosestInSorted(value: number, array: any[], key?: string): number | object;
+
+            /**
+             * Returns all elements in the array.
+             *
+             * You can optionally specify a matching criteria using the `property` and `value` arguments.
+             *
+             * For example: `getAll('visible', true)` would return only elements that have their visible property set.
+             *
+             * Optionally you can specify a start and end index. For example if the array had 100 elements,
+             * and you set `startIndex` to 0 and `endIndex` to 50, it would return matches from only
+             * the first 50 elements.
+             * @param array The array to search.
+             * @param property The property to test on each array element.
+             * @param value The value to test the property against. Must pass a strict (`===`) comparison check.
+             * @param startIndex An optional start index to search from.
+             * @param endIndex An optional end index to search to.
+             */
+            function GetAll(array: any[], property?: string, value?: any, startIndex?: integer, endIndex?: integer): any[];
+
+            /**
+             * Returns the first element in the array.
+             *
+             * You can optionally specify a matching criteria using the `property` and `value` arguments.
+             *
+             * For example: `getAll('visible', true)` would return the first element that had its `visible` property set.
+             *
+             * Optionally you can specify a start and end index. For example if the array had 100 elements,
+             * and you set `startIndex` to 0 and `endIndex` to 50, it would search only the first 50 elements.
+             * @param array The array to search.
+             * @param property The property to test on each array element.
+             * @param value The value to test the property against. Must pass a strict (`===`) comparison check.
+             * @param startIndex An optional start index to search from. Default 0.
+             * @param endIndex An optional end index to search up to (but not included) Default array.length.
+             */
+            function GetFirst(array: any[], property?: string, value?: any, startIndex?: integer, endIndex?: integer): object;
+
+            /**
+             * Returns a Random element from the array.
+             * @param array The array to select the random entry from.
+             * @param startIndex An optional start index. Default 0.
+             * @param length An optional length, the total number of elements (from the startIndex) to choose from. Default array.length.
+             */
+            function GetRandom(array: any[], startIndex?: integer, length?: integer): any;
+
+            namespace Matrix {
+                /**
+                 * [description]
+                 * @param matrix [description]
+                 */
+                function CheckMatrix(matrix: any[]): boolean;
+
+                /**
+                 * Generates a string (which you can pass to console.log) from the given Array Matrix.
+                 * @param matrix A 2-dimensional array.
+                 */
+                function MatrixToString(matrix: any[]): string;
+
+                /**
+                 * Reverses the columns in the given Array Matrix.
+                 * @param matrix The array matrix to reverse the columns for.
+                 */
+                function ReverseColumns(matrix: any[]): any[];
+
+                /**
+                 * [description]
+                 * @param matrix [description]
+                 */
+                function ReverseRows(matrix: any[]): any[];
+
+                /**
+                 * [description]
+                 * @param matrix [description]
+                 */
+                function Rotate180(matrix: any[]): any[];
+
+                /**
+                 * [description]
+                 * @param matrix [description]
+                 */
+                function RotateLeft(matrix: any[]): any[];
+
+                /**
+                 * [description]
+                 * @param matrix The array to rotate.
+                 * @param direction The amount to rotate the matrix by. The value can be given in degrees: 90, -90, 270, -270 or 180, or a string command: `rotateLeft`, `rotateRight` or `rotate180`. Default 90.
+                 */
+                function RotateMatrix(matrix: any[], direction?: number | string): any[];
+
+                /**
+                 * [description]
+                 * @param matrix [description]
+                 */
+                function RotateRight(matrix: any[]): any[];
+
+                /**
+                 * [description]
+                 * @param array The array matrix to transpose.
+                 */
+                function TransposeMatrix(array: any[]): any[];
+
+            }
+
+            /**
+             * Moves the given array element down one place in the array.
+             * The array is modified in-place.
+             * @param array The input array.
+             * @param item The element to move down the array.
+             */
+            function MoveDown(array: any[], item: any): any[];
+
+            /**
+             * Moves an element in an array to a new position within the same array.
+             * The array is modified in-place.
+             * @param array The array.
+             * @param item The element to move.
+             * @param index The new index that the element will be moved to.
+             */
+            function MoveTo(array: any[], item: any, index: integer): any;
+
+            /**
+             * Moves the given array element up one place in the array.
+             * The array is modified in-place.
+             * @param array The input array.
+             * @param item The element to move up the array.
+             */
+            function MoveUp(array: any[], item: any): any[];
+
+            /**
+             * Create an array representing the range of numbers (usually integers), between, and inclusive of,
+             * the given `start` and `end` arguments. For example:
+             *
+             * `var array = numberArray(2, 4); // array = [2, 3, 4]`
+             * `var array = numberArray(0, 9); // array = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]`
+             *
+             * This is equivalent to `numberArrayStep(start, end, 1)`.
+             *
+             * You can optionally provide a prefix and / or suffix string. If given the array will contain
+             * strings, not integers. For example:
+             *
+             * `var array = numberArray(1, 4, 'Level '); // array = ["Level 1", "Level 2", "Level 3", "Level 4"]`
+             * `var array = numberArray(5, 7, 'HD-', '.png'); // array = ["HD-5.png", "HD-6.png", "HD-7.png"]`
+             * @param start The minimum value the array starts with.
+             * @param end The maximum value the array contains.
+             * @param prefix Optional prefix to place before the number. If provided the array will contain strings, not integers.
+             * @param suffix Optional suffix to place after the number. If provided the array will contain strings, not integers.
+             */
+            function NumberArray(start: number, end: number, prefix?: string, suffix?: string): number[] | string[];
+
+            /**
+             * Create an array of numbers (positive and/or negative) progressing from `start`
+             * up to but not including `end` by advancing by `step`.
+             *
+             * If `start` is less than `end` a zero-length range is created unless a negative `step` is specified.
+             *
+             * Certain values for `start` and `end` (eg. NaN/undefined/null) are currently coerced to 0;
+             * for forward compatibility make sure to pass in actual numbers.
+             * @param start The start of the range. Default 0.
+             * @param end The end of the range. Default null.
+             * @param step The value to increment or decrement by. Default 1.
+             */
+            function NumberArrayStep(start?: number, end?: number, step?: number): number[];
+
+            /**
+             * [description]
+             * @param arr [description]
+             * @param k [description]
+             * @param left [description]
+             * @param right [description]
+             * @param compare [description]
+             */
+            function QuickSelect(arr: any[], k: number, left: number, right: number, compare: Function): void;
+
+            /**
+             * [description]
+             * @param a [description]
+             * @param b [description]
+             * @param options [description]
+             */
+            function Range(a: any[], b: any[], options: object): any[];
+
+            /**
+             * Removes the given item, or array of items, from the array.
+             *
+             * The array is modified in-place.
+             *
+             * You can optionally specify a callback to be invoked for each item successfully removed from the array.
+             * @param array The array to be modified.
+             * @param item The item, or array of items, to be removed from the array.
+             * @param callback A callback to be invoked for each item successfully removed from the array.
+             * @param context The context in which the callback is invoked.
+             */
+            function Remove(array: any[], item: any | any[], callback?: Function, context?: object): any | any[];
+
+            /**
+             * Removes the item from the given position in the array.
+             *
+             * The array is modified in-place.
+             *
+             * You can optionally specify a callback to be invoked for the item if it is successfully removed from the array.
+             * @param array The array to be modified.
+             * @param index The array index to remove the item from. The index must be in bounds or it will throw an error.
+             * @param callback A callback to be invoked for the item removed from the array.
+             * @param context The context in which the callback is invoked.
+             */
+            function RemoveAt(array: any[], index: integer, callback?: Function, context?: object): any;
+
+            /**
+             * Removes the item within the given range in the array.
+             *
+             * The array is modified in-place.
+             *
+             * You can optionally specify a callback to be invoked for the item/s successfully removed from the array.
+             * @param array The array to be modified.
+             * @param startIndex The start index to remove from.
+             * @param endIndex The end index to remove to.
+             * @param callback A callback to be invoked for the item removed from the array.
+             * @param context The context in which the callback is invoked.
+             */
+            function RemoveBetween(array: any[], startIndex: integer, endIndex: integer, callback?: Function, context?: object): any[];
+
+            /**
+             * Removes a random object from the given array and returns it.
+             * Will return null if there are no array items that fall within the specified range or if there is no item for the randomly chosen index.
+             * @param array The array to removed a random element from.
+             * @param start The array index to start the search from. Default 0.
+             * @param length Optional restriction on the number of elements to randomly select from. Default array.length.
+             */
+            function RemoveRandomElement(array: any[], start?: integer, length?: integer): object;
+
+            /**
+             * Replaces an element of the array with the new element.
+             * The new element cannot already be a member of the array.
+             * The array is modified in-place.
+             * @param oldChild The element in the array that will be replaced.
+             * @param newChild The element to be inserted into the array at the position of `oldChild`.
+             */
+            function Replace(oldChild: any, newChild: any): boolean;
+
+            /**
+             * Moves the element at the start of the array to the end, shifting all items in the process.
+             * The "rotation" happens to the left.
+             * @param array The array to shift to the left. This array is modified in place.
+             * @param total The number of times to shift the array. Default 1.
+             */
+            function RotateLeft(array: any[], total?: integer): any;
+
+            /**
+             * Moves the element at the end of the array to the start, shifting all items in the process.
+             * The "rotation" happens to the right.
+             * @param array The array to shift to the right. This array is modified in place.
+             * @param total The number of times to shift the array. Default 1.
+             */
+            function RotateRight(array: any[], total?: integer): any;
+
+            /**
+             * Tests if the start and end indexes are a safe range for the given array.
+             * @param array The array to check.
+             * @param startIndex The start index.
+             * @param endIndex The end index.
+             * @param throwError Throw an error if the range is out of bounds. Default true.
+             */
+            function SafeRange(array: any[], startIndex: integer, endIndex: integer, throwError?: boolean): boolean;
+
+            /**
+             * Moves the given element to the bottom of the array.
+             * The array is modified in-place.
+             * @param array The array.
+             * @param item The element to move.
+             */
+            function SendToBack(array: any[], item: any): any;
+
+            /**
+             * Scans the array for elements with the given property. If found, the property is set to the `value`.
+             *
+             * For example: `SetAll('visible', true)` would set all elements that have a `visible` property to `false`.
+             *
+             * Optionally you can specify a start and end index. For example if the array had 100 elements,
+             * and you set `startIndex` to 0 and `endIndex` to 50, it would update only the first 50 elements.
+             * @param array The array to search.
+             * @param property The property to test for on each array element.
+             * @param value The value to set the property to.
+             * @param startIndex An optional start index to search from.
+             * @param endIndex An optional end index to search to.
+             */
+            function SetAll(array: any[], property: string, value: any, startIndex?: integer, endIndex?: integer): any[];
+
+            /**
+             * Shuffles the contents of the given array using the Fisher-Yates implementation.
+             *
+             * The original array is modified directly and returned.
+             * @param array The array to shuffle. This array is modified in place.
+             */
+            function Shuffle(array: any[]): any[];
+
+            /**
+             * Removes a single item from an array and returns it without creating gc, like the native splice does.
+             * Based on code by Mike Reinstein.
+             * @param array [description]
+             * @param index [description]
+             */
+            function SpliceOne(array: any[], index: integer): any;
+
+            /**
+             * Swaps the position of two elements in the given array.
+             * The elements must exist in the same array.
+             * The array is modified in-place.
+             * @param array The input array.
+             * @param item1 The first element to swap.
+             * @param item2 The second element to swap.
+             */
+            function Swap(array: any[], item1: any, item2: any): any[];
+
+        }
+
+        /**
+         * A NOOP (No Operation) callback function.
+         *
+         * Used internally by Phaser when it's more expensive to determine if a callback exists
+         * than it is to just invoke an empty function.
+         */
+        function NOOP(): void;
+
+        namespace Object {
+        }
+
+        namespace String {
+            /**
+             * Takes a string and replaces instances of markers with values in the given array.
+             * The markers take the form of `%1`, `%2`, etc. I.e.:
+             *
+             * `Format("The %1 is worth %2 gold", [ 'Sword', 500 ])`
+             * @param string The string containing the replacement markers.
+             * @param values An array containing values that will replace the markers. If no value exists an empty string is inserted instead.
+             */
+            function Format(string: string, values: any[]): string;
+
+            /**
+             * Takes the given string and pads it out, to the length required, using the character
+             * specified. For example if you need a string to be 6 characters long, you can call:
+             *
+             * `pad('bob', 6, '-', 2)`
+             *
+             * This would return: `bob---` as it has padded it out to 6 characters, using the `-` on the right.
+             *
+             * You can also use it to pad numbers (they are always returned as strings):
+             *
+             * `pad(512, 6, '0', 1)`
+             *
+             * Would return: `000512` with the string padded to the left.
+             *
+             * If you don't specify a direction it'll pad to both sides:
+             *
+             * `pad('c64', 7, '*')`
+             *
+             * Would return: `**c64**`
+             * @param str The target string. `toString()` will be called on the string, which means you can also pass in common data types like numbers.
+             * @param len The number of characters to be added. Default 0.
+             * @param pad The string to pad it out with (defaults to a space). Default " ".
+             * @param dir The direction dir = 1 (left), 2 (right), 3 (both). Default 3.
+             */
+            function Pad(str: string, len?: integer, pad?: string, dir?: integer): string;
+
+            /**
+             * Takes the given string and reverses it, returning the reversed string.
+             * For example if given the string `Atari 520ST` it would return `TS025 iratA`.
+             * @param string The string to be reversed.
+             */
+            function ReverseString(string: string): string;
+
+            /**
+             * Capitalizes the first letter of a string if there is one.
+             * @param str The string to capitalize.
+             */
+            function UppercaseFirst(str: string): string;
+
+            /**
+             * Creates and returns an RFC4122 version 4 compliant UUID.
+             *
+             * The string is in the form: `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx` where each `x` is replaced with a random
+             * hexadecimal digit from 0 to f, and `y` is replaced with a random hexadecimal digit from 8 to b.
+             */
+            function UUID(): string;
+
+        }
+
+    }
+
+    /**
+     * The Facebook Instant Games Plugin for Phaser 3 provides a seamless bridge between Phaser
+     * and the Facebook Instant Games API version 6.2.
+     *
+     * You can access this plugin via the `facebook` property in a Scene, i.e:
+     *
+     * ```javascript
+     * this.facebook.getPlatform();
+     * ```
+     *
+     * If this is unavailable please check to make sure you're using a build of Phaser that has
+     * this plugin within it. You can quickly check this by looking at the dev tools console
+     * header - the Phaser version number will have `-FB` after it if this plugin is loaded.
+     *
+     * If you are building your own version of Phaser then use this Webpack DefinePlugin flag:
+     *
+     * `"typeof PLUGIN_FBINSTANT": JSON.stringify(true)`
+     *
+     * You will find that every Instant Games API method has a mapping in this plugin.
+     * For a full list please consult either the plugin documentation, or the 6.2 SDK documentation
+     * at https://developers.facebook.com/docs/games/instant-games/sdk/fbinstant6.2
+     *
+     * Internally this plugin uses its own Data Manager to handle seamless user data updates and provides
+     * handy functions for advertisement displaying, opening share dialogs, logging, leaderboards, purchase API requests,
+     * loader integration and more.
+     *
+     * To get started with Facebook Instant Games you will need to register on Facebook and create a new Instant
+     * Game app that has its own unique app ID. Facebook have also provided a dashboard interface for setting up
+     * various features for your game, including leaderboards, ad requests and the payments API. There are lots
+     * of guides on the Facebook Developers portal to assist with setting these
+     * various systems up: https://developers.facebook.com/docs/games/instant-games/guides
+     *
+     * For more details follow the Quick Start guide here: https://developers.facebook.com/docs/games/instant-games
+     */
+    class FacebookInstantGamesPlugin extends Phaser.Events.EventEmitter {
+        /**
+         *
+         * @param game A reference to the Phaser.Game instance.
+         */
+        constructor(game: Phaser.Game);
+
+        /**
+         * A reference to the Phaser.Game instance.
+         */
+        readonly game: Phaser.Game;
+
+        /**
+         * A Data Manager instance.
+         * It allows you to store, query and retrieve any key/value data you may need to store.
+         * It's also used internally by the plugin to store FBIG API data.
+         */
+        data: Phaser.Data.DataManager;
+
+        /**
+         * Has the Facebook Instant Games API loaded yet?
+         * This is set automatically during the boot process.
+         */
+        hasLoaded: boolean;
+
+        /**
+         * Is the Data Manager currently locked?
+         */
+        dataLocked: boolean;
+
+        /**
+         * A list of the Facebook Instant Games APIs that are available,
+         * based on the given platform, context and user privacy settings.
+         * This value is populated automatically during boot.
+         */
+        supportedAPIs: string[];
+
+        /**
+         * Holds the entry point that the game was launched from.
+         * This value is populated automatically during boot.
+         */
+        entryPoint: string;
+
+        /**
+         * An object that contains any data associated with the entry point that the game was launched from.
+         * The contents of the object are developer-defined, and can occur from entry points on different platforms.
+         * This will return null for older mobile clients, as well as when there is no data associated with the particular entry point.
+         * This value is populated automatically during boot.
+         */
+        entryPointData: any;
+
+        /**
+         * A unique identifier for the current game context. This represents a specific context
+         * that the game is being played in (for example, a particular messenger conversation or facebook post).
+         * The identifier will be null if game is being played in a solo context.
+         * This value is populated automatically during boot.
+         */
+        contextID: string;
+
+        /**
+         * The current context in which your game is running. This can be either `null` or
+         * one of:
+         *
+         * `POST` - The game is running inside of a Facebook post.
+         * `THREAD` - The game is running inside a Facebook Messenger thread.
+         * `GROUP` - The game is running inside a Facebook Group.
+         * `SOLO` - This is the default context, the player is the only participant.
+         *
+         * This value is populated automatically during boot.
+         */
+        contextType: string;
+
+        /**
+         * The current locale.
+         * See https://origincache.facebook.com/developers/resources/?id=FacebookLocales.xml for a complete list of supported locale values.
+         * Use this to determine what languages the current game should be localized with.
+         * This value is populated automatically during boot.
+         */
+        locale: string;
+
+        /**
+         * The platform on which the game is currently running, i.e. `IOS`.
+         * This value is populated automatically during boot.
+         */
+        platform: string;
+
+        /**
+         * The string representation of the Facebook Instant Games SDK version being used.
+         * This value is populated automatically during boot.
+         */
+        version: string;
+
+        /**
+         * Holds the id of the player. This is a string based ID, the same as `FBInstant.player.getID()`.
+         * This value is populated automatically during boot if the API is supported.
+         */
+        playerID: string;
+
+        /**
+         * The player's localized display name.
+         * This value is populated automatically during boot if the API is supported.
+         */
+        playerName: string;
+
+        /**
+         * A url to the player's public profile photo. The photo will always be a square, and with dimensions
+         * of at least 200x200. When rendering it in the game, the exact dimensions should never be assumed to be constant.
+         * It's recommended to always scale the image to a desired size before rendering.
+         * This value is populated automatically during boot if the API is supported.
+         */
+        playerPhotoURL: string;
+
+        /**
+         * Whether a player can subscribe to the game bot or not.
+         */
+        playerCanSubscribeBot: boolean;
+
+        /**
+         * Does the current platform and context allow for use of the payments API?
+         * Currently this is only available on Facebook.com and Android 6+.
+         */
+        paymentsReady: boolean;
+
+        /**
+         * The set of products that are registered to the game.
+         */
+        catalog: Product[];
+
+        /**
+         * Contains all of the player's unconsumed purchases.
+         * The game must fetch the current player's purchases as soon as the client indicates that it is ready to perform payments-related operations,
+         * i.e. at game start. The game can then process and consume any purchases that are waiting to be consumed.
+         */
+        purchases: Purchase[];
+
+        /**
+         * Contains all of the leaderboard data, as populated by the `getLeaderboard()` method.
+         */
+        leaderboards: Phaser.FacebookInstantGamesPlugin.Leaderboard[];
+
+        /**
+         * Contains AdInstance objects, as created by the `preloadAds()` method.
+         */
+        ads: AdInstance[];
+
+        /**
+         * Call this method from your `Scene.preload` in order to sync the load progress
+         * of the Phaser Loader with the Facebook Instant Games loader display, i.e.:
+         *
+         * ```javascript
+         * this.facebook.showLoadProgress(this);
+         * this.facebook.once('startgame', this.startGame, this);
+         * ```
+         * @param scene The Scene for which you want to show loader progress for.
+         */
+        showLoadProgress(scene: Phaser.Scene): this;
+
+        /**
+         * This method is called automatically when the game has finished loading,
+         * if you used the `showLoadProgress` method. If your game doesn't need to
+         * load any assets, or you're managing the load yourself, then call this
+         * method directly to start the API running.
+         *
+         * When the API has finished starting this plugin will emit a `startgame` event
+         * which you should listen for.
+         */
+        gameStarted(): void;
+
+        /**
+         * Checks to see if a given Facebook Instant Games API is available or not.
+         * @param api The API to check for, i.e. `player.getID`.
+         */
+        checkAPI(api: string): boolean;
+
+        /**
+         * Returns the unique identifier for the current game context. This represents a specific context
+         * that the game is being played in (for example, a particular messenger conversation or facebook post).
+         * The identifier will be null if game is being played in a solo context.
+         *
+         * It is only populated if `contextGetID` is in the list of supported APIs.
+         */
+        getID(): string;
+
+        /**
+         * Returns the current context in which your game is running. This can be either `null` or one of:
+         *
+         * `POST` - The game is running inside of a Facebook post.
+         * `THREAD` - The game is running inside a Facebook Messenger thread.
+         * `GROUP` - The game is running inside a Facebook Group.
+         * `SOLO` - This is the default context, the player is the only participant.
+         *
+         * It is only populated if `contextGetType` is in the list of supported APIs.
+         */
+        getType(): string;
+
+        /**
+         * Returns the current locale.
+         * See https://origincache.facebook.com/developers/resources/?id=FacebookLocales.xml for a complete list of supported locale values.
+         * Use this to determine what languages the current game should be localized with.
+         * It is only populated if `getLocale` is in the list of supported APIs.
+         */
+        getLocale(): string;
+
+        /**
+         * Returns the platform on which the game is currently running, i.e. `IOS`.
+         * It is only populated if `getPlatform` is in the list of supported APIs.
+         */
+        getPlatform(): string;
+
+        /**
+         * Returns the string representation of the Facebook Instant Games SDK version being used.
+         * It is only populated if `getSDKVersion` is in the list of supported APIs.
+         */
+        getSDKVersion(): string;
+
+        /**
+         * Returns the id of the player. This is a string based ID, the same as `FBInstant.player.getID()`.
+         * It is only populated if `playerGetID` is in the list of supported APIs.
+         */
+        getPlayerID(): string;
+
+        /**
+         * Returns the player's localized display name.
+         * It is only populated if `playerGetName` is in the list of supported APIs.
+         */
+        getPlayerName(): string;
+
+        /**
+         * Returns the url to the player's public profile photo. The photo will always be a square, and with dimensions
+         * of at least 200x200. When rendering it in the game, the exact dimensions should never be assumed to be constant.
+         * It's recommended to always scale the image to a desired size before rendering.
+         * It is only populated if `playerGetPhoto` is in the list of supported APIs.
+         */
+        getPlayerPhotoURL(): string;
+
+        /**
+         * Load the player's photo and store it in the Texture Manager, ready for use in-game.
+         *
+         * This method works by using a Scene Loader instance and then asking the Loader to
+         * retrieve the image.
+         *
+         * When complete the plugin will emit a `photocomplete` event, along with the key of the photo.
+         *
+         * ```javascript
+         * this.facebook.loadPlayerPhoto(this, 'player').once('photocomplete', function (key) {
+         *   this.add.image(x, y, 'player);
+         * }, this);
+         * ```
+         * @param scene The Scene that will be responsible for loading this photo.
+         * @param key The key to use when storing the photo in the Texture Manager.
+         */
+        loadPlayerPhoto(scene: Phaser.Scene, key: string): this;
+
+        /**
+         * Checks if the current player can subscribe to the game bot.
+         *
+         * It makes an async call to the API, so the result isn't available immediately.
+         *
+         * If they can subscribe, the `playerCanSubscribeBot` property is set to `true`
+         * and this plugin will emit the `cansubscribebot` event.
+         *
+         * If they cannot, i.e. it's not in the list of supported APIs, or the request
+         * was rejected, it will emit a `cansubscribebotfail` event instead.
+         */
+        canSubscribeBot(): this;
+
+        /**
+         * Subscribes the current player to the game bot.
+         *
+         * It makes an async call to the API, so the result isn't available immediately.
+         *
+         * If they are successfully subscribed this plugin will emit the `subscribebot` event.
+         *
+         * If they cannot, i.e. it's not in the list of supported APIs, or the request
+         * was rejected, it will emit a `subscribebotfail` event instead.
+         */
+        subscribeBot(): this;
+
+        /**
+         * Gets the associated data from the player based on the given key, or array of keys.
+         *
+         * The data is requested in an async call, so the result isn't available immediately.
+         *
+         * When the call completes the data is set into this plugins Data Manager and the
+         * `getdata` event will be emitted.
+         * @param keys The key/s of the data to retrieve.
+         */
+        getData(keys: string | string[]): this;
+
+        /**
+         * Set data to be saved to the designated cloud storage of the current player. The game can store up to 1MB of data for each unique player.
+         *
+         * The data save is requested in an async call, so the result isn't available immediately.
+         *
+         * Data managed via this plugins Data Manager instance is automatically synced with Facebook. However, you can call this
+         * method directly if you need to replace the data object directly.
+         *
+         * When the APIs `setDataAsync` call resolves it will emit the `savedata` event from this plugin. If the call fails for some
+         * reason it will emit `savedatafail` instead.
+         *
+         * The call resolving does not necessarily mean that the input has already been persisted. Rather, it means that the data was valid and
+         * has been scheduled to be saved. It also guarantees that all values that were set are now available in `getData`.
+         * @param data An object containing a set of key-value pairs that should be persisted to cloud storage.
+         * The object must contain only serializable values - any non-serializable values will cause the entire modification to be rejected.
+         */
+        saveData(data: object): this;
+
+        /**
+         * Immediately flushes any changes to the player data to the designated cloud storage.
+         * This function is expensive, and should primarily be used for critical changes where persistence needs to be immediate
+         * and known by the game. Non-critical changes should rely on the platform to persist them in the background.
+         * NOTE: Calls to player.setDataAsync will be rejected while this function's result is pending.
+         *
+         * Data managed via this plugins Data Manager instance is automatically synced with Facebook. However, you can call this
+         * method directly if you need to flush the data directly.
+         *
+         * When the APIs `flushDataAsync` call resolves it will emit the `flushdata` event from this plugin. If the call fails for some
+         * reason it will emit `flushdatafail` instead.
+         */
+        flushData(): this;
+
+        /**
+         * Retrieve stats from the designated cloud storage of the current player.
+         *
+         * The data is requested in an async call, so the result isn't available immediately.
+         *
+         * When the call completes the `getstats` event will be emitted along with the data object returned.
+         *
+         * If the call fails, i.e. it's not in the list of supported APIs, or the request was rejected,
+         * it will emit a `getstatsfail` event instead.
+         * @param keys An optional array of unique keys to retrieve stats for. If the function is called without it, it will fetch all stats.
+         */
+        getStats(keys?: string[]): this;
+
+        /**
+         * Save the stats of the current player to the designated cloud storage.
+         *
+         * Stats in the Facebook Instant Games API are purely numerical values paired with a string-based key. Only numbers can be saved as stats,
+         * all other data types will be ignored.
+         *
+         * The data is requested in an async call, so the result isn't available immediately.
+         *
+         * When the call completes the `savestats` event will be emitted along with the data object returned.
+         *
+         * If the call fails, i.e. it's not in the list of supported APIs, or the request was rejected,
+         * it will emit a `savestatsfail` event instead.
+         * @param data An object containing a set of key-value pairs that should be persisted to cloud storage as stats. Note that only numerical values are stored.
+         */
+        saveStats(data: object): this;
+
+        /**
+         * Increment the stats of the current player and save them to the designated cloud storage.
+         *
+         * Stats in the Facebook Instant Games API are purely numerical values paired with a string-based key. Only numbers can be saved as stats,
+         * all other data types will be ignored.
+         *
+         * The data object provided for this call should contain offsets for how much to modify the stats by:
+         *
+         * ```javascript
+         * this.facebook.incStats({
+         *     level: 1,
+         *     zombiesSlain: 17,
+         *     rank: -1
+         * });
+         * ```
+         *
+         * The data is requested in an async call, so the result isn't available immediately.
+         *
+         * When the call completes the `incstats` event will be emitted along with the data object returned.
+         *
+         * If the call fails, i.e. it's not in the list of supported APIs, or the request was rejected,
+         * it will emit a `incstatsfail` event instead.
+         * @param data An object containing a set of key-value pairs indicating how much to increment each stat in cloud storage. Note that only numerical values are processed.
+         */
+        incStats(data: object): this;
+
+        /**
+         * Sets the data associated with the individual gameplay session for the current context.
+         *
+         * This function should be called whenever the game would like to update the current session data.
+         *
+         * This session data may be used to populate a variety of payloads, such as game play webhooks.
+         * @param data An arbitrary data object, which must be less than or equal to 1000 characters when stringified.
+         */
+        saveSession(data: object): this;
+
+        /**
+         * This invokes a dialog to let the user share specified content, either as a message in Messenger or as a post on the user's timeline.
+         *
+         * A blob of data can be attached to the share which every game session launched from the share will be able to access via the `this.entryPointData` property.
+         *
+         * This data must be less than or equal to 1000 characters when stringified.
+         *
+         * When this method is called you should consider your game paused. Listen out for the `resume` event from this plugin to know when the dialog has been closed.
+         *
+         * The user may choose to cancel the share action and close the dialog. The resulting `resume` event will be dispatched regardless if the user actually shared the content or not.
+         * @param text A text message to be shared.
+         * @param key The key of the texture to use as the share image.
+         * @param frame The frame of the texture to use as the share image. Set to `null` if you don't require a frame, but do need to set session data.
+         * @param sessionData A blob of data to attach to the share.
+         */
+        openShare(text: string, key: string, frame?: string, sessionData?: object): this;
+
+        /**
+         * This invokes a dialog to let the user invite a friend to play this game, either as a message in Messenger or as a post on the user's timeline.
+         *
+         * A blob of data can be attached to the share which every game session launched from the share will be able to access via the `this.entryPointData` property.
+         *
+         * This data must be less than or equal to 1000 characters when stringified.
+         *
+         * When this method is called you should consider your game paused. Listen out for the `resume` event from this plugin to know when the dialog has been closed.
+         *
+         * The user may choose to cancel the share action and close the dialog. The resulting `resume` event will be dispatched regardless if the user actually shared the content or not.
+         * @param text A text message to be shared.
+         * @param key The key of the texture to use as the share image.
+         * @param frame The frame of the texture to use as the share image. Set to `null` if you don't require a frame, but do need to set session data.
+         * @param sessionData A blob of data to attach to the share.
+         */
+        openInvite(text: string, key: string, frame?: string, sessionData?: object): this;
+
+        /**
+         * This invokes a dialog to let the user share specified content, either as a message in Messenger or as a post on the user's timeline.
+         *
+         * A blob of data can be attached to the share which every game session launched from the share will be able to access via the `this.entryPointData` property.
+         *
+         * This data must be less than or equal to 1000 characters when stringified.
+         *
+         * When this method is called you should consider your game paused. Listen out for the `resume` event from this plugin to know when the dialog has been closed.
+         *
+         * The user may choose to cancel the share action and close the dialog. The resulting `resume` event will be dispatched regardless if the user actually shared the content or not.
+         * @param text A text message to be shared.
+         * @param key The key of the texture to use as the share image.
+         * @param frame The frame of the texture to use as the share image. Set to `null` if you don't require a frame, but do need to set session data.
+         * @param sessionData A blob of data to attach to the share.
+         */
+        openRequest(text: string, key: string, frame?: string, sessionData?: object): this;
+
+        /**
+         * This invokes a dialog to let the user share specified content, either as a message in Messenger or as a post on the user's timeline.
+         *
+         * A blob of data can be attached to the share which every game session launched from the share will be able to access via the `this.entryPointData` property.
+         *
+         * This data must be less than or equal to 1000 characters when stringified.
+         *
+         * When this method is called you should consider your game paused. Listen out for the `resume` event from this plugin to know when the dialog has been closed.
+         *
+         * The user may choose to cancel the share action and close the dialog. The resulting `resume` event will be dispatched regardless if the user actually shared the content or not.
+         * @param text A text message to be shared.
+         * @param key The key of the texture to use as the share image.
+         * @param frame The frame of the texture to use as the share image. Set to `null` if you don't require a frame, but do need to set session data.
+         * @param sessionData A blob of data to attach to the share.
+         */
+        openChallenge(text: string, key: string, frame?: string, sessionData?: object): this;
+
+        /**
+         * This function determines whether the number of participants in the current game context is between a given minimum and maximum, inclusive.
+         * If one of the bounds is null only the other bound will be checked against.
+         * It will always return the original result for the first call made in a context in a given game play session.
+         * Subsequent calls, regardless of arguments, will return the answer to the original query until a context change occurs and the query result is reset.
+         * @param min The minimum bound of the context size query.
+         * @param max The maximum bound of the context size query.
+         */
+        isSizeBetween(min?: integer, max?: integer): object;
+
+        /**
+         * Request a switch into a specific context. If the player does not have permission to enter that context,
+         * or if the player does not provide permission for the game to enter that context, this will emit a `switchfail` event.
+         *
+         * Otherwise, the plugin will emit the `switch` event when the game has switched into the specified context.
+         * @param contextID The ID of the desired context.
+         */
+        switchContext(contextID: string): this;
+
+        /**
+         * Opens a context selection dialog for the player. If the player selects an available context,
+         * the client will attempt to switch into that context, and emit the `choose` event if successful.
+         * Otherwise, if the player exits the menu or the client fails to switch into the new context, the `choosefail` event will be emitted.
+         * @param contextID The ID of the desired context.
+         */
+        chooseContext(contextID: string): this;
+
+        /**
+         * Attempts to create or switch into a context between a specified player and the current player.
+         * This plugin will emit the `create` event once the context switch is completed.
+         * If the API call fails, such as if the player listed is not a Connected Player of the current player or if the
+         * player does not provide permission to enter the new context, then the plugin will emit a 'createfail' event.
+         * @param playerID ID of the player.
+         */
+        createContext(playerID: string): this;
+
+        /**
+         * Fetches an array of ConnectedPlayer objects containing information about active players
+         * (people who played the game in the last 90 days) that are connected to the current player.
+         *
+         * It makes an async call to the API, so the result isn't available immediately.
+         *
+         * If they are successfully subscribed this plugin will emit the `players` event along
+         * with the player data.
+         *
+         * If they cannot, i.e. it's not in the list of supported APIs, or the request
+         * was rejected, it will emit a `playersfail` event instead.
+         */
+        getPlayers(): this;
+
+        /**
+         * Fetches the game's product catalog.
+         *
+         * It makes an async call to the API, so the result isn't available immediately.
+         *
+         * If they are successfully subscribed this plugin will emit the `getcatalog` event along
+         * with the catalog data.
+         *
+         * If they cannot, i.e. it's not in the list of supported APIs, or the request
+         * was rejected, it will emit a `getcatalogfail` event instead.
+         */
+        getCatalog(): this;
+
+        /**
+         * Begins the purchase flow for a specific product.
+         *
+         * It makes an async call to the API, so the result isn't available immediately.
+         *
+         * If they are successfully subscribed this plugin will emit the `purchase` event along
+         * with the purchase data.
+         *
+         * If they cannot, i.e. it's not in the list of supported APIs, or the request
+         * was rejected, it will emit a `purchasefail` event instead.
+         * @param productID The identifier of the product to purchase.
+         * @param developerPayload An optional developer-specified payload, to be included in the returned purchase's signed request.
+         */
+        purchase(productID: string, developerPayload?: string): this;
+
+        /**
+         * Fetches all of the player's unconsumed purchases. The game must fetch the current player's purchases
+         * as soon as the client indicates that it is ready to perform payments-related operations,
+         * i.e. at game start. The game can then process and consume any purchases that are waiting to be consumed.
+         *
+         * It makes an async call to the API, so the result isn't available immediately.
+         *
+         * If they are successfully subscribed this plugin will emit the `getpurchases` event along
+         * with the purchase data.
+         *
+         * If they cannot, i.e. it's not in the list of supported APIs, or the request
+         * was rejected, it will emit a `getpurchasesfail` event instead.
+         */
+        getPurchases(): this;
+
+        /**
+         * Consumes a specific purchase belonging to the current player. Before provisioning a product's effects to the player,
+         * the game should request the consumption of the purchased product. Once the purchase is successfully consumed,
+         * the game should immediately provide the player with the effects of their purchase.
+         *
+         * It makes an async call to the API, so the result isn't available immediately.
+         *
+         * If they are successfully subscribed this plugin will emit the `consumepurchase` event along
+         * with the purchase data.
+         *
+         * If they cannot, i.e. it's not in the list of supported APIs, or the request
+         * was rejected, it will emit a `consumepurchasefail` event instead.
+         * @param purchaseToken The purchase token of the purchase that should be consumed.
+         */
+        consumePurchases(purchaseToken: string): this;
+
+        /**
+         * Informs Facebook of a custom update that occurred in the game.
+         * This will temporarily yield control to Facebook and Facebook will decide what to do based on what the update is.
+         * Once Facebook returns control to the game the plugin will emit an `update` or `upatefail` event.
+         *
+         * It makes an async call to the API, so the result isn't available immediately.
+         *
+         * The `text` parameter is an update payload with the following structure:
+         *
+         * ```
+         * text: {
+         *     default: 'X just invaded Y\'s village!',
+         *     localizations: {
+         *         ar_AR: 'X \u0641\u0642\u0637 \u063A\u0632\u062A ' +
+         *         '\u0642\u0631\u064A\u0629 Y!',
+         *         en_US: 'X just invaded Y\'s village!',
+         *         es_LA: '\u00A1X acaba de invadir el pueblo de Y!',
+         *     }
+         * }
+         * ```
+         * @param cta The call to action text.
+         * @param text The text object.
+         * @param key The key of the texture to use as the share image.
+         * @param frame The frame of the texture to use as the share image. Set to `null` if you don't require a frame, but do need to set session data.
+         * @param template The update template key.
+         * @param updateData The update data object payload.
+         */
+        update(cta: string, text: object, key: string, frame?: string | integer, template?: string, updateData?: object): this;
+
+        /**
+         * Informs Facebook of a leaderboard update that occurred in the game.
+         * This will temporarily yield control to Facebook and Facebook will decide what to do based on what the update is.
+         * Once Facebook returns control to the game the plugin will emit an `update` or `upatefail` event.
+         *
+         * It makes an async call to the API, so the result isn't available immediately.
+         *
+         * The `text` parameter is an update payload with the following structure:
+         *
+         * ```
+         * text: {
+         *     default: 'X just invaded Y\'s village!',
+         *     localizations: {
+         *         ar_AR: 'X \u0641\u0642\u0637 \u063A\u0632\u062A ' +
+         *         '\u0642\u0631\u064A\u0629 Y!',
+         *         en_US: 'X just invaded Y\'s village!',
+         *         es_LA: '\u00A1X acaba de invadir el pueblo de Y!',
+         *     }
+         * }
+         * ```
+         * @param cta The call to action text.
+         * @param text The text object.
+         * @param key The key of the texture to use as the share image.
+         * @param frame The frame of the texture to use as the share image. Set to `null` if you don't require a frame, but do need to set session data.
+         * @param template The update template key.
+         * @param updateData The update data object payload.
+         */
+        updateLeaderboard(cta: string, text: object, key: string, frame?: string | integer, template?: string, updateData?: object): this;
+
+        /**
+         * Request that the client switch to a different Instant Game.
+         *
+         * It makes an async call to the API, so the result isn't available immediately.
+         *
+         * If the game switches successfully this plugin will emit the `switchgame` event and the client will load the new game.
+         *
+         * If they cannot, i.e. it's not in the list of supported APIs, or the request
+         * was rejected, it will emit a `switchgamefail` event instead.
+         * @param appID The Application ID of the Instant Game to switch to. The application must be an Instant Game, and must belong to the same business as the current game.
+         * @param data An optional data payload. This will be set as the entrypoint data for the game being switched to. Must be less than or equal to 1000 characters when stringified.
+         */
+        switchGame(appID: string, data?: object): this;
+
+        /**
+         * Prompts the user to create a shortcut to the game if they are eligible to.
+         * Can only be called once per session.
+         *
+         * It makes an async call to the API, so the result isn't available immediately.
+         *
+         * If the user choose to create a shortcut this plugin will emit the `shortcutcreated` event.
+         *
+         * If they cannot, i.e. it's not in the list of supported APIs, or the request
+         * was rejected, it will emit a `shortcutcreatedfail` event instead.
+         */
+        createShortcut(): this;
+
+        /**
+         * Quits the game.
+         */
+        quit(): void;
+
+        /**
+         * Log an app event with FB Analytics.
+         *
+         * See https://developers.facebook.com/docs/javascript/reference/v2.8#app_events for more details about FB Analytics.
+         * @param name Name of the event. Must be 2 to 40 characters, and can only contain '_', '-', ' ', and alphanumeric characters.
+         * @param value An optional numeric value that FB Analytics can calculate a sum with.
+         * @param params An optional object that can contain up to 25 key-value pairs to be logged with the event. Keys must be 2 to 40 characters, and can only contain '_', '-', ' ', and alphanumeric characters. Values must be less than 100 characters in length.
+         */
+        log(name: string, value?: number, params?: object): this;
+
+        /**
+         * Attempt to create an instance of an interstitial ad.
+         *
+         * If the instance is created successfully then the ad is preloaded ready for display in-game via the method `showAd()`.
+         * @param placementID The ad placement ID, or an array of IDs, as created in your Audience Network settings within Facebook.
+         */
+        preloadAds(placementID: string | string[]): this;
+
+        /**
+         * Attempt to create an instance of an interstitial video ad.
+         *
+         * If the instance is created successfully then the ad is preloaded ready for display in-game via the method `showVideo()`.
+         * @param placementID The ad placement ID, or an array of IDs, as created in your Audience Network settings within Facebook.
+         */
+        preloadVideoAds(placementID: string | string[]): this;
+
+        /**
+         * Displays a previously loaded interstitial ad.
+         *
+         * If the ad is successfully displayed this plugin will emit the `showad` event, with the AdInstance object as its parameter.
+         *
+         * If the ad cannot be displayed because there was no inventory to fill it, it will emit the `adsnofill` event.
+         * @param placementID The ad placement ID to display.
+         */
+        showAd(placementID: string): this;
+
+        /**
+         * Displays a previously loaded interstitial video ad.
+         *
+         * If the ad is successfully displayed this plugin will emit the `showad` event, with the AdInstance object as its parameter.
+         *
+         * If the ad cannot be displayed because there was no inventory to fill it, it will emit the `adsnofill` event.
+         * @param placementID The ad placement ID to display.
+         */
+        showVideo(placementID: string): this;
+
+        /**
+         * Attempts to match the current player with other users looking for people to play with.
+         * If successful, a new Messenger group thread will be created containing the matched players and the player will
+         * be context switched to that thread. This plugin will also dispatch the `matchplayer` event, containing the new context ID and Type.
+         *
+         * The default minimum and maximum number of players in one matched thread are 2 and 20 respectively,
+         * depending on how many players are trying to get matched around the same time.
+         *
+         * The values can be changed in `fbapp-config.json`. See the Bundle Config documentation for documentation about `fbapp-config.json`.
+         * @param matchTag Optional extra information about the player used to group them with similar players. Players will only be grouped with other players with exactly the same tag. The tag must only include letters, numbers, and underscores and be 100 characters or less in length.
+         * @param switchImmediately Optional extra parameter that specifies whether the player should be immediately switched to the new context when a match is found. By default this will be false which will mean the player needs explicitly press play after being matched to switch to the new context. Default false.
+         */
+        matchPlayer(matchTag?: string, switchImmediately?: boolean): this;
+
+        /**
+         * Fetch a specific leaderboard belonging to this Instant Game.
+         *
+         * The data is requested in an async call, so the result isn't available immediately.
+         *
+         * When the call completes the `getleaderboard` event will be emitted along with a Leaderboard object instance.
+         * @param name The name of the leaderboard. Each leaderboard for an Instant Game must have its own distinct name.
+         */
+        getLeaderboard(name: string): this;
+
+        /**
+         * Quits the Facebook API and then destroys this plugin.
+         */
+        destroy(): void;
+
+    }
+
+}
+
+declare type ArcadeBodyBounds = {
+    /**
+     * The left edge.
+     */
+    x: number;
+    /**
+     * The upper edge.
+     */
+    y: number;
+    /**
+     * The right edge.
+     */
+    right: number;
+    /**
+     * The lower edge.
+     */
+    bottom: number;
+};
+
+declare type ArcadeBodyCollision = {
+    /**
+     * True if the Body is not colliding.
+     */
+    none: boolean;
+    /**
+     * True if the Body is colliding on its upper edge.
+     */
+    up: boolean;
+    /**
+     * True if the Body is colliding on its lower edge.
+     */
+    down: boolean;
+    /**
+     * True if the Body is colliding on its left edge.
+     */
+    left: boolean;
+    /**
+     * True if the Body is colliding on its right edge.
+     */
+    right: boolean;
+};
+
+declare type ArcadePhysicsCallback = (object1: Phaser.GameObjects.GameObject, object2: Phaser.GameObjects.GameObject)=>void;
+
+declare type PhysicsGroupConfig = GroupConfig & {
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#collideWorldBounds}.
+     */
+    collideWorldBounds?: boolean;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#acceleration acceleration.x}.
+     */
+    accelerationX?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#acceleration acceleration.y}.
+     */
+    accelerationY?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#allowDrag}.
+     */
+    allowDrag?: boolean;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#allowGravity}.
+     */
+    allowGravity?: boolean;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#allowRotation}.
+     */
+    allowRotation?: boolean;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#bounce bounce.x}.
+     */
+    bounceX?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#bounce bounce.y}.
+     */
+    bounceY?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#drag drag.x}.
+     */
+    dragX?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#drag drag.y}.
+     */
+    dragY?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#enable enable}.
+     */
+    enable?: boolean;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#gravity gravity.x}.
+     */
+    gravityX?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#gravity gravity.y}.
+     */
+    gravityY?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#friction friction.x}.
+     */
+    frictionX?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#friction friction.y}.
+     */
+    frictionY?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#velocity velocity.x}.
+     */
+    velocityX?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#velocity velocity.y}.
+     */
+    velocityY?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#angularVelocity}.
+     */
+    angularVelocity?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#angularAcceleration}.
+     */
+    angularAcceleration?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#angularDrag}.
+     */
+    angularDrag?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#mass}.
+     */
+    mass?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.Body#immovable}.
+     */
+    immovable?: boolean;
+};
+
+declare type PhysicsGroupDefaults = {
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setCollideWorldBounds}.
+     */
+    setCollideWorldBounds: boolean;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setAccelerationX}.
+     */
+    setAccelerationX: number;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setAccelerationY}.
+     */
+    setAccelerationY: number;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setAllowDrag}.
+     */
+    setAllowDrag: boolean;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setAllowGravity}.
+     */
+    setAllowGravity: boolean;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setAllowRotation}.
+     */
+    setAllowRotation: boolean;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setBounceX}.
+     */
+    setBounceX: number;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setBounceY}.
+     */
+    setBounceY: number;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setDragX}.
+     */
+    setDragX: number;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setDragY}.
+     */
+    setDragY: number;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setEnable}.
+     */
+    setEnable: boolean;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setGravityX}.
+     */
+    setGravityX: number;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setGravityY}.
+     */
+    setGravityY: number;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setFrictionX}.
+     */
+    setFrictionX: number;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setFrictionY}.
+     */
+    setFrictionY: number;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setVelocityX}.
+     */
+    setVelocityX: number;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setVelocityY}.
+     */
+    setVelocityY: number;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setAngularVelocity}.
+     */
+    setAngularVelocity: number;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setAngularAcceleration}.
+     */
+    setAngularAcceleration: number;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setAngularDrag}.
+     */
+    setAngularDrag: number;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setMass}.
+     */
+    setMass: number;
+    /**
+     * As {@link Phaser.Physics.Arcade.Body#setImmovable}.
+     */
+    setImmovable: boolean;
+};
+
+declare type ArcadeWorldConfig = {
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#fps}.
+     */
+    fps?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#timeScale}.
+     */
+    timeScale?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#gravity}.
+     */
+    gravity?: object;
+    /**
+     * The horizontal world gravity value.
+     */
+    "gravity.x"?: number;
+    /**
+     * The vertical world gravity value.
+     */
+    "gravity.y"?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#bounds bounds.x}.
+     */
+    x?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#bounds bounds.y}.
+     */
+    y?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#bounds bounds.width}.
+     */
+    width?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#bounds bounds.height}.
+     */
+    height?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#checkCollision}.
+     */
+    checkCollision?: object;
+    /**
+     * Should bodies collide with the top of the world bounds?
+     */
+    "checkCollision.up"?: boolean;
+    /**
+     * Should bodies collide with the bottom of the world bounds?
+     */
+    "checkCollision.down"?: boolean;
+    /**
+     * Should bodies collide with the left of the world bounds?
+     */
+    "checkCollision.left"?: boolean;
+    /**
+     * Should bodies collide with the right of the world bounds?
+     */
+    "checkCollision.right"?: boolean;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#OVERLAP_BIAS}.
+     */
+    overlapBias?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#TILE_BIAS}.
+     */
+    tileBias?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#forceX}.
+     */
+    forceX?: boolean;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#isPaused}.
+     */
+    isPaused?: boolean;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#debug}.
+     */
+    debug?: boolean;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#defaults debugShowBody}.
+     */
+    debugShowBody?: boolean;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#defaults debugShowStaticBody}.
+     */
+    debugShowStaticBody?: boolean;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#defaults debugShowStaticBody}.
+     */
+    debugShowVelocity?: boolean;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#defaults debugBodyColor}.
+     */
+    debugBodyColor?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#defaults debugStaticBodyColor}.
+     */
+    debugStaticBodyColor?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#defaults debugVelocityColor}.
+     */
+    debugVelocityColor?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#maxEntries}.
+     */
+    maxEntries?: number;
+    /**
+     * Sets {@link Phaser.Physics.Arcade.World#useTree}.
+     */
+    useTree?: boolean;
+};
+
+declare type CheckCollisionObject = {
+    /**
+     * [description]
+     */
+    up: boolean;
+    /**
+     * [description]
+     */
+    down: boolean;
+    /**
+     * [description]
+     */
+    left: boolean;
+    /**
+     * [description]
+     */
+    right: boolean;
+};
+
+declare type ArcadeWorldDefaults = {
+    /**
+     * [description]
+     */
+    debugShowBody: boolean;
+    /**
+     * [description]
+     */
+    debugShowStaticBody: boolean;
+    /**
+     * [description]
+     */
+    debugShowVelocity: boolean;
+    /**
+     * [description]
+     */
+    bodyDebugColor: number;
+    /**
+     * [description]
+     */
+    staticBodyDebugColor: number;
+    /**
+     * [description]
+     */
+    velocityDebugColor: number;
+};
+
+declare type ArcadeWorldTreeMinMax = {
+    /**
+     * [description]
+     */
+    minX: number;
+    /**
+     * [description]
+     */
+    minY: number;
+    /**
+     * [description]
+     */
+    maxX: number;
+    /**
+     * [description]
+     */
+    maxY: number;
+};
+
+/**
+ * An Arcade Physics Collider Type.
+ */
+declare type ArcadeColliderType = ()=>void;
+
+declare type BodyUpdateCallback = (body: Phaser.Physics.Impact.Body)=>void;
+
+declare type JSONImpactBody = {
+    /**
+     * [description]
+     */
+    name: string;
+    /**
+     * [description]
+     */
+    size: object;
+    /**
+     * [description]
+     */
+    pos: object;
+    /**
+     * [description]
+     */
+    vel: object;
+    /**
+     * [description]
+     */
+    accel: object;
+    /**
+     * [description]
+     */
+    friction: object;
+    /**
+     * [description]
+     */
+    maxVel: object;
+    /**
+     * [description]
+     */
+    gravityFactor: number;
+    /**
+     * [description]
+     */
+    bounciness: number;
+    /**
+     * [description]
+     */
+    minBounceVelocity: number;
+    /**
+     * [description]
+     */
+    type: Phaser.Physics.Impact.TYPE;
+    /**
+     * [description]
+     */
+    checkAgainst: Phaser.Physics.Impact.TYPE;
+    /**
+     * [description]
+     */
+    collides: Phaser.Physics.Impact.COLLIDES;
+};
+
+declare type CollideCallback = (body: Phaser.Physics.Impact.Body, other: Phaser.Physics.Impact.Body, axis: string)=>void;
+
+declare namespace MatterJS {
+    /**
+     * The `Matter.Body` module contains methods for creating and manipulating body models.
+     * A `Matter.Body` is a rigid body that can be simulated by a `Matter.Engine`.
+     * Factories for commonly used body configurations (such as rectangles, circles and other polygons) can be found in the module `Matter.Bodies`.
+     */
+    class Body {
+    }
+
+    /**
+     * The `Matter.Composite` module contains methods for creating and manipulating composite bodies.
+     * A composite body is a collection of `Matter.Body`, `Matter.Constraint` and other `Matter.Composite`, therefore composites form a tree structure.
+     * It is important to use the functions in this module to modify composites, rather than directly modifying their properties.
+     * Note that the `Matter.World` object is also a type of `Matter.Composite` and as such all composite methods here can also operate on a `Matter.World`.
+     */
+    class Composite {
+    }
+
+    /**
+     * The `Matter.World` module contains methods for creating and manipulating the world composite.
+     * A `Matter.World` is a `Matter.Composite` body, which is a collection of `Matter.Body`, `Matter.Constraint` and other `Matter.Composite`.
+     * A `Matter.World` has a few additional properties including `gravity` and `bounds`.
+     * It is important to use the functions in the `Matter.Composite` module to modify the world composite, rather than directly modifying its properties.
+     * There are also a few methods here that alias those in `Matter.Composite` for easier readability.
+     */
+    class World extends MatterJS.Composite {
+    }
+
+    /**
+     * The `Matter.Constraint` module contains methods for creating and manipulating constraints.
+     * Constraints are used for specifying that a fixed distance must be maintained between two bodies (or a body and a fixed world-space position).
+     * The stiffness of constraints can be modified to create springs or elastic.
+     */
+    class Constraint {
+    }
+
+    /**
+     * The `Matter.Engine` module contains methods for creating and manipulating engines.
+     * An engine is a controller that manages updating the simulation of the world.
+     */
+    class Engine {
+    }
+
+    /**
+     * The `Matter.Vertices` module contains methods for creating and manipulating sets of vertices.
+     * A set of vertices is an array of `Matter.Vector` with additional indexing properties inserted by `Vertices.create`.
+     * A `Matter.Body` maintains a set of vertices to represent the shape of the object (its convex hull).
+     */
+    class Vertices {
+    }
+
+}
+
+declare type CorePluginContainer = {
+    /**
+     * The unique name of this plugin in the core plugin cache.
+     */
+    key: string;
+    /**
+     * The plugin to be stored. Should be the source object, not instantiated.
+     */
+    plugin: Function;
+    /**
+     * If this plugin is to be injected into the Scene Systems, this is the property key map used.
+     */
+    mapping?: string;
+    /**
+     * Core Scene plugin or a Custom Scene plugin?
+     */
+    custom?: boolean;
+};
+
+declare type CustomPluginContainer = {
+    /**
+     * The unique name of this plugin in the custom plugin cache.
+     */
+    key: string;
+    /**
+     * The plugin to be stored. Should be the source object, not instantiated.
+     */
+    plugin: Function;
+};
+
+declare namespace Phaser.Plugins.PluginCache {
+    /**
+     * Static method called directly by the Core internal Plugins.
+     * Key is a reference used to get the plugin from the plugins object (i.e. InputPlugin)
+     * Plugin is the object to instantiate to create the plugin
+     * Mapping is what the plugin is injected into the Scene.Systems as (i.e. input)
+     * @param key A reference used to get this plugin from the plugin cache.
+     * @param plugin The plugin to be stored. Should be the core object, not instantiated.
+     * @param mapping If this plugin is to be injected into the Scene Systems, this is the property key map used.
+     * @param custom Core Scene plugin or a Custom Scene plugin? Default false.
+     */
+    function register(key: string, plugin: Function, mapping: string, custom?: boolean): void;
+
+    /**
+     * Stores a custom plugin in the global plugin cache.
+     * The key must be unique, within the scope of the cache.
+     * @param key A reference used to get this plugin from the plugin cache.
+     * @param plugin The plugin to be stored. Should be the core object, not instantiated.
+     * @param mapping If this plugin is to be injected into the Scene Systems, this is the property key map used.
+     * @param data A value to be passed to the plugin's `init` method.
+     */
+    function registerCustom(key: string, plugin: Function, mapping: string, data: any): void;
+
+    /**
+     * Checks if the given key is already being used in the core plugin cache.
+     * @param key The key to check for.
+     */
+    function hasCore(key: string): boolean;
+
+    /**
+     * Checks if the given key is already being used in the custom plugin cache.
+     * @param key The key to check for.
+     */
+    function hasCustom(key: string): boolean;
+
+    /**
+     * Returns the core plugin object from the cache based on the given key.
+     * @param key The key of the core plugin to get.
+     */
+    function getCore(key: string): CorePluginContainer;
+
+    /**
+     * Returns the custom plugin object from the cache based on the given key.
+     * @param key The key of the custom plugin to get.
+     */
+    function getCustom(key: string): CustomPluginContainer;
+
+    /**
+     * Returns an object from the custom cache based on the given key that can be instantiated.
+     * @param key The key of the custom plugin to get.
+     */
+    function getCustomClass(key: string): Function;
+
+    /**
+     * Removes a core plugin based on the given key.
+     * @param key The key of the core plugin to remove.
+     */
+    function remove(key: string): void;
+
+    /**
+     * Removes a custom plugin based on the given key.
+     * @param key The key of the custom plugin to remove.
+     */
+    function removeCustom(key: string): void;
+
+    /**
+     * Removes all Core Plugins.
+     *
+     * This includes all of the internal system plugins that Phaser needs, like the Input Plugin and Loader Plugin.
+     * So be sure you only call this if you do not wish to run Phaser again.
+     */
+    function destroyCorePlugins(): void;
+
+    /**
+     * Removes all Custom Plugins.
+     */
+    function destroyCustomPlugins(): void;
+
+}
+
+declare type GlobalPlugin = {
+    /**
+     * The unique name of this plugin within the plugin cache.
+     */
+    key: string;
+    /**
+     * An instance of the plugin.
+     */
+    plugin: Function;
+    /**
+     * Is the plugin active or not?
+     */
+    active?: boolean;
+    /**
+     * If this plugin is to be injected into the Scene Systems, this is the property key map used.
+     */
+    mapping?: string;
+};
+
+declare type RendererConfig = {
+    /**
+     * [description]
+     */
+    clearBeforeRender: boolean;
+    /**
+     * [description]
+     */
+    antialias: boolean;
+    /**
+     * [description]
+     */
+    backgroundColor: Phaser.Display.Color;
+    /**
+     * [description]
+     */
+    resolution: number;
+    /**
+     * [description]
+     */
+    autoResize: boolean;
+    /**
+     * [description]
+     */
+    roundPixels: boolean;
+};
+
+declare type SnapshotCallback = (snapshot: HTMLImageElement)=>void;
+
+/**
+ * Implements a model view projection matrices.
+ * Pipelines can implement this for doing 2D and 3D rendering.
+ */
+declare interface ModelViewProjection {
+    /**
+     * Dirty flag for checking if model matrix needs to be updated on GPU.
+     */
+    modelMatrixDirty: any;
+    /**
+     * Dirty flag for checking if view matrix needs to be updated on GPU.
+     */
+    viewMatrixDirty: any;
+    /**
+     * Dirty flag for checking if projection matrix needs to be updated on GPU.
+     */
+    projectionMatrixDirty: any;
+    /**
+     * Model matrix
+     */
+    modelMatrix: any;
+    /**
+     * View matrix
+     */
+    viewMatrix: any;
+    /**
+     * Projection matrix
+     */
+    projectionMatrix: any;
+    /**
+     * Initializes MVP matrices with an identity matrix
+     */
+    mvpInit(): void;
+    /**
+     * If dirty flags are set then the matrices are uploaded to the GPU.
+     */
+    mvpUpdate(): void;
+    /**
+     * Loads an identity matrix to the model matrix
+     */
+    modelIdentity(): void;
+    /**
+     * Scale model matrix
+     */
+    modelScale(): void;
+    /**
+     * Translate model matrix
+     */
+    modelTranslate(): void;
+    /**
+     * Rotates the model matrix in the X axis.
+     */
+    modelRotateX(): void;
+    /**
+     * Rotates the model matrix in the Y axis.
+     */
+    modelRotateY(): void;
+    /**
+     * Rotates the model matrix in the Z axis.
+     */
+    modelRotateZ(): void;
+    /**
+     * Loads identity matrix into the view matrix
+     */
+    viewIdentity(): void;
+    /**
+     * Scales view matrix
+     */
+    viewScale(): void;
+    /**
+     * Translates view matrix
+     */
+    viewTranslate(): void;
+    /**
+     * Rotates view matrix in the X axis.
+     */
+    viewRotateX(): void;
+    /**
+     * Rotates view matrix in the Y axis.
+     */
+    viewRotateY(): void;
+    /**
+     * Rotates view matrix in the Z axis.
+     */
+    viewRotateZ(): void;
+    /**
+     * Loads a 2D view matrix (3x2 matrix) into a 4x4 view matrix
+     */
+    viewLoad2D(): void;
+    /**
+     * Copies a 4x4 matrix into the view matrix
+     */
+    viewLoad(): void;
+    /**
+     * Loads identity matrix into the projection matrix.
+     */
+    projIdentity(): void;
+    /**
+     * Sets up an orthographics projection matrix
+     */
+    projOrtho(): void;
+    /**
+     * Sets up a perspective projection matrix
+     */
+    projPersp(): void;
+}
+
+declare type WebGLContextCallback = (renderer: Phaser.Renderer.WebGL.WebGLRenderer)=>void;
+
+declare type SnapshotState = {
+    /**
+     * The function to call after the snapshot is taken.
+     */
+    callback: SnapshotCallback;
+    /**
+     * The type of the image to create.
+     */
+    type: string;
+    /**
+     * The image quality, between 0 and 1, for image formats which use lossy compression (such as `image/jpeg`).
+     */
+    encoder: number;
+};
+
+declare namespace Phaser.Scenes.ScenePlugin {
+    type SceneTransitionConfig = {
+        /**
+         * The Scene key to transition to.
+         */
+        target: string;
+        /**
+         * The duration, in ms, for the transition to last.
+         */
+        duration?: integer;
+        /**
+         * Will the Scene responsible for the transition be sent to sleep on completion (`true`), or stopped? (`false`)
+         */
+        sleep?: boolean;
+        /**
+         * Will the Scenes Input system be able to process events while it is transitioning in or out?
+         */
+        allowInput?: boolean;
+        /**
+         * Move the target Scene to be above this one before the transition starts.
+         */
+        moveAbove?: boolean;
+        /**
+         * Move the target Scene to be below this one before the transition starts.
+         */
+        moveBelow?: boolean;
+        /**
+         * This callback is invoked every frame for the duration of the transition.
+         */
+        onUpdate?: Function;
+        /**
+         * The context in which the callback is invoked.
+         */
+        onUpdateScope?: any;
+        /**
+         * An object containing any data you wish to be passed to the target Scenes init / create methods.
+         */
+        data?: any;
+    };
+
+}
+
+declare type EachActiveSoundCallback = (manager: Phaser.Sound.BaseSoundManager, sound: Phaser.Sound.BaseSound, index: number, sounds: Phaser.Sound.BaseSound[])=>void;
+
+declare namespace Phaser.Sound.BaseSound {
+    /**
+     * Audio sprite sound type.
+     */
+    type AudioSpriteSound = ()=>void;
+
+}
+
+/**
+ * Config object containing various sound settings.
+ */
+declare type SoundConfig = {
+    /**
+     * Boolean indicating whether the sound should be muted or not.
+     */
+    mute?: boolean;
+    /**
+     * A value between 0 (silence) and 1 (full volume).
+     */
+    volume?: number;
+    /**
+     * Defines the speed at which the sound should be played.
+     */
+    rate?: number;
+    /**
+     * Represents detuning of sound in [cents](https://en.wikipedia.org/wiki/Cent_%28music%29).
+     */
+    detune?: number;
+    /**
+     * Position of playback for this sound, in seconds.
+     */
+    seek?: number;
+    /**
+     * Whether or not the sound or current sound marker should loop.
+     */
+    loop?: boolean;
+    /**
+     * Time, in seconds, that should elapse before the sound actually starts its playback.
+     */
+    delay?: number;
+};
+
+/**
+ * Marked section of a sound represented by name, and optionally start time, duration, and config object.
+ */
+declare type SoundMarker = {
+    /**
+     * Unique identifier of a sound marker.
+     */
+    name: string;
+    /**
+     * Sound position offset at witch playback should start.
+     */
+    start?: number;
+    /**
+     * Playback duration of this marker.
+     */
+    duration?: number;
+    /**
+     * An optional config object containing default marker settings.
+     */
+    config?: SoundConfig;
+};
+
+declare type EachListCallback<I> = (item: any, ...args: any[])=>void;
+
+declare type EachMapCallback<E> = (key: string, entry: any)=>void;
+
+declare type EachSetCallback<E> = (entry: any, index: number)=>void;
+
+declare type EachTextureCallback = (texture: Phaser.Textures.Texture, ...args: any[])=>void;
+
+declare type SpriteSheetConfig = {
+    /**
+     * The fixed width of each frame.
+     */
+    frameWidth: integer;
+    /**
+     * The fixed height of each frame. If not set it will use the frameWidth as the height.
+     */
+    frameHeight?: integer;
+    /**
+     * Skip a number of frames. Useful when there are multiple sprite sheets in one Texture.
+     */
+    startFrame?: integer;
+    /**
+     * The total number of frames to extract from the Sprite Sheet. The default value of -1 means "extract all frames".
+     */
+    endFrame?: integer;
+    /**
+     * If the frames have been drawn with a margin, specify the amount here.
+     */
+    margin?: integer;
+    /**
+     * If the frames have been drawn with spacing between them, specify the amount here.
+     */
+    spacing?: integer;
+};
+
+declare type SpriteSheetFromAtlasConfig = {
+    /**
+     * The key of the Texture Atlas in which this Sprite Sheet can be found.
+     */
+    atlas: string;
+    /**
+     * The key of the Texture Atlas Frame in which this Sprite Sheet can be found.
+     */
+    frame: string;
+    /**
+     * The fixed width of each frame.
+     */
+    frameWidth: integer;
+    /**
+     * The fixed height of each frame. If not set it will use the frameWidth as the height.
+     */
+    frameHeight?: integer;
+    /**
+     * Skip a number of frames. Useful when there are multiple sprite sheets in one Texture.
+     */
+    startFrame?: integer;
+    /**
+     * The total number of frames to extract from the Sprite Sheet. The default value of -1 means "extract all frames".
+     */
+    endFrame?: integer;
+    /**
+     * If the frames have been drawn with a margin, specify the amount here.
+     */
+    margin?: integer;
+    /**
+     * If the frames have been drawn with spacing between them, specify the amount here.
+     */
+    spacing?: integer;
+};
+
+declare type FindTileCallback = (value: Phaser.Tilemaps.Tile, index: integer, array: Phaser.Tilemaps.Tile[])=>void;
+
+declare type EachTileCallback = (value: Phaser.Tilemaps.Tile, index: integer, array: Phaser.Tilemaps.Tile[])=>void;
+
+declare type GetTilesWithinFilteringOptions = {
+    /**
+     * If true, only return tiles that don't have -1 for an index.
+     */
+    isNotEmpty?: boolean;
+    /**
+     * If true, only return tiles that collide on at least one side.
+     */
+    isColliding?: boolean;
+    /**
+     * If true, only return tiles that have at least one interesting face.
+     */
+    hasInterestingFace?: boolean;
+};
+
+declare type TilemapFilterCallback = (value: Phaser.GameObjects.GameObject, index: number, array: Phaser.GameObjects.GameObject[])=>void;
+
+declare type TilemapFindCallback = (value: Phaser.GameObjects.GameObject, index: number, array: Phaser.GameObjects.GameObject[])=>void;
+
+declare type TilemapConfig = {
+    /**
+     * The key in the Phaser cache that corresponds to the loaded tilemap data.
+     */
+    key?: string;
+    /**
+     * Instead of loading from the cache, you can also load directly from a 2D array of tile indexes.
+     */
+    data?: integer[][];
+    /**
+     * The width of a tile in pixels.
+     */
+    tileWidth?: integer;
+    /**
+     * The height of a tile in pixels.
+     */
+    tileHeight?: integer;
+    /**
+     * The width of the map in tiles.
+     */
+    width?: integer;
+    /**
+     * The height of the map in tiles.
+     */
+    height?: integer;
+    /**
+     * Controls how empty tiles, tiles with an index of -1,
+     * in the map data are handled. If `true`, empty locations will get a value of `null`. If `false`,
+     * empty location will get a Tile object with an index of -1. If you've a large sparsely populated
+     * map and the tile data doesn't need to change then setting this value to `true` will help with
+     * memory consumption. However if your map is small or you need to update the tiles dynamically,
+     * then leave the default value set.
+     */
+    insertNull?: boolean;
+};
+
+declare type TimerEventConfig = {
+    /**
+     * [description]
+     */
+    delay?: number;
+    /**
+     * [description]
+     */
+    repeat?: number;
+    /**
+     * [description]
+     */
+    loop?: boolean;
+    /**
+     * [description]
+     */
+    callback?: Function;
+    /**
+     * [description]
+     */
+    callbackScope?: any;
+    /**
+     * [description]
+     */
+    args?: any[];
+    /**
+     * [description]
+     */
+    timeScale?: number;
+    /**
+     * [description]
+     */
+    startAt?: number;
+    /**
+     * [description]
+     */
+    paused?: boolean;
+};
+
+declare type TweenDataGenConfig = {
+    /**
+     * [description]
+     */
+    delay: Function;
+    /**
+     * [description]
+     */
+    duration: Function;
+    /**
+     * [description]
+     */
+    hold: Function;
+    /**
+     * [description]
+     */
+    repeat: Function;
+    /**
+     * [description]
+     */
+    repeatDelay: Function;
+};
+
+/**
+ * Class
+ */
+declare class Class {
+    /**
+     *
+     * @param definition a dictionary of functions for the class
+     */
+    constructor(definition: Object);
+
+}
+
+declare namespace Phaser.Utils.Objects {
+    /**
+     * Shallow Object Clone. Will not clone nested objects.
+     * @param obj the object from which to clone
+     */
+    function Clone(obj: object): object;
+
+    /**
+     * This is a slightly modified version of http://api.jquery.com/jQuery.extend/
+     */
+    function Extend(): object;
+
+    /**
+     * [description]
+     * @param source [description]
+     * @param key [description]
+     * @param defaultValue [description]
+     */
+    function GetAdvancedValue(source: object, key: string, defaultValue: any): any;
+
+    /**
+     * Finds the key within the top level of the {@link source} object, or returns {@link defaultValue}
+     * @param source The object to search
+     * @param key The key for the property on source. Must exist at the top level of the source object (no periods)
+     * @param defaultValue The default value to use if the key does not exist.
+     */
+    function GetFastValue(source: object, key: string, defaultValue?: any): any;
+
+    /**
+     * Retrieves and clamps a numerical value from an object.
+     * @param source The object to retrieve the value from.
+     * @param key The name of the property to retrieve from the object. If a property is nested, the names of its preceding properties should be separated by a dot (`.`).
+     * @param min The minimum value which can be returned.
+     * @param max The maximum value which can be returned.
+     * @param defaultValue The value to return if the property doesn't exist. It's also constrained to the given bounds.
+     */
+    function GetMinMaxValue(source: object, key: string, min: number, max: number, defaultValue: number): number;
+
+    /**
+     * Retrieves a value from an object.
+     * @param source The object to retrieve the value from.
+     * @param key The name of the property to retrieve from the object. If a property is nested, the names of its preceding properties should be separated by a dot (`.`) - `banner.hideBanner` would return the value of the `hideBanner` property from the object stored in the `banner` property of the `source` object.
+     * @param defaultValue The value to return if the `key` isn't found in the `source` object.
+     */
+    function GetValue(source: object, key: string, defaultValue: any): any;
+
+    /**
+     * Verifies that an object contains all requested keys
+     * @param source an object on which to check for key existence
+     * @param keys an array of keys to ensure the source object contains
+     */
+    function HasAll(source: object, keys: string[]): boolean;
+
+    /**
+     * Verifies that an object contains at least one of the requested keys
+     * @param source an object on which to check for key existence
+     * @param keys an array of keys to search the object for
+     */
+    function HasAny(source: object, keys: string[]): boolean;
+
+    /**
+     * [description]
+     * @param source [description]
+     * @param key [description]
+     */
+    function HasValue(source: object, key: string): boolean;
+
+    /**
+     * This is a slightly modified version of jQuery.isPlainObject.
+     * A plain object is an object whose internal class property is [object Object].
+     * @param obj The object to inspect.
+     */
+    function IsPlainObject(obj: object): boolean;
+
+    /**
+     * Creates a new Object using all values from obj1 and obj2.
+     * If a value exists in both obj1 and obj2, the value in obj1 is used.
+     * @param obj1 [description]
+     * @param obj2 [description]
+     */
+    function Merge(obj1: object, obj2: object): object;
+
+    /**
+     * Creates a new Object using all values from obj1.
+     *
+     * Then scans obj2. If a property is found in obj2 that *also* exists in obj1, the value from obj2 is used, otherwise the property is skipped.
+     * @param obj1 [description]
+     * @param obj2 [description]
+     */
+    function MergeRight(obj1: object, obj2: object): object;
+
+}
+
+declare type AdInstance = {
+    /**
+     * Represents an instance of an ad.
+     */
+    instance: any;
+    /**
+     * The Audience Network placement ID of this ad instance.
+     */
+    placementID: string;
+    /**
+     * Has this ad already been shown in-game?
+     */
+    shown: boolean;
+    /**
+     * Is this a video ad?
+     */
+    video: boolean;
+};
+
+declare namespace Phaser.FacebookInstantGamesPlugin {
+    /**
+     * This class represents one single Leaderboard that belongs to a Facebook Instant Game.
+     *
+     * You do not need to instantiate this class directly, it will be created when you use the
+     * `getLeaderboard()` method of the main plugin.
+     */
+    class Leaderboard {
+        /**
+         *
+         * @param plugin A reference to the Facebook Instant Games Plugin.
+         * @param data An Instant Game leaderboard instance.
+         */
+        constructor(plugin: Phaser.FacebookInstantGamesPlugin, data: any);
+
+        /**
+         * A reference to the Facebook Instant Games Plugin.
+         */
+        plugin: Phaser.FacebookInstantGamesPlugin;
+
+        /**
+         * An Instant Game leaderboard instance.
+         */
+        ref: any;
+
+        /**
+         * The name of the leaderboard.
+         */
+        name: string;
+
+        /**
+         * The ID of the context that the leaderboard is associated with, or null if the leaderboard is not tied to a particular context.
+         */
+        contextID: string;
+
+        /**
+         * The total number of player entries in the leaderboard.
+         * This value defaults to zero. Populate it via the `getEntryCount()` method.
+         */
+        entryCount: integer;
+
+        /**
+         * The players score object.
+         * This value defaults to `null`. Populate it via the `getPlayerScore()` method.
+         */
+        playerScore: LeaderboardScore;
+
+        /**
+         * The scores in the Leaderboard from the currently requested range.
+         * This value defaults to an empty array. Populate it via the `getScores()` method.
+         * The contents of this array are reset each time `getScores()` is called.
+         */
+        scores: LeaderboardScore[];
+
+        /**
+         * Fetches the total number of player entries in the leaderboard.
+         *
+         * The data is requested in an async call, so the result isn't available immediately.
+         *
+         * When the call completes this Leaderboard will emit the `getentrycount` event along with the count and name of the Leaderboard.
+         */
+        getEntryCount(): this;
+
+        /**
+         * Updates the player's score. If the player has an existing score, the old score will only be replaced if the new score is better than it.
+         * NOTE: If the leaderboard is associated with a specific context, the game must be in that context to set a score for the player.
+         *
+         * The data is requested in an async call, so the result isn't available immediately.
+         *
+         * When the call completes this Leaderboard will emit the `setscore` event along with the score, any extra data and the name of the Leaderboard.
+         * @param score The new score for the player. Must be a 64-bit integer number.
+         * @param data Metadata to associate with the stored score. Must be less than 2KB in size.
+         */
+        setScore(score: integer, data?: string): this;
+
+        /**
+         * Gets the players leaderboard entry and stores it in the `playerScore` property.
+         *
+         * The data is requested in an async call, so the result isn't available immediately.
+         *
+         * When the call completes this Leaderboard will emit the `getplayerscore` event along with the score and the name of the Leaderboard.
+         */
+        getPlayerScore(): this;
+
+        /**
+         * Retrieves a set of leaderboard entries, ordered by score ranking in the leaderboard.
+         *
+         * The data is requested in an async call, so the result isn't available immediately.
+         *
+         * When the call completes this Leaderboard will emit the `getplayerscore` event along with the score and the name of the Leaderboard.
+         * @param count The number of entries to attempt to fetch from the leaderboard. Currently, up to a maximum of 100 entries may be fetched per query. Default 10.
+         * @param offset The offset from the top of the leaderboard that entries will be fetched from. Default 0.
+         */
+        getScores(count?: integer, offset?: integer): this;
+
+    }
+
+}
+
+declare type LeaderboardScore = {
+    /**
+     * An integer score value.
+     */
+    score: integer;
+    /**
+     * The score value, formatted with the score format associated with the leaderboard.
+     */
+    scoreFormatted: string;
+    /**
+     * The Unix timestamp of when the leaderboard entry was last updated.
+     */
+    timestamp: integer;
+    /**
+     * The entry's leaderboard ranking.
+     */
+    rank: integer;
+    /**
+     * The developer-specified payload associated with the score, or null if one was not set.
+     */
+    data: string;
+    /**
+     * The player's localized display name.
+     */
+    playerName: string;
+    /**
+     * A url to the player's public profile photo.
+     */
+    playerPhotoURL: string;
+    /**
+     * The game's unique identifier for the player.
+     */
+    playerID: string;
+};
+
+declare type Product = {
+    /**
+     * The title of the product.
+     */
+    title?: string;
+    /**
+     * The product's game-specified identifier.
+     */
+    productID?: string;
+    /**
+     * The product description.
+     */
+    description?: string;
+    /**
+     * A link to the product's associated image.
+     */
+    imageURI?: string;
+    /**
+     * The price of the product.
+     */
+    price?: string;
+    /**
+     * The currency code for the product.
+     */
+    priceCurrencyCode?: string;
+};
+
+declare type Purchase = {
+    /**
+     * A developer-specified string, provided during the purchase of the product.
+     */
+    developerPayload?: string;
+    /**
+     * The identifier for the purchase transaction.
+     */
+    paymentID?: string;
+    /**
+     * The product's game-specified identifier.
+     */
+    productID?: string;
+    /**
+     * Unix timestamp of when the purchase occurred.
+     */
+    purchaseTime?: string;
+    /**
+     * A token representing the purchase that may be used to consume the purchase.
+     */
+    purchaseToken?: string;
+    /**
+     * Server-signed encoding of the purchase request.
+     */
+    signedRequest?: string;
+};
+
+declare type integer = number;
+
+declare module 'phaser' {
+    export = Phaser;
+
+}
+

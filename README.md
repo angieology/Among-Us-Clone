@@ -1,7 +1,4 @@
-# Among-Us-Clone
-AmongUs clone tutorial with phaser3 and socket.io
+# amongus-tutorial
 
-
-- [x] part 1: https://hannahrobot.com/2020/12/04/build-among-us-live-multiplayer-phaser-3-socket
-- [ ] part 2: https://hannahrobot.com/2020/12/06/build-among-us-live-multiplayer-phaser-3-socket-part-2
-- [ ] part 3: https://hannahrobot.com/2020/12/15/build-among-us-live-multiplayer-phaser-3-socket-part-3/
+This is the source code the three part tutorial: Build an Among Us Inspired Live Multiplayer Game with Phaser 3 and Socket.io
+https://medium.com/hannahrobot/build-an-among-us-inspired-live-multiplayer-game-with-phaser-3-and-socket-io-part-1-71749d70b7b4

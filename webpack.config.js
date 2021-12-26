@@ -4,7 +4,7 @@ const webpack = require("webpack");
 const path = require("path");
 
 module.exports = {
-  mode: isDev ? "development" : "production",  node: {
+  mode: isDev ? "development" : "production",
   entry: ["@babel/polyfill", "./src/index.js"],
   output: {
     path: path.resolve(__dirname, "public"),
@@ -27,6 +27,7 @@ module.exports = {
       },
     ],
   },
+
   plugins: [
     new webpack.DefinePlugin({
       CANVAS_RENDERER: JSON.stringify(true),
